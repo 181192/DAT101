@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
+
+	<persistence-unit name="eclipselink">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider
+        </provider>
+
+		<class>no.hib.dat101.kronbil.Bil</class>
+		<class>no.hib.dat101.kronbil.Utleiekontor</class>
+		<class>no.hib.dat101.kronbil.Kategori</class>
+		<class>no.hib.dat101.kronbil.Adresse</class>
+		<class>no.hib.dat101.kronbil.Bilutleieselskap</class>
+
+		<properties>
+			<property name="javax.persistence.jdbc.logging.level" value="INFO" />
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://data1.hib.no:5433/bil" />
+			<property name="javax.persistence.jdbc.user" value="bil" />
+			<property name="javax.persistence.jdbc.password" value="bil" />
+		</properties>
+	</persistence-unit>
+</persistence>
