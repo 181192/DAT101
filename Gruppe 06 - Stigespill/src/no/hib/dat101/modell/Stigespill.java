@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 import no.hib.dat101.modell.brikke.Brikke;
 import no.hib.dat101.modell.brikke.BrikkeFarge;
-import no.hib.dat101.modell.rute.Rute;
+import no.hib.dat101.utsyn.StigespillUI;
 
 @Entity
 @Table(name = "stigespill", schema = "kristoffer_stigespill")
@@ -26,6 +26,7 @@ public class Stigespill {
 	private Brett brett;
 	private Terning terning;
 	private Integer antallTrill;
+	private StigespillUI ui;
 
 	/**
 	 * Konstruktør for stigespill
@@ -43,23 +44,24 @@ public class Stigespill {
 	 * Starter stigespillet
 	 */
 	public void start() {
-		// TODO
+		int i = 0;
+		while (!erFerdig(spillere.get(i))) {
+			spillRunde();
+			i++;
+		}
 	}
 
 	/**
-	 * Oppretter en ny spiller
-	 */
-	public void opprettSpiller(String navn, BrikkeFarge farge) {
-		Brikke nyBrikke = new Brikke(farge, brett.getRuteTab().get(0));
-		Spiller nySpiller = new Spiller(navn, nyBrikke);
-		spillere.add(nySpiller);
-	}
-
-	/**
-	 * Setter opp spillet
+	 * Setter opp spillet, oppretter nye spillere, brikker .. etc
 	 */
 	public void settOppSpill() {
-		// TODO
+		antallSpillere = ui.lesAntallSpillere();
+		for (int i = 0; i < antallSpillere; i++) {
+			String navn = ui.lesInnSpiller();
+			Brikke brikke = new Brikke(ui.lesInnBrikkeFarge(), brett.getRuteTab().get(0));
+			Spiller spiller = new Spiller(navn, brikke);
+			spillere.add(spiller);
+		}
 	}
 
 	/**
@@ -92,7 +94,10 @@ public class Stigespill {
 	 * Spiller en runde
 	 */
 	public void spillRunde() {
-		// TODO
+		for (Spiller s : spillere) {
+			s.spillTrekk();
+			ui.infoOmSpiller(s);
+		}
 	}
 
 	public Integer getStigespill_id() {
@@ -141,6 +146,14 @@ public class Stigespill {
 
 	public void setAntallTrill(Integer antallTrill) {
 		this.antallTrill = antallTrill;
+	}
+
+	public StigespillUI getUi() {
+		return ui;
+	}
+
+	public void setUi(StigespillUI ui) {
+		this.ui = ui;
 	}
 
 }
