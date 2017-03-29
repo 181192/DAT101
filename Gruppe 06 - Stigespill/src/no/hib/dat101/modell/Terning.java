@@ -1,5 +1,7 @@
 package no.hib.dat101.modell;
 
+import java.util.Random;
+
 /**
  * Klassen representerer en terning
  * 
@@ -8,17 +10,14 @@ package no.hib.dat101.modell;
  */
 
 public class Terning {
+	private static final Random RAND = new Random(System.currentTimeMillis());
 	private Integer terning_id;
 	private Integer verdi;
 
 	/**
-	 * Konstruktør til en terning
-	 * 
-	 * @param verdi
-	 *            Verdi på terningen
+	 * Ny terning
 	 */
-	public Terning(Integer verdi) {
-		this.verdi = verdi;
+	public Terning() {
 	}
 
 	/**
@@ -26,9 +25,8 @@ public class Terning {
 	 * 
 	 * @return Verdien på terningen
 	 */
-	public int trill() {
-		// TODO
-		return 0;
+	public void trill() {
+		verdi = RAND.nextInt(6) + 1;
 	}
 
 	public int getVerdi() {

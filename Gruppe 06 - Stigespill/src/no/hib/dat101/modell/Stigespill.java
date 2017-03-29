@@ -1,5 +1,8 @@
 package no.hib.dat101.modell;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import no.hib.dat101.modell.brikke.Brikke;
+import no.hib.dat101.modell.brikke.BrikkeFarge;
 import no.hib.dat101.modell.rute.Rute;
 
 @Entity
@@ -15,7 +20,7 @@ public class Stigespill {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer stigespill_id;
-	private Spiller[] spillere;
+	private List<Spiller> spillere;
 	private Integer antallSpillere;
 	@Column(name = "brett")
 	private Brett brett;
@@ -26,15 +31,11 @@ public class Stigespill {
 	 * Konstruktør for stigespill
 	 * 
 	 * @param spillere
-	 * @param antallSpillere
 	 * @param brett
-	 * @param terning
 	 */
-	public Stigespill(Spiller[] spillere, Integer antallSpillere, Brett brett, Terning terning) {
-		this.spillere = spillere;
-		this.antallSpillere = antallSpillere;
-		this.brett = brett;
-		this.terning = terning;
+	public Stigespill() {
+		terning = new Terning();
+		spillere = new ArrayList<>();
 		antallTrill = 0;
 	}
 
@@ -48,8 +49,10 @@ public class Stigespill {
 	/**
 	 * Oppretter en ny spiller
 	 */
-	public void opprettSpiller() {
-		// TODO
+	public void opprettSpiller(String navn, BrikkeFarge farge) {
+		Brikke nyBrikke = new Brikke(farge, brett.getRuteTab().get(0));
+		Spiller nySpiller = new Spiller(navn, nyBrikke);
+		spillere.add(nySpiller);
 	}
 
 	/**
@@ -87,11 +90,19 @@ public class Stigespill {
 		// TODO
 	}
 
-	public Spiller[] getSpillere() {
+	public Integer getStigespill_id() {
+		return stigespill_id;
+	}
+
+	public void setStigespill_id(Integer stigespill_id) {
+		this.stigespill_id = stigespill_id;
+	}
+
+	public List<Spiller> getSpillere() {
 		return spillere;
 	}
 
-	public void setSpillere(Spiller[] spillere) {
+	public void setSpillere(List<Spiller> spillere) {
 		this.spillere = spillere;
 	}
 
