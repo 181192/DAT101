@@ -31,13 +31,13 @@ public class Stigespill {
 	/**
 	 * Konstruktør for stigespill
 	 * 
-	 * @param spillere
-	 * @param brett
 	 */
-	public Stigespill() {
+	public Stigespill(StigespillUI ui) {
+		this.ui = ui;
+		antallTrill = 0;
 		terning = new Terning();
 		spillere = new ArrayList<>();
-		antallTrill = 0;
+		settOppSpill();
 	}
 
 	/**
