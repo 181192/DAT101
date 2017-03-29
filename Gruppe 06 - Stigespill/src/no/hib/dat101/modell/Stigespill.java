@@ -84,9 +84,8 @@ public class Stigespill {
 	 * @param rute
 	 * @return True visst spiller er i mål
 	 */
-	public Boolean erFerdig(Rute rute) {
-		// TODO
-		return false;
+	public Boolean erFerdig(Spiller spiller) {
+		return spiller.getBrikke().getPosisjon().getRuteNr() >= brett.getANTALL_RUTER();
 	}
 
 	/**
