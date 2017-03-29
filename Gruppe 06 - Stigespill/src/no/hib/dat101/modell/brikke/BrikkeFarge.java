@@ -29,7 +29,7 @@ public enum BrikkeFarge {
 	 * @param nr Nummer for å representere en farge 0 - 3
 	 * @return returnerer fargen som en enum.
 	 */
-	public BrikkeFarge finnBrikkeFarge(Integer nr) {
+	public static BrikkeFarge finnBrikkeFarge(Integer nr) {
 		// TODO
 		return null;
 
