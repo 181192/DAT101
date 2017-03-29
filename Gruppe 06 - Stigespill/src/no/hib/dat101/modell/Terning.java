@@ -11,7 +11,6 @@ import java.util.Random;
 
 public class Terning {
 	private static final Random RAND = new Random(System.currentTimeMillis());
-	private Integer terning_id;
 	private Integer verdi;
 
 	/**
@@ -35,13 +34,5 @@ public class Terning {
 
 	public void setVerdi(Integer verdi) {
 		this.verdi = verdi;
-	}
-
-	public Integer getTerning_id() {
-		return terning_id;
-	}
-
-	public void setTerning_id(Integer terning_id) {
-		this.terning_id = terning_id;
 	}
 }
