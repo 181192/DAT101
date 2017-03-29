@@ -45,16 +45,19 @@ public class Brett {
 	 * @return Ruten brikken skal flyttes til
 	 */
 	public Rute finnRute(Rute startRute, Integer distanse) {
-		// TODO
-		return null;
+		Integer num = startRute.getRuteNr()+distanse;
+		if(num > ANTALL_RUTER - 1) {
+			num = ANTALL_RUTER - 1;
+		}
+		return ruteTab.get(num);
 	}
 
 	/**
 	 * 
 	 * @param rute
 	 */
-	public void nyPlass(Rute rute) {
-		// TODO
+	public void nyPlass(Rute rute, Spiller spiller) {
+		spiller.getBrikke().setPosisjon(rute);
 	}
 
 	public Integer getBrett_id() {

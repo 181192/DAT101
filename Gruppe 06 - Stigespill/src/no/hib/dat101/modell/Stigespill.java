@@ -67,9 +67,12 @@ public class Stigespill {
 	 * 
 	 * @return
 	 */
-	public Terning trillPaaNytt() {
-		// TODO
-		return null;
+	public int trillPaaNytt() {
+		if (terning.getVerdi() == 6 && antallTrill < 3) {
+			 terning.setVerdi(terning.trill());
+			antallTrill++;
+		}
+		return terning.getVerdi();
 	}
 
 	/**

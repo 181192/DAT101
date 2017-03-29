@@ -38,7 +38,6 @@ public class Spiller {
 	 *            Brikke spilleren velger å være
 	 */
 	public Spiller(String navn, Brikke brikke) {
-
 		this.navn = navn;
 		this.brikke = brikke;
 	}
@@ -47,7 +46,7 @@ public class Spiller {
 	 * Spille ett trekk som innebærer å trille en terning og flytte en brikke
 	 */
 	public void spillTrekk() {
-		// TODO
+		
 	}
 
 	public String getNavn() {
