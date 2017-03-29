@@ -65,14 +65,17 @@ public class Stigespill {
 	/**
 	 * Triller terningen på nytt visst en har fått seks
 	 * 
-	 * @return
+	 * @return Ny verdi på terningen visst det forrige kastet var 6 og ikke
+	 *         kastet 6 mer enn 3 ganger. Ellers returnere den 0.
 	 */
 	public int trillPaaNytt() {
+		int nyttKast = 0;
 		if (terning.getVerdi() == 6 && antallTrill < 3) {
-			 terning.setVerdi(terning.trill());
+			terning.trill();
+			nyttKast = terning.getVerdi();
 			antallTrill++;
 		}
-		return terning.getVerdi();
+		return nyttKast;
 	}
 
 	/**
