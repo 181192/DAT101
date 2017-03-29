@@ -2,12 +2,25 @@ package no.hib.dat101.modell.brikke;
 
 import no.hib.dat101.modell.rute.Rute;
 
+/**
+ * Klasse for å representere en brikke
+ * 
+ * @author Kristoffer-Andre Kalliainen
+ *
+ */
 public class Brikke {
 	private BrikkeFarge farge;
 	private Rute posisjon;
 
+	/**
+	 * Konstruktør for å opprette en ny brikke.
+	 * 
+	 * @param farge
+	 *            Farge på brikken. Kan velge mellom rød, blå, grønn og gul
+	 * @param posisjon
+	 *            Posisjonen på hvor brikker er på spillbrettet.
+	 */
 	public Brikke(BrikkeFarge farge, Rute posisjon) {
-		super();
 		this.farge = farge;
 		this.posisjon = posisjon;
 	}
@@ -27,5 +40,4 @@ public class Brikke {
 	public void setPosisjon(Rute posisjon) {
 		this.posisjon = posisjon;
 	}
-
 }
