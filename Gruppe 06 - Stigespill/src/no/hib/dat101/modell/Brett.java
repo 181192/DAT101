@@ -83,4 +83,10 @@ public class Brett {
 	public void setRuteTab(List<Rute> ruteTab) {
 		this.ruteTab = ruteTab;
 	}
+
+	public Integer getANTALL_RUTER() {
+		return ANTALL_RUTER;
+	}
+	
+	
 }
