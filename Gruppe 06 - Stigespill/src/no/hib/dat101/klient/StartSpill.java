@@ -10,6 +10,7 @@ import javax.persistence.Persistence;
 import javax.persistence.RollbackException;
 
 import no.hib.dat101.modell.Brett;
+import no.hib.dat101.modell.Logg;
 import no.hib.dat101.modell.Spiller;
 import no.hib.dat101.modell.Stigespill;
 import no.hib.dat101.modell.brikke.Brikke;
@@ -24,6 +25,7 @@ public class StartSpill {
 	private static List<Spiller> spillere;
 	private static Rute rute;
 	private static StigespillUI ui;
+	private static Logg logg;
 
 	public static void main(String[] args) {
 		Scanner tast = new Scanner(System.in);
@@ -42,6 +44,7 @@ public class StartSpill {
 		System.out.println("Antall spillere " + spillere.size());
 		stiges.setBrett(brett);
 		stiges.start();
+		
 
 		em.close();
 		entityManagerFactory.close();
@@ -61,7 +64,7 @@ public class StartSpill {
 			spiller = new Spiller();
 			spiller.setNavn(ui.lesInnSpiller());
 			spiller.setBrikke(new Brikke(ui.lesInnBrikkeFarge(), brett.getRuteTab().get(1)));
-//			spiller.setStigespill_id(stigespill_id);
+			// spiller.setStigespill_id(stigespill_id);
 			spillere.add(spiller);
 
 			try {
@@ -159,7 +162,14 @@ public class StartSpill {
 	 * @param em
 	 */
 	public static void skrivLogg(EntityManager em) {
-
+		
+		try {
+			em.getTransaction().begin();
+			em.persist(logg);
+			em.getTransaction().commit();
+		} catch (RollbackException e) {
+			em.getTransaction().rollback();
+		}
 	}
 
 }

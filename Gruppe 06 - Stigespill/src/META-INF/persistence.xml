@@ -11,6 +11,7 @@
 		<class>no.hib.dat101.modell.rute.Rute</class>
 		<class>no.hib.dat101.modell.Stigespill</class>
 		<class>no.hib.dat101.modell.Spiller</class>
+		<class>no.hib.dat101.modell.Logg</class>
 
 		<properties>
 			<property name="javax.persistence.jdbc.logging.level" value="INFO" />
