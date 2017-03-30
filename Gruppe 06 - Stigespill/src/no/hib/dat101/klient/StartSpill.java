@@ -24,12 +24,14 @@ public class StartSpill {
 	public static void main(String[] args) {
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("eclipselink");
 		EntityManager em = entityManagerFactory.createEntityManager();
-		
-		hentBrett(em, 1);
 
+		hentBrett(em, 1);
+		hentRuter(em);
+		
 		em.close();
 		entityManagerFactory.close();
-
+		
+		System.out.println("Skirver ut bare for å teste: " + brett.getRuteTab().get(14).getRute_nr());
 		ui = new Tekstgrensesnitt();
 		// Scanner tast = new Scanner(System.in);
 		// Stigespill stiges = new Stigespill(new Tekstgrensesnitt());
@@ -76,19 +78,31 @@ public class StartSpill {
 	 * 
 	 * @param em
 	 */
-	public static void hentBrett(EntityManager em, Integer nr) {
-		brett = em.find(Brett.class, nr);
+	public static void hentBrett(EntityManager em, Integer brett_id) {
+		brett = em.find(Brett.class, brett_id);
 		System.out.println("Brettet er hentet! brett_id = " + brett.getNavn().toString());
 	}
 
 	/**
-	 * Metoden henter rutene til brettet fra databasen.
+	 * Metoden henter rutene fra databasen og legger de til i ArrayListen til
+	 * brettet.
 	 * 
 	 * @param em
 	 */
 	public static void hentRuter(EntityManager em) {
-		
-		
+		for (int i = 0; i < brett.getANTALL_RUTER(); i++) {
+			brett.getRuteTab().add(hentRute(em, i));
+			System.out.println("Henter rute med rutenr: " + i);
+		}
+	}
+
+	/**
+	 * Metoden henter en rute til brettet fra databasen.
+	 * 
+	 * @param em
+	 */
+	private static Rute hentRute(EntityManager em, Integer rute_nr) {
+		return em.find(Rute.class, rute_nr);
 	}
 
 	/**
