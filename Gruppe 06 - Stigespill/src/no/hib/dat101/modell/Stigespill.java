@@ -1,6 +1,5 @@
 package no.hib.dat101.modell;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -40,22 +39,23 @@ public class Stigespill {
 	 * Tom konstruktør for stigespill
 	 */
 	public Stigespill() {
-		this(null, null);
+		this(null, null, null);
 		terning = new Terning();
 		antallTrill = 0;
-		spillFerdig = false;
+		spillFerdig = Boolean.FALSE;
 	}
 
 	/**
 	 * Konstruktør for stigespill
 	 * 
 	 */
-	public Stigespill(Brett brett, List<Spiller> spillere) {
+	public Stigespill(StigespillUI ui, Brett brett, List<Spiller> spillere) {
 		this.spillere = spillere;
 		this.brett = brett;
+		this.ui = ui;
 		terning = new Terning();
 		antallTrill = 0;
-		spillFerdig = false;
+		spillFerdig = Boolean.FALSE;
 		// settOppSpill();
 	}
 
@@ -76,7 +76,7 @@ public class Stigespill {
 	 * Setter opp spillet, oppretter nye spillere, brikker .. etc
 	 */
 	public void settOppSpill() {
-		spillFerdig = false;
+		spillFerdig = Boolean.FALSE;
 		for (int i = 0; i < antallSpillere(); i++) {
 			String navn = ui.lesInnSpiller();
 			Brikke brikke = new Brikke(ui.lesInnBrikkeFarge(), brett.getRuteTab().get(0));
@@ -93,7 +93,7 @@ public class Stigespill {
 	 */
 	public Boolean erFerdig(Spiller spiller) {
 		if (spiller.getBrikke().getPosisjon().getRute_nr() == brett.getANTALL_RUTER() - 1) {
-			spillFerdig = true;
+			spillFerdig = Boolean.TRUE;
 		}
 		return spillFerdig;
 	}
