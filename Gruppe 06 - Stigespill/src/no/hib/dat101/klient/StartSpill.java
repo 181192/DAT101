@@ -153,4 +153,13 @@ public class StartSpill {
 
 	}
 
+	/**
+	 * Skriver loggen til databasen.
+	 * 
+	 * @param em
+	 */
+	public static void skrivLogg(EntityManager em) {
+
+	}
+
 }
