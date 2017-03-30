@@ -42,13 +42,6 @@ public class Spiller {
 		this.brikke = brikke;
 	}
 
-	/**
-	 * Spille ett trekk som innebærer å trille en terning og flytte en brikke
-	 */
-	public void spillTrekk() {
-		
-	}
-
 	public String getNavn() {
 		return navn;
 	}
