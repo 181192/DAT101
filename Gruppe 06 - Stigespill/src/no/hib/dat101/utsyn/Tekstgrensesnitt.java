@@ -22,10 +22,11 @@ public class Tekstgrensesnitt implements StigespillUI {
 
 	@Override
 	public BrikkeFarge lesInnBrikkeFarge() {
-		System.out.println("1 = RED, 2 = BLUE, 3 = GREEN, 4 = YELLOW");
+		System.out.println("0 = RED, 1 = BLUE, 2 = GREEN, 3 = YELLOW");
 		System.out.print("Oppgi fargekode: ");
-		Integer nr = tast.nextInt();
-		return BrikkeFarge.finnBrikkeFarge(nr);
+		String farge = tast.next();
+		BrikkeFarge brikke = BrikkeFarge.finnBrikkeFarge(farge);
+		return brikke;
 	}
 	
 	@Override
