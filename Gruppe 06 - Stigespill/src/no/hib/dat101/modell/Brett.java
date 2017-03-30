@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import no.hib.dat101.modell.rute.Rute;
 
@@ -22,15 +23,17 @@ import no.hib.dat101.modell.rute.Rute;
 @Entity
 @Table(name = "brett", schema = "kristoffer_stigespill")
 public class Brett {
-	private final Integer ANTALL_RUTER = 100;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer brett_id;
 	@Column(name = "navn")
 	private String navn;
 
-	@OneToMany(mappedBy = "brett")
+	@Transient
 	private List<Rute> ruteTab;
+	
+	@Transient
+	private final Integer ANTALL_RUTER = 100;
 
 	/**
 	 * Konstruktør for brett, oppretter en ArrayList med standard 100 plasser

@@ -5,9 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import no.hib.dat101.modell.brikke.Brikke;
 
@@ -25,9 +24,13 @@ public class Spiller {
 	private Integer spiller_id;
 	@Column(name = "navn")
 	private String navn;
-	@OneToOne
-	@JoinColumn(name = "brikke", referencedColumnName = "brikke_id")
+	
+	@Transient
 	private Brikke brikke;
+	
+	public Spiller() {
+		this("", null);
+	}
 
 	/**
 	 * Konstruktør for spiller, oppretter en spiller med navn og en brikke

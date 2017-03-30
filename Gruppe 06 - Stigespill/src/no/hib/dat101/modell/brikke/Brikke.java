@@ -12,6 +12,10 @@ public class Brikke {
 	private BrikkeFarge farge;
 	private Rute posisjon;
 
+	public Brikke() {
+		this(null, null);
+	}
+
 	/**
 	 * Konstruktør for å opprette en ny brikke.
 	 * 

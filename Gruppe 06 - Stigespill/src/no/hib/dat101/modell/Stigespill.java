@@ -8,7 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import no.hib.dat101.modell.brikke.Brikke;
 import no.hib.dat101.modell.rute.Rute;
@@ -20,14 +22,26 @@ public class Stigespill {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer stigespill_id;
-	private List<Spiller> spillere;
-	private Integer antallSpillere;
-	@Column(name = "brett")
+
+	@JoinColumn(name = "brett", referencedColumnName = "brett_id")
 	private Brett brett;
+
+	@Transient
 	private Terning terning;
+	@Transient
 	private Integer antallTrill;
+	@Transient
 	private StigespillUI ui;
+	@Transient
 	private Boolean spillFerdig;
+	@Transient
+	private List<Spiller> spillere;
+	@Transient
+	private Integer antallSpillere;
+
+	public Stigespill() {
+
+	}
 
 	/**
 	 * Konstruktør for stigespill
@@ -50,7 +64,7 @@ public class Stigespill {
 		int i = 0;
 		while (!spillFerdig) {
 			spillRunde();
-			
+
 			i++;
 		}
 		System.out.println("Runde avsluttet etter " + i + " trekk");
@@ -107,10 +121,12 @@ public class Stigespill {
 			settNyPlass(brett.finnRute(spiller.getBrikke().getPosisjon(), terning.getVerdi()), spiller);
 			antallTrill++;
 		} while (!erFerdig(spiller) && terning.getVerdi() == 6 && antallTrill < 3);
-		
+
 	}
+
 	/**
-	 * Flytter brikken til spilleren til en ny rute og tar hensyn til hoppverdi (slange eller stige)
+	 * Flytter brikken til spilleren til en ny rute og tar hensyn til hoppverdi
+	 * (slange eller stige)
 	 * 
 	 * @param rute
 	 * @param spiller

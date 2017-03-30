@@ -28,6 +28,10 @@ public class Rute {
 	@Column(name = "hopp_verdi")
 	private Integer hopp_verdi;
 
+	public Rute() {
+		this(0);
+	}
+
 	/**
 	 * Konstruktør for å opprette en rute
 	 * 
