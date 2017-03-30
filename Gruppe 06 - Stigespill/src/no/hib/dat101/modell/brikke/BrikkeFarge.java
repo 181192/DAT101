@@ -26,12 +26,20 @@ public enum BrikkeFarge {
 
 	/**
 	 * Metode for å finne brikke fargen ved å sende inn ett tall i stedet
-	 * @param nr Nummer for å representere en farge 0 - 3
+	 * 
+	 * @param nr
+	 *            Nummer for å representere en farge 0 - 3
 	 * @return returnerer fargen som en enum.
 	 */
-	public static BrikkeFarge finnBrikkeFarge(Integer nr) {
-		// TODO
-		return null;
+	public static BrikkeFarge finnBrikkeFarge(Integer nummer) {
+		BrikkeFarge farge = null;
+		for (BrikkeFarge bf : BrikkeFarge.values()) {
+			if (bf.nr == nummer) {
+				farge = bf;
+				break;
+			}
+		}
+		return farge;
 
 	}
 }
