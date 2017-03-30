@@ -30,14 +30,16 @@ public class StartSpill {
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("eclipselink");
 		EntityManager em = entityManagerFactory.createEntityManager();
 		ui = new Tekstgrensesnitt();
-		
+		Stigespill stiges = new Stigespill();
+
 		hentBrett(em, 1);
 		hentRuter(em);
+
+		leggInnSpillere(em, ui.lesAntallSpillere(), stiges);
+
 		
-		leggInnSpillere(em, ui.lesAntallSpillere());
-		
-		Stigespill stiges = new Stigespill();
 		stiges.setSpillere(spillere);
+		System.out.println("Antall spillere " + spillere.size());
 		stiges.setBrett(brett);
 		stiges.start();
 
@@ -53,12 +55,13 @@ public class StartSpill {
 	 * @param em
 	 * @param antall
 	 */
-	public static void leggInnSpillere(EntityManager em, int antall) {
+	public static void leggInnSpillere(EntityManager em, Integer antall, Stigespill stigespill_id) {
 		spillere = new ArrayList<Spiller>(antall);
 		for (int i = 0; i < antall; i++) {
 			spiller = new Spiller();
 			spiller.setNavn(ui.lesInnSpiller());
-			spiller.setBrikke(new Brikke(ui.lesInnBrikkeFarge(), brett.getRuteTab().get(0)));
+			spiller.setBrikke(new Brikke(ui.lesInnBrikkeFarge(), brett.getRuteTab().get(1)));
+//			spiller.setStigespill_id(stigespill_id);
 			spillere.add(spiller);
 
 			try {
