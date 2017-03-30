@@ -22,31 +22,28 @@ public class StartSpill {
 	private static Stigespill stigespill;
 	private static Spiller spiller;
 	private static List<Spiller> spillere;
-	private static Brikke brikke;
 	private static Rute rute;
 	private static StigespillUI ui;
 
 	public static void main(String[] args) {
+		Scanner tast = new Scanner(System.in);
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("eclipselink");
 		EntityManager em = entityManagerFactory.createEntityManager();
 		ui = new Tekstgrensesnitt();
-		Stigespill stiges = new Stigespill(brett, spillere);
 		
 		hentBrett(em, 1);
 		hentRuter(em);
-	
 		
 		leggInnSpillere(em, ui.lesAntallSpillere());
-
 		
-
-		Scanner tast = new Scanner(System.in);
-		
+		Stigespill stiges = new Stigespill();
+		stiges.setSpillere(spillere);
+		stiges.setBrett(brett);
 		stiges.start();
 
-		tast.close();
 		em.close();
 		entityManagerFactory.close();
+		tast.close();
 	}
 
 	/**
