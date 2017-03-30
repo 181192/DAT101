@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -39,8 +38,7 @@ public class Brett {
 	 * Konstruktør for brett, oppretter en ArrayList med standard 100 plasser
 	 */
 	public Brett() {
-		ruteTab = new ArrayList<>(ANTALL_RUTER);
-		settOppBrett();
+		ruteTab = new ArrayList<>();
 	}
 	
 	public void settOppBrett() {
