@@ -24,6 +24,8 @@ public class StartSpill {
 	public static void main(String[] args) {
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("eclipselink");
 		EntityManager em = entityManagerFactory.createEntityManager();
+		
+		hentBrett(em, 1);
 
 		em.close();
 		entityManagerFactory.close();
@@ -64,8 +66,8 @@ public class StartSpill {
 	 * 
 	 * @param em
 	 */
-	public static void hentStigeSpill(EntityManager em) {
-
+	public static void hentStigeSpill(EntityManager em, Integer nr) {
+		stigespill = em.find(Stigespill.class, nr);
 	}
 
 	/**
@@ -74,18 +76,9 @@ public class StartSpill {
 	 * 
 	 * @param em
 	 */
-	public static void hentBrett(EntityManager em) {
-		brett = new Brett();
-		brett.setNavn("Brett1");
-		brett.settOppBrett();
-
-		try {
-			em.getTransaction().begin();
-			em.persist(brett);
-			em.getTransaction().commit();
-		} catch (RollbackException e) {
-			em.getTransaction().rollback();
-		}
+	public static void hentBrett(EntityManager em, Integer nr) {
+		brett = em.find(Brett.class, nr);
+		System.out.println("Brettet er hentet! brett_id = " + brett.getNavn().toString());
 	}
 
 	/**
@@ -94,7 +87,8 @@ public class StartSpill {
 	 * @param em
 	 */
 	public static void hentRuter(EntityManager em) {
-
+		
+		
 	}
 
 	/**
