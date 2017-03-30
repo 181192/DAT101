@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import no.hib.dat101.modell.brikke.Brikke;
-import no.hib.dat101.modell.brikke.BrikkeFarge;
+import no.hib.dat101.modell.rute.Rute;
 import no.hib.dat101.utsyn.StigespillUI;
 
 @Entity
@@ -27,6 +27,7 @@ public class Stigespill {
 	private Terning terning;
 	private Integer antallTrill;
 	private StigespillUI ui;
+	private Boolean spillFerdig;
 
 	/**
 	 * Konstruktør for stigespill
@@ -37,6 +38,8 @@ public class Stigespill {
 		antallTrill = 0;
 		terning = new Terning();
 		spillere = new ArrayList<>();
+		brett = new Brett();
+		spillFerdig = false;
 		settOppSpill();
 	}
 
@@ -45,10 +48,12 @@ public class Stigespill {
 	 */
 	public void start() {
 		int i = 0;
-		while (!erFerdig(spillere.get(i))) {
+		while (!spillFerdig) {
 			spillRunde();
+			
 			i++;
 		}
+		System.out.println("Runde avsluttet etter " + i + " trekk");
 	}
 
 	/**
@@ -56,6 +61,7 @@ public class Stigespill {
 	 */
 	public void settOppSpill() {
 		antallSpillere = ui.lesAntallSpillere();
+		spillFerdig = false;
 		for (int i = 0; i < antallSpillere; i++) {
 			String navn = ui.lesInnSpiller();
 			Brikke brikke = new Brikke(ui.lesInnBrikkeFarge(), brett.getRuteTab().get(0));
@@ -65,39 +71,52 @@ public class Stigespill {
 	}
 
 	/**
-	 * Triller terningen på nytt visst en har fått seks
-	 * 
-	 * @return Ny verdi på terningen visst det forrige kastet var 6 og ikke
-	 *         kastet 6 mer enn 3 ganger. Ellers returnere den 0.
-	 */
-	public int trillPaaNytt() {
-		int nyttKast = 0;
-		if (terning.getVerdi() == 6 && antallTrill < 3) {
-			terning.trill();
-			nyttKast = terning.getVerdi();
-			antallTrill++;
-		}
-		return nyttKast;
-	}
-
-	/**
 	 * En spiller har kommet i mål
 	 * 
 	 * @param rute
 	 * @return True visst spiller er i mål
 	 */
 	public Boolean erFerdig(Spiller spiller) {
-		return spiller.getBrikke().getPosisjon().getRuteNr() >= brett.getANTALL_RUTER();
+		if (spiller.getBrikke().getPosisjon().getRuteNr() == brett.getANTALL_RUTER() - 1) {
+			spillFerdig = true;
+		}
+		return spillFerdig;
 	}
 
 	/**
 	 * Spiller en runde
 	 */
 	public void spillRunde() {
-		for (Spiller s : spillere) {
-			s.spillTrekk();
+		for (int i = 0; i < getAntallSpillere() && !erFerdig(spillere.get(i)); i++) {
+			Spiller s = spillere.get(i);
+			spillTrekk(s);
 			ui.infoOmSpiller(s);
 		}
+	}
+
+	/**
+	 * Spiller skal trille trening eller trille på nytt, finne posisjon til
+	 * brikken, og flytte den og sette nyposisjon.
+	 * 
+	 * @param spiller
+	 *            Spiller som skal trekke
+	 */
+	public void spillTrekk(Spiller spiller) {
+		do {
+			terning.trill();
+			settNyPlass(brett.finnRute(spiller.getBrikke().getPosisjon(), terning.getVerdi()), spiller);
+			antallTrill++;
+		} while (!erFerdig(spiller) && terning.getVerdi() == 6 && antallTrill < 3);
+		
+	}
+	/**
+	 * Flytter brikken til spilleren til en ny rute og tar hensyn til hoppverdi (slange eller stige)
+	 * 
+	 * @param rute
+	 * @param spiller
+	 */
+	public void settNyPlass(Rute rute, Spiller spiller) {
+		spiller.getBrikke().setPosisjon(brett.getRuteTab().get(rute.getRuteNr() + rute.getHopp_verdi()));
 	}
 
 	public Integer getStigespill_id() {
@@ -155,5 +174,4 @@ public class Stigespill {
 	public void setUi(StigespillUI ui) {
 		this.ui = ui;
 	}
-
 }
