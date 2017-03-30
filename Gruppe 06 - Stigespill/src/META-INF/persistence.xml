@@ -7,10 +7,10 @@
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider
         </provider>
 
+		<class>no.hib.dat101.modell.Brett</class>
+		<class>no.hib.dat101.modell.rute.Rute</class>
 		<class>no.hib.dat101.modell.Stigespill</class>
 		<class>no.hib.dat101.modell.Spiller</class>
-		<class>no.hib.dat101.modell.Rute</class>
-		<class>no.hib.dat101.modell.Brett</class>
 
 		<properties>
 			<property name="javax.persistence.jdbc.logging.level" value="INFO" />
