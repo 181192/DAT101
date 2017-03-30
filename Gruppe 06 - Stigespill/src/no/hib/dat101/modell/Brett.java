@@ -15,6 +15,7 @@ import no.hib.dat101.modell.rute.Rute;
 
 /**
  * Klasse for å fremstille ett spille brett
+ * 
  * @author Kristoffer-Andre Kalliainen
  *
  */
@@ -36,18 +37,29 @@ public class Brett {
 	 */
 	public Brett() {
 		ruteTab = new ArrayList<>(ANTALL_RUTER);
+		settOppBrett();
 	}
 	
+	public void settOppBrett() {
+		for (int i = 0; i < ANTALL_RUTER; i++) {
+			Rute r = new Rute(i);
+			ruteTab.add(r);
+		}
+	}
+
 	/**
 	 * Finner ut hvor neste rute er når en terning har blitt kastet
-	 * @param startRute Rute hvor en brikke står nå
-	 * @param distanse Verdien som en brikke skal flytte seg
+	 * 
+	 * @param startRute
+	 *            Rute hvor en brikke står nå
+	 * @param distanse
+	 *            Verdien som en brikke skal flytte seg
 	 * @return Ruten brikken skal flyttes til
 	 */
-	public Rute finnRute(Rute startRute, Integer distanse) {
-		Integer num = startRute.getRuteNr()+distanse;
-		if(num > ANTALL_RUTER - 1) {
-			num = ANTALL_RUTER - 1;
+	public Rute finnRute(Rute aktuell, Integer distanse) {
+		Integer num = aktuell.getRuteNr() + distanse;
+		if (num > ANTALL_RUTER - 1) {
+			num = aktuell.getRuteNr();
 		}
 		return ruteTab.get(num);
 	}
@@ -87,6 +99,5 @@ public class Brett {
 	public Integer getANTALL_RUTER() {
 		return ANTALL_RUTER;
 	}
-	
-	
+
 }
