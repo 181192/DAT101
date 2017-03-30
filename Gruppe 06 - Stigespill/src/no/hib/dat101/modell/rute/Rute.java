@@ -19,7 +19,7 @@ import no.hib.dat101.modell.Brett;
 @Table(name = "rute", schema = "kristoffer_stigespill")
 public class Rute {
 	@Id
-	private Integer ruteNr;
+	private final Integer ruteNr;
 
 	@ManyToOne
 	@JoinColumn(name = "brett", referencedColumnName = "brett_id")
@@ -35,21 +35,6 @@ public class Rute {
 	 *            Nummeret på ruten, må være ett tall mellom 0 - 99
 	 */
 	public Rute(Integer ruteNr) {
-		this.ruteNr = ruteNr;
-	}
-
-	/**
-	 * Metode for å vite hvilken rute en brikke havnet på.
-	 */
-	public void landetPaa() {
-		// TODO
-	}
-
-	public int getRuteNr() {
-		return ruteNr;
-	}
-
-	public void setRuteNr(Integer ruteNr) {
 		this.ruteNr = ruteNr;
 	}
 
@@ -69,4 +54,7 @@ public class Rute {
 		this.hopp_verdi = hopp_verdi;
 	}
 
+	public Integer getRuteNr() {
+		return ruteNr;
+	}
 }
