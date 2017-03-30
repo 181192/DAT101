@@ -3,7 +3,6 @@ package no.hib.dat101.modell;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -36,8 +35,6 @@ public class Stigespill {
 	private Boolean spillFerdig;
 	@Transient
 	private List<Spiller> spillere;
-	@Transient
-	private Integer antallSpillere;
 
 	public Stigespill() {
 
@@ -47,14 +44,13 @@ public class Stigespill {
 	 * Konstruktør for stigespill
 	 * 
 	 */
-	public Stigespill(StigespillUI ui) {
-		this.ui = ui;
+	public Stigespill(Brett brett, List<Spiller> spillere) {
 		antallTrill = 0;
 		terning = new Terning();
 		spillere = new ArrayList<>();
-		brett = new Brett();
+		// brett = new Brett();
 		spillFerdig = false;
-		settOppSpill();
+		// settOppSpill();
 	}
 
 	/**
@@ -74,9 +70,8 @@ public class Stigespill {
 	 * Setter opp spillet, oppretter nye spillere, brikker .. etc
 	 */
 	public void settOppSpill() {
-		antallSpillere = ui.lesAntallSpillere();
 		spillFerdig = false;
-		for (int i = 0; i < antallSpillere; i++) {
+		for (int i = 0; i < antallSpillere(); i++) {
 			String navn = ui.lesInnSpiller();
 			Brikke brikke = new Brikke(ui.lesInnBrikkeFarge(), brett.getRuteTab().get(0));
 			Spiller spiller = new Spiller(navn, brikke);
@@ -91,7 +86,7 @@ public class Stigespill {
 	 * @return True visst spiller er i mål
 	 */
 	public Boolean erFerdig(Spiller spiller) {
-		if (spiller.getBrikke().getPosisjon().getRuteNr() == brett.getANTALL_RUTER() - 1) {
+		if (spiller.getBrikke().getPosisjon().getRute_nr() == brett.getANTALL_RUTER() - 1) {
 			spillFerdig = true;
 		}
 		return spillFerdig;
@@ -101,7 +96,7 @@ public class Stigespill {
 	 * Spiller en runde
 	 */
 	public void spillRunde() {
-		for (int i = 0; i < getAntallSpillere() && !erFerdig(spillere.get(i)); i++) {
+		for (int i = 0; i < antallSpillere() && !erFerdig(spillere.get(i)); i++) {
 			Spiller s = spillere.get(i);
 			spillTrekk(s);
 			ui.infoOmSpiller(s);
@@ -132,7 +127,11 @@ public class Stigespill {
 	 * @param spiller
 	 */
 	public void settNyPlass(Rute rute, Spiller spiller) {
-		spiller.getBrikke().setPosisjon(brett.getRuteTab().get(rute.getRuteNr() + rute.getHopp_verdi()));
+		spiller.getBrikke().setPosisjon(brett.getRuteTab().get(rute.getRute_nr() + rute.getHopp_verdi()));
+	}
+	
+	public Integer antallSpillere() {
+		return spillere.size();
 	}
 
 	public Integer getStigespill_id() {
@@ -149,14 +148,6 @@ public class Stigespill {
 
 	public void setSpillere(List<Spiller> spillere) {
 		this.spillere = spillere;
-	}
-
-	public Integer getAntallSpillere() {
-		return antallSpillere;
-	}
-
-	public void setAntallSpillere(Integer antallSpillere) {
-		this.antallSpillere = antallSpillere;
 	}
 
 	public Brett getBrett() {
