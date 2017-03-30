@@ -40,6 +40,16 @@ public enum BrikkeFarge {
 			}
 		}
 		return farge;
+	}
 
+	public static BrikkeFarge finnBrikkeFarge(String brikke) {
+		BrikkeFarge farge = null;
+		for (BrikkeFarge bf : BrikkeFarge.values()) {
+			if (bf.toString().equals(brikke.toUpperCase())) {
+				farge = bf;
+				break;
+			}
+		}
+		return farge;
 	}
 }
