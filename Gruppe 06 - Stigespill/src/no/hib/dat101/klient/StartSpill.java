@@ -1,5 +1,9 @@
 package no.hib.dat101.klient;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -17,6 +21,7 @@ public class StartSpill {
 	private static Brett brett;
 	private static Stigespill stigespill;
 	private static Spiller spiller;
+	private static List<Spiller> spillere;
 	private static Brikke brikke;
 	private static Rute rute;
 	private static StigespillUI ui;
@@ -24,19 +29,24 @@ public class StartSpill {
 	public static void main(String[] args) {
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("eclipselink");
 		EntityManager em = entityManagerFactory.createEntityManager();
-
+		ui = new Tekstgrensesnitt();
+		Stigespill stiges = new Stigespill(brett, spillere);
+		
 		hentBrett(em, 1);
 		hentRuter(em);
+	
 		
+		leggInnSpillere(em, ui.lesAntallSpillere());
+
+		
+
+		Scanner tast = new Scanner(System.in);
+		
+		stiges.start();
+
+		tast.close();
 		em.close();
 		entityManagerFactory.close();
-		
-		System.out.println("Skirver ut bare for å teste: " + brett.getRuteTab().get(14).getRute_nr());
-		ui = new Tekstgrensesnitt();
-		// Scanner tast = new Scanner(System.in);
-		// Stigespill stiges = new Stigespill(new Tekstgrensesnitt());
-		// stiges.start();
-		// tast.close();
 	}
 
 	/**
@@ -46,12 +56,13 @@ public class StartSpill {
 	 * @param em
 	 * @param antall
 	 */
-	public static void leggInnSpiller(EntityManager em, int antall) {
+	public static void leggInnSpillere(EntityManager em, int antall) {
+		spillere = new ArrayList<Spiller>(antall);
 		for (int i = 0; i < antall; i++) {
 			spiller = new Spiller();
 			spiller.setNavn(ui.lesInnSpiller());
 			spiller.setBrikke(new Brikke(ui.lesInnBrikkeFarge(), brett.getRuteTab().get(0)));
-			stigespill.getSpillere().add(spiller);
+			spillere.add(spiller);
 
 			try {
 				em.getTransaction().begin();
@@ -79,6 +90,7 @@ public class StartSpill {
 	 * @param em
 	 */
 	public static void hentBrett(EntityManager em, Integer brett_id) {
+		brett = new Brett();
 		brett = em.find(Brett.class, brett_id);
 		System.out.println("Brettet er hentet! brett_id = " + brett.getNavn().toString());
 	}
@@ -91,13 +103,16 @@ public class StartSpill {
 	 */
 	public static void hentRuter(EntityManager em) {
 		for (int i = 0; i < brett.getANTALL_RUTER(); i++) {
-			brett.getRuteTab().add(hentRute(em, i));
-			System.out.println("Henter rute med rutenr: " + i);
+			rute = new Rute();
+			rute = hentRute(em, i);
+			brett.getRuteTab().add(rute);
 		}
+		System.out.println("Alle rutene er hentet, det er : " + brett.getRuteTab().size() + " ruter på brettet");
+		System.out.println("Skriver ut bare for å teste: " + brett.getRuteTab().get(40).getRute_nr().intValue());
 	}
 
 	/**
-	 * Metoden henter en rute til brettet fra databasen.
+	 * Hjelpe metode for å hente en rute til brettet fra databasen.
 	 * 
 	 * @param em
 	 */
@@ -110,8 +125,22 @@ public class StartSpill {
 	 * 
 	 * @param em
 	 */
-	public static void hentSpillere(EntityManager em) {
+	public static void hentSpillere(EntityManager em, Integer antall) {
+		for (int i = 0; i < antall; i++) {
+			stigespill.getSpillere().add(hentEnSpiller(em, i));
+		}
+	}
 
+	/**
+	 * Hjelpe metode for å hente en spiller fra databasen
+	 * 
+	 * @param em
+	 * @param spiller_id
+	 *            Id'en til spilleren.
+	 * @return Returnerer spilleren.
+	 */
+	private static Spiller hentEnSpiller(EntityManager em, Integer spiller_id) {
+		return em.find(Spiller.class, spiller_id);
 	}
 
 	/**
