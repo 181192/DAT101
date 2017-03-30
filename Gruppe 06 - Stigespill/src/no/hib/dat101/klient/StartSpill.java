@@ -37,7 +37,7 @@ public class StartSpill {
 
 		leggInnSpillere(em, ui.lesAntallSpillere(), stiges);
 
-		
+		stiges.setUi(ui);
 		stiges.setSpillere(spillere);
 		System.out.println("Antall spillere " + spillere.size());
 		stiges.setBrett(brett);
