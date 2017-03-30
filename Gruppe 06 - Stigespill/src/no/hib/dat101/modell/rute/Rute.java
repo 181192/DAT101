@@ -36,6 +36,7 @@ public class Rute {
 	 */
 	public Rute(Integer ruteNr) {
 		this.ruteNr = ruteNr;
+		hopp_verdi = 0;
 	}
 
 	public Brett getBrett_id() {
