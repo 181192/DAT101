@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -24,10 +26,15 @@ public class Spiller {
 	private Integer spiller_id;
 	@Column(name = "navn")
 	private String navn;
-	
+	@ManyToOne
+	@JoinColumn(name = "stigespill_id", referencedColumnName = "stigespill_id")
+	private Stigespill stigespill_id;
 	@Transient
 	private Brikke brikke;
-	
+
+	/**
+	 * Tom konstruktør for Spiller
+	 */
 	public Spiller() {
 		this("", null);
 	}
@@ -69,12 +76,21 @@ public class Spiller {
 		this.spiller_id = spiller_id;
 	}
 
+	public Stigespill getStigespill_id() {
+		return stigespill_id;
+	}
+
+	public void setStigespill_id(Stigespill stigespill_id) {
+		this.stigespill_id = stigespill_id;
+	}
+
 	/**
 	 * String representasjon av en spiller
 	 */
 	@Override
 	public String toString() {
-		return "navn: " + navn + ", brikke: " + brikke.getFarge().toString() + ", posisjon: " + brikke.getPosisjon().getRute_nr();
+		return "navn: " + navn + ",\t\t brikke: " + brikke.getFarge().toString() + ",\t\t posisjon: "
+				+ brikke.getPosisjon().getRute_nr().intValue();
 	}
 
 }
