@@ -71,7 +71,7 @@ public class Spiller {
 	 */
 	@Override
 	public String toString() {
-		return "Spiller [navn=" + navn + ", brikke=" + brikke + "]";
+		return "navn: " + navn + ", brikke: " + brikke.getFarge().toString() + ", posisjon: " + brikke.getPosisjon().getRuteNr();
 	}
 
 }
