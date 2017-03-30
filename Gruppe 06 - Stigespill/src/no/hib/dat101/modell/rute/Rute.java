@@ -19,10 +19,10 @@ import no.hib.dat101.modell.Brett;
 @Table(name = "rute", schema = "kristoffer_stigespill")
 public class Rute {
 	@Id
-	private final Integer ruteNr;
+	private final Integer rute_nr;
 
 	@ManyToOne
-	@JoinColumn(name = "brett", referencedColumnName = "brett_id")
+	@JoinColumn(name = "brett_id", referencedColumnName = "brett_id")
 	private Brett brett_id;
 
 	@Column(name = "hopp_verdi")
@@ -38,8 +38,8 @@ public class Rute {
 	 * @param ruteNr
 	 *            Nummeret på ruten, må være ett tall mellom 0 - 99
 	 */
-	public Rute(Integer ruteNr) {
-		this.ruteNr = ruteNr;
+	public Rute(Integer rute_nr) {
+		this.rute_nr = rute_nr;
 		hopp_verdi = 0;
 	}
 
@@ -59,7 +59,7 @@ public class Rute {
 		this.hopp_verdi = hopp_verdi;
 	}
 
-	public Integer getRuteNr() {
-		return ruteNr;
+	public Integer getRute_nr() {
+		return rute_nr;
 	}
 }

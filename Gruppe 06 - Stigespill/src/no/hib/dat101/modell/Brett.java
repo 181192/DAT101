@@ -60,9 +60,9 @@ public class Brett {
 	 * @return Ruten brikken skal flyttes til
 	 */
 	public Rute finnRute(Rute aktuell, Integer distanse) {
-		Integer num = aktuell.getRuteNr() + distanse;
+		Integer num = aktuell.getRute_nr() + distanse;
 		if (num > ANTALL_RUTER - 1) {
-			num = aktuell.getRuteNr();
+			num = aktuell.getRute_nr();
 		}
 		return ruteTab.get(num);
 	}
