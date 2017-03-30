@@ -36,8 +36,14 @@ public class Stigespill {
 	@Transient
 	private List<Spiller> spillere;
 
+	/**
+	 * Tom konstruktør for stigespill
+	 */
 	public Stigespill() {
-
+		this(null, null);
+		terning = new Terning();
+		antallTrill = 0;
+		spillFerdig = false;
 	}
 
 	/**
@@ -45,10 +51,10 @@ public class Stigespill {
 	 * 
 	 */
 	public Stigespill(Brett brett, List<Spiller> spillere) {
-		antallTrill = 0;
+		this.spillere = spillere;
+		this.brett = brett;
 		terning = new Terning();
-		spillere = new ArrayList<>();
-		// brett = new Brett();
+		antallTrill = 0;
 		spillFerdig = false;
 		// settOppSpill();
 	}
@@ -129,7 +135,12 @@ public class Stigespill {
 	public void settNyPlass(Rute rute, Spiller spiller) {
 		spiller.getBrikke().setPosisjon(brett.getRuteTab().get(rute.getRute_nr() + rute.getHopp_verdi()));
 	}
-	
+
+	/**
+	 * Antall spillere i Arrayen
+	 * 
+	 * @return Returnerer antall spillere som integer
+	 */
 	public Integer antallSpillere() {
 		return spillere.size();
 	}
