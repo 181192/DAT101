@@ -39,6 +39,8 @@ public class Stigespill {
 	private List<Logg> logger;
 	@Transient
 	private Logg logg;
+	@Transient
+	private Spiller vinner;
 
 	/**
 	 * Tom konstruktør for stigespill
@@ -54,7 +56,7 @@ public class Stigespill {
 	 * Konstruktør for stigespill
 	 * 
 	 */
-	public Stigespill(StigespillUI ui, Brett brett, List<Spiller> spillere, List<Logg> logger) {
+	public Stigespill(StigespillUI ui, Brett brett, List<Logg> logger, List<Spiller> spillere) {
 		this.spillere = spillere;
 		this.brett = brett;
 		this.ui = ui;
@@ -100,6 +102,7 @@ public class Stigespill {
 	public Boolean erFerdig(Spiller spiller) {
 		if (spiller.getBrikke().getPosisjon().getRute_nr() == brett.getANTALL_RUTER() - 1) {
 			spillFerdig = Boolean.TRUE;
+			vinner = spiller;
 		}
 		return spillFerdig;
 	}
@@ -133,7 +136,7 @@ public class Stigespill {
 			settNyPlass(brett.finnRute(spiller.getBrikke().getPosisjon(), terning.getVerdi()), spiller);
 
 			logg.setRute_til(spiller.getBrikke().getPosisjon());
-			ui.infoOmSpiller(logg);
+			// ui.infoOmTrekk(logg);
 			logger.add(logg);
 
 			antallTrill++;
@@ -223,6 +226,22 @@ public class Stigespill {
 
 	public void setLogger(List<Logg> logger) {
 		this.logger = logger;
+	}
+
+	public Logg getLogg() {
+		return logg;
+	}
+
+	public void setLogg(Logg logg) {
+		this.logg = logg;
+	}
+
+	public Spiller getVinner() {
+		return vinner;
+	}
+
+	public void setVinner(Spiller vinner) {
+		this.vinner = vinner;
 	}
 
 }
