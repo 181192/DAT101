@@ -7,6 +7,7 @@ import java.util.Scanner;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.RollbackException;
 
 import no.hib.dat101.modell.Brett;
@@ -22,36 +23,41 @@ import no.hib.dat101.utsyn.Tekstgrensesnitt;
 public class StartSpill {
 	private static Brett brett;
 	private static Stigespill stigespill;
-	private static Spiller spiller;
 	private static List<Spiller> spillere;
+	private static Spiller spiller;
 	private static Rute rute;
 	private static StigespillUI ui;
-	private static Logg logg;
 	private static List<Logg> logger;
 
 	public static void main(String[] args) {
 		Scanner tast = new Scanner(System.in);
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("eclipselink");
 		EntityManager em = entityManagerFactory.createEntityManager();
+		
 		ui = new Tekstgrensesnitt();
 		logger = new ArrayList<Logg>();
-		
-		Stigespill stiges = new Stigespill();
 
-		hentBrett(em, 2);
+		stigespill = new Stigespill();
+
+		brett = hentBrett(em, 2);
 		hentRuter(em);
 
 		// leggInnSpillere(em, ui.lesAntallSpillere(), stiges);
-		leggInnSpillere(em, 2, stiges);
+		skrivSpillere(em, 2, stigespill);
 
-		stiges.setUi(ui);
-		stiges.setSpillere(spillere);
-		stiges.setLogger(logger);
+		stigespill.setUi(ui);
+		stigespill.setSpillere(spillere);
 		System.out.println("Antall spillere " + spillere.size());
-		stiges.setBrett(brett);
-		stiges.start();
-
+		stigespill.setLogger(logger);
+		stigespill.setBrett(brett);
+		stigespill.start();
+		System.out.println(ui.vinner(stigespill) + " vant denne runden!");
+		System.out.println("\nHenter loggen til spillet fra databasen: \n");
+		
+		skrivStigespill(em);
 		skrivLogg(em);
+		hentLogger(em);
+		
 		em.close();
 		entityManagerFactory.close();
 		tast.close();
@@ -64,7 +70,7 @@ public class StartSpill {
 	 * @param em
 	 * @param antall
 	 */
-	public static void leggInnSpillere(EntityManager em, Integer antall, Stigespill stigespill_id) {
+	public static void skrivSpillere(EntityManager em, Integer antall, Stigespill stigespill_id) {
 		spillere = new ArrayList<Spiller>(antall);
 		Spiller s1 = new Spiller();
 		Spiller s2 = new Spiller();
@@ -72,8 +78,11 @@ public class StartSpill {
 		s1.setNavn("Arne");
 		s2.setNavn("Peder");
 
-		s1.setBrikke(new Brikke(BrikkeFarge.RED, brett.getRuteTab().get(1)));
-		s2.setBrikke(new Brikke(BrikkeFarge.GREEN, brett.getRuteTab().get(1)));
+		s1.setBrikke(new Brikke(BrikkeFarge.finnBrikkeFarge(0), brett.getRuteTab().get(1)));
+		s2.setBrikke(new Brikke(BrikkeFarge.finnBrikkeFarge(1), brett.getRuteTab().get(1)));
+		
+		s1.setStigespill_id(stigespill);
+		s2.setStigespill_id(stigespill);
 
 		spillere.add(s1);
 		spillere.add(s2);
@@ -97,24 +106,13 @@ public class StartSpill {
 	}
 
 	/**
-	 * Metoden skal hente stigespillet med stigespill_id fra databasen.
-	 * 
-	 * @param em
-	 */
-	public static void hentStigeSpill(EntityManager em, Integer nr) {
-		stigespill = em.find(Stigespill.class, nr);
-	}
-
-	/**
 	 * Metoden skal hente ett ferdig brett som er lagret i databasen. Hvert
 	 * spill skal hente ett brett her i fra. Brettene er forhåndsdefinerte.
 	 * 
 	 * @param em
 	 */
-	public static void hentBrett(EntityManager em, Integer brett_id) {
-		brett = new Brett();
-		brett = em.find(Brett.class, brett_id);
-		System.out.println("Brettet er hentet! brett_id = " + brett.getNavn().toString());
+	public static Brett hentBrett(EntityManager em, Integer brett_id) {
+		return em.find(Brett.class, brett_id);
 	}
 
 	/**
@@ -167,13 +165,24 @@ public class StartSpill {
 	}
 
 	/**
-	 * Metoden henter loggen fra ett tidligere spill, slik at spillet kan
-	 * gjenoppta hvor det stoppet.
+	 * Henter logg over alle trekk og implimenterer det i spillet, slik at
+	 * spillet kan gjenoppta hvor det stoppet.
 	 * 
 	 * @param em
 	 */
-	public static void hentLogg(EntityManager em) {
+	public static void hentLogger(EntityManager em) {
+		for (int i = 1; i < logger.size(); i++) {
+			System.out.println(hentEnLogg(em, i).toString());
+		}
+	}
 
+	/**
+	 * Metoden henter en logg fra ett tidligere spill
+	 * 
+	 * @param em
+	 */
+	private static Logg hentEnLogg(EntityManager em, Integer logg_id) {
+		return em.find(Logg.class, logg_id);
 	}
 
 	/**
@@ -190,6 +199,26 @@ public class StartSpill {
 			} catch (RollbackException e) {
 				em.getTransaction().rollback();
 			}
+		}
+	}
+	
+	/**
+	 * Hent ett stigespill fra databasen
+	 * @param em EntityManager
+	 * @param stigespill_id Id til stigespillet
+	 * @return Ett stigespill
+	 */
+	public static Stigespill hentStigeSpill(EntityManager em, Integer stigespill_id) {
+		return em.find(Stigespill.class, stigespill_id);
+	}
+	
+	public static void skrivStigespill(EntityManager em) {
+		try {
+			em.getTransaction().begin();
+			em.persist(stigespill);
+			em.getTransaction().commit();
+		} catch (RollbackException e) {
+			em.getTransaction().rollback();
 		}
 	}
 
