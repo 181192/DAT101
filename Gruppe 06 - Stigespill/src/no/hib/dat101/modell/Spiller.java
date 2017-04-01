@@ -1,5 +1,6 @@
 package no.hib.dat101.modell;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,7 +27,7 @@ public class Spiller {
 	private Integer spiller_id;
 	@Column(name = "navn")
 	private String navn;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "stigespill_id", referencedColumnName = "stigespill_id")
 	private Stigespill stigespill_id;
 	@Transient
