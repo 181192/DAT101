@@ -14,6 +14,7 @@ import no.hib.dat101.modell.Logg;
 import no.hib.dat101.modell.Spiller;
 import no.hib.dat101.modell.Stigespill;
 import no.hib.dat101.modell.brikke.Brikke;
+import no.hib.dat101.modell.brikke.BrikkeFarge;
 import no.hib.dat101.modell.rute.Rute;
 import no.hib.dat101.utsyn.StigespillUI;
 import no.hib.dat101.utsyn.Tekstgrensesnitt;
@@ -26,26 +27,31 @@ public class StartSpill {
 	private static Rute rute;
 	private static StigespillUI ui;
 	private static Logg logg;
+	private static List<Logg> logger;
 
 	public static void main(String[] args) {
 		Scanner tast = new Scanner(System.in);
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("eclipselink");
 		EntityManager em = entityManagerFactory.createEntityManager();
 		ui = new Tekstgrensesnitt();
+		logger = new ArrayList<Logg>();
+		
 		Stigespill stiges = new Stigespill();
 
-		hentBrett(em, 1);
+		hentBrett(em, 2);
 		hentRuter(em);
 
-		leggInnSpillere(em, ui.lesAntallSpillere(), stiges);
+		// leggInnSpillere(em, ui.lesAntallSpillere(), stiges);
+		leggInnSpillere(em, 2, stiges);
 
 		stiges.setUi(ui);
 		stiges.setSpillere(spillere);
+		stiges.setLogger(logger);
 		System.out.println("Antall spillere " + spillere.size());
 		stiges.setBrett(brett);
 		stiges.start();
-		
 
+		skrivLogg(em);
 		em.close();
 		entityManagerFactory.close();
 		tast.close();
@@ -60,21 +66,34 @@ public class StartSpill {
 	 */
 	public static void leggInnSpillere(EntityManager em, Integer antall, Stigespill stigespill_id) {
 		spillere = new ArrayList<Spiller>(antall);
-		for (int i = 0; i < antall; i++) {
-			spiller = new Spiller();
-			spiller.setNavn(ui.lesInnSpiller());
-			spiller.setBrikke(new Brikke(ui.lesInnBrikkeFarge(), brett.getRuteTab().get(1)));
-			// spiller.setStigespill_id(stigespill_id);
-			spillere.add(spiller);
+		Spiller s1 = new Spiller();
+		Spiller s2 = new Spiller();
 
-			try {
-				em.getTransaction().begin();
-				em.persist(spiller);
-				em.getTransaction().commit();
-			} catch (RollbackException e) {
-				em.getTransaction().rollback();
-			}
+		s1.setNavn("Arne");
+		s2.setNavn("Peder");
+
+		s1.setBrikke(new Brikke(BrikkeFarge.RED, brett.getRuteTab().get(1)));
+		s2.setBrikke(new Brikke(BrikkeFarge.GREEN, brett.getRuteTab().get(1)));
+
+		spillere.add(s1);
+		spillere.add(s2);
+		// for (int i = 0; i < antall; i++) {
+		// spiller = new Spiller();
+		// spiller.setNavn(ui.lesInnSpiller());
+		// spiller.setBrikke(new Brikke(ui.lesInnBrikkeFarge(),
+		// brett.getRuteTab().get(1)));
+		// // spiller.setStigespill_id(stigespill_id);
+		// spillere.add(spiller);
+
+		try {
+			em.getTransaction().begin();
+			em.persist(s1);
+			em.persist(s2);
+			em.getTransaction().commit();
+		} catch (RollbackException e) {
+			em.getTransaction().rollback();
 		}
+		// }
 	}
 
 	/**
@@ -110,8 +129,9 @@ public class StartSpill {
 			rute = hentRute(em, i);
 			brett.getRuteTab().add(rute);
 		}
-		System.out.println("Alle rutene er hentet, det er : " + brett.getRuteTab().size() + " ruter på brettet");
-		System.out.println("Skriver ut bare for å teste: " + brett.getRuteTab().get(40).getRute_nr().intValue());
+		System.out.println("Alle rutene er hentet, det er : " + (brett.getRuteTab().size() - 1) + " ruter på brettet");
+		System.out.println("Skriver rute_nr til rute 40 ut bare for å teste: "
+				+ brett.getRuteTab().get(40).getRute_nr().intValue());
 	}
 
 	/**
@@ -119,8 +139,8 @@ public class StartSpill {
 	 * 
 	 * @param em
 	 */
-	private static Rute hentRute(EntityManager em, Integer rute_nr) {
-		return em.find(Rute.class, rute_nr);
+	private static Rute hentRute(EntityManager em, Integer rute_id) {
+		return em.find(Rute.class, rute_id);
 	}
 
 	/**
@@ -162,13 +182,14 @@ public class StartSpill {
 	 * @param em
 	 */
 	public static void skrivLogg(EntityManager em) {
-		
-		try {
-			em.getTransaction().begin();
-			em.persist(logg);
-			em.getTransaction().commit();
-		} catch (RollbackException e) {
-			em.getTransaction().rollback();
+		for (int i = 0; i < logger.size(); i++) {
+			try {
+				em.getTransaction().begin();
+				em.persist(logger.get(i));
+				em.getTransaction().commit();
+			} catch (RollbackException e) {
+				em.getTransaction().rollback();
+			}
 		}
 	}
 

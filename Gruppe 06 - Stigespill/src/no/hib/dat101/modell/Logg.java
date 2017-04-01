@@ -64,4 +64,14 @@ public class Logg {
 		this.rute_til = rute_til;
 	}
 
+	@Override
+	public String toString() {
+		Integer fra = rute_fra.getRute_nr();
+		Integer til = rute_til.getRute_nr();
+		return "spiller: " + spiller.getNavn() + "\t, rute_fra: " + fra + "\t, rute_til: " + til
+				+ "\t, sum = " + (til - fra);
+	}
+	
+	
+
 }

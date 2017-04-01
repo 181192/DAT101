@@ -35,11 +35,16 @@ public class Stigespill {
 	@Transient
 	private List<Spiller> spillere;
 
+	@Transient
+	private List<Logg> logger;
+	@Transient
+	private Logg logg;
+
 	/**
 	 * Tom konstruktør for stigespill
 	 */
 	public Stigespill() {
-		this(null, null, null);
+		this(null, null, null, null);
 		terning = new Terning();
 		antallTrill = 0;
 		spillFerdig = Boolean.FALSE;
@@ -49,10 +54,11 @@ public class Stigespill {
 	 * Konstruktør for stigespill
 	 * 
 	 */
-	public Stigespill(StigespillUI ui, Brett brett, List<Spiller> spillere) {
+	public Stigespill(StigespillUI ui, Brett brett, List<Spiller> spillere, List<Logg> logger) {
 		this.spillere = spillere;
 		this.brett = brett;
 		this.ui = ui;
+		this.logger = logger;
 		terning = new Terning();
 		antallTrill = 0;
 		spillFerdig = Boolean.FALSE;
@@ -104,8 +110,9 @@ public class Stigespill {
 	public void spillRunde() {
 		for (int i = 0; i < antallSpillere() && !erFerdig(spillere.get(i)); i++) {
 			Spiller s = spillere.get(i);
+
 			spillTrekk(s);
-			ui.infoOmSpiller(s);
+
 		}
 	}
 
@@ -118,11 +125,19 @@ public class Stigespill {
 	 */
 	public void spillTrekk(Spiller spiller) {
 		do {
+			logg = new Logg();
+			logg.setSpiller(spiller);
+			logg.setRute_fra(spiller.getBrikke().getPosisjon());
+
 			terning.trill();
 			settNyPlass(brett.finnRute(spiller.getBrikke().getPosisjon(), terning.getVerdi()), spiller);
+
+			logg.setRute_til(spiller.getBrikke().getPosisjon());
+			ui.infoOmSpiller(logg);
+			logger.add(logg);
+
 			antallTrill++;
 		} while (!erFerdig(spiller) && terning.getVerdi() == 6 && antallTrill < 3);
-
 	}
 
 	/**
@@ -134,6 +149,7 @@ public class Stigespill {
 	 */
 	public void settNyPlass(Rute rute, Spiller spiller) {
 		spiller.getBrikke().setPosisjon(brett.getRuteTab().get(rute.getRute_nr() + rute.getHopp_verdi()));
+		logg.setRute_til(spiller.getBrikke().getPosisjon());
 	}
 
 	/**
@@ -192,4 +208,21 @@ public class Stigespill {
 	public void setUi(StigespillUI ui) {
 		this.ui = ui;
 	}
+
+	public Boolean getSpillFerdig() {
+		return spillFerdig;
+	}
+
+	public void setSpillFerdig(Boolean spillFerdig) {
+		this.spillFerdig = spillFerdig;
+	}
+
+	public List<Logg> getLogger() {
+		return logger;
+	}
+
+	public void setLogger(List<Logg> logger) {
+		this.logger = logger;
+	}
+
 }

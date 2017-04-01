@@ -1,6 +1,6 @@
 package no.hib.dat101.utsyn;
 
-import no.hib.dat101.modell.Spiller;
+import no.hib.dat101.modell.Logg;
 import no.hib.dat101.modell.brikke.BrikkeFarge;
 
 public interface StigespillUI {
@@ -31,5 +31,5 @@ public interface StigespillUI {
 	 * Skriver ut info om en spiller i konsollen
 	 * @param spiller
 	 */
-	public void infoOmSpiller(Spiller spiller);
+	public void infoOmSpiller(Logg logg);
 }

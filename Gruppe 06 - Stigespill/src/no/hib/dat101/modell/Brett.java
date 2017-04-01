@@ -32,13 +32,13 @@ public class Brett {
 	private List<Rute> ruteTab;
 	
 	@Transient
-	private final Integer ANTALL_RUTER = 100;
+	private final Integer ANTALL_RUTER = 101;
 
 	/**
 	 * Konstruktør for brett, oppretter en ArrayList med standard 100 plasser
 	 */
 	public Brett() {
-		ruteTab = new ArrayList<>();
+		ruteTab = new ArrayList<>(ANTALL_RUTER);
 	}
 	
 	public void settOppBrett() {

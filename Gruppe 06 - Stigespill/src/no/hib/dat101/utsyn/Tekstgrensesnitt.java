@@ -2,7 +2,7 @@ package no.hib.dat101.utsyn;
 
 import java.util.Scanner;
 
-import no.hib.dat101.modell.Spiller;
+import no.hib.dat101.modell.Logg;
 import no.hib.dat101.modell.brikke.BrikkeFarge;
 
 public class Tekstgrensesnitt implements StigespillUI {
@@ -30,7 +30,7 @@ public class Tekstgrensesnitt implements StigespillUI {
 	}
 	
 	@Override
-	public void infoOmSpiller(Spiller spiller) {
-		System.out.println(spiller.toString());
+	public void infoOmSpiller(Logg logg) {
+		System.out.println(logg.toString());
 	}
 }
