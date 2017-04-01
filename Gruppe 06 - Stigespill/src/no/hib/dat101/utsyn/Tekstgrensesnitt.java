@@ -3,6 +3,7 @@ package no.hib.dat101.utsyn;
 import java.util.Scanner;
 
 import no.hib.dat101.modell.Logg;
+import no.hib.dat101.modell.Stigespill;
 import no.hib.dat101.modell.brikke.BrikkeFarge;
 
 public class Tekstgrensesnitt implements StigespillUI {
@@ -24,13 +25,20 @@ public class Tekstgrensesnitt implements StigespillUI {
 	public BrikkeFarge lesInnBrikkeFarge() {
 		System.out.println("0 = RED, 1 = BLUE, 2 = GREEN, 3 = YELLOW");
 		System.out.print("Oppgi fargekode: ");
-		String farge = tast.next();
+		int farge = tast.nextInt();
 		BrikkeFarge brikke = BrikkeFarge.finnBrikkeFarge(farge);
 		return brikke;
 	}
-	
+
 	@Override
-	public void infoOmSpiller(Logg logg) {
-		System.out.println(logg.toString());
+	public String infoOmTrekk(Logg logg) {
+		return logg.toString();
 	}
+
+	@Override
+	public String vinner(Stigespill stigespill) {
+		return stigespill.getVinner().getNavn();
+	}
+	
+	
 }
