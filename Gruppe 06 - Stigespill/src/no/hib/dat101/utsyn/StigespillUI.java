@@ -1,6 +1,7 @@
 package no.hib.dat101.utsyn;
 
 import no.hib.dat101.modell.Logg;
+import no.hib.dat101.modell.Stigespill;
 import no.hib.dat101.modell.brikke.BrikkeFarge;
 
 public interface StigespillUI {
@@ -28,8 +29,14 @@ public interface StigespillUI {
 	public BrikkeFarge lesInnBrikkeFarge();
 	
 	/**
-	 * Skriver ut info om en spiller i konsollen
+	 * Returnerer info om en spiller i konsollen
 	 * @param spiller
 	 */
-	public void infoOmSpiller(Logg logg);
+	public String infoOmTrekk(Logg logg);
+	
+	/**
+	 * Returnerer hvem som vant
+	 * @return
+	 */
+	public String vinner(Stigespill stigespill); 
 }
