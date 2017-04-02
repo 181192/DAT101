@@ -1,6 +1,10 @@
 package no.hib.dat101.utsyn;
 
+import java.util.List;
+
+import no.hib.dat101.modell.Brett;
 import no.hib.dat101.modell.Logg;
+import no.hib.dat101.modell.Spiller;
 import no.hib.dat101.modell.Stigespill;
 import no.hib.dat101.modell.brikke.BrikkeFarge;
 
@@ -27,16 +31,38 @@ public interface StigespillUI {
 	 * @return BrikkeFarge (Enum)
 	 */
 	public BrikkeFarge lesInnBrikkeFarge();
-	
+
 	/**
 	 * Returnerer info om en spiller i konsollen
+	 * 
 	 * @param spiller
 	 */
 	public String infoOmTrekk(Logg logg);
-	
+
 	/**
-	 * Returnerer hvem som vant
-	 * @return
+	 * Metode for å finne ut hvem som vant
+	 * 
+	 * @return Hvem som vant
 	 */
-	public String vinner(Stigespill stigespill); 
+	public void vinner(Stigespill stigespill);
+
+	/**
+	 * Metode for å velge brettet man skal spille på
+	 * 
+	 * @return brett_id
+	 */
+	public Integer velgBrett();
+
+	/**
+	 * Metode for å skrive ut antall ruter
+	 */
+	public void antallRuter(Brett brett);
+
+	/**
+	 * Metode for å skrive ut antall spillere i spillet
+	 * 
+	 * @param spillere
+	 *            Tabell av spillere
+	 */
+	public void antallSpillere(List<Spiller> spillere);
 }
