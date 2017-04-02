@@ -77,7 +77,7 @@ public class Stigespill {
 
 			i++;
 		}
-		System.out.println("Runde avsluttet etter " + i + " trekk");
+		System.out.println("\tSpill avsluttet etter " + i + " runder");
 	}
 
 	/**
