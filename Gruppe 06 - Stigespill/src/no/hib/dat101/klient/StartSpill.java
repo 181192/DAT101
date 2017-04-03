@@ -7,7 +7,6 @@ import java.util.Scanner;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
 import javax.persistence.RollbackException;
 
 import no.hib.dat101.modell.Brett;
@@ -17,40 +16,28 @@ import no.hib.dat101.modell.Stigespill;
 import no.hib.dat101.modell.brikke.Brikke;
 import no.hib.dat101.modell.brikke.BrikkeFarge;
 import no.hib.dat101.modell.rute.Rute;
-import no.hib.dat101.utsyn.StigespillUI;
 import no.hib.dat101.utsyn.Tekstgrensesnitt;
 
 public class StartSpill {
-	private static Brett brett;
+
 	private static Stigespill stigespill;
-	private static Spiller spiller;
-	private static StigespillUI ui;
-	private static List<Spiller> spillere;
-	private static List<Rute> ruter;
-	private static List<Logg> logger;
 
 	public static void main(String[] args) {
 		Scanner tast = new Scanner(System.in);
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("eclipselink");
 		EntityManager em = entityManagerFactory.createEntityManager();
-		ui = new Tekstgrensesnitt();
-		logger = new ArrayList<Logg>();
-		stigespill = new Stigespill();
-		stigespill.setUi(ui);
+		stigespill = new Stigespill(new Tekstgrensesnitt());
 
-		brett = hentBrett(em, ui.velgBrett());
-		ruter = hentRuter(em, brett);
-		brett.setRuteTab(ruter);
-		ui.antallRuter(brett);
+		stigespill.setBrett(hentBrett(em, stigespill.getUi().velgBrett()));
+		hentRuter(em, stigespill.getBrett());
+		stigespill.getUi().antallRuter(stigespill.getBrett());
+		
 		skrivSpillereFerdig(em, 2);
 		// skrivSpillere(em, ui.lesAntallSpillere());
 
-		stigespill.setSpillere(spillere);
-		ui.antallSpillere(spillere);
-		stigespill.setLogger(logger);
-		stigespill.setBrett(brett);
+		stigespill.getUi().antallSpillere(stigespill.getSpillere());
 		stigespill.start();
-		ui.vinner(stigespill);
+		stigespill.getUi().vinner(stigespill);
 
 		System.out.println("\n\n\n*********************************************************"
 				+ "\nHenter loggen til spillet fra databasen: \n");
@@ -72,21 +59,21 @@ public class StartSpill {
 	 * @param antall
 	 */
 	public static void skrivSpillereFerdig(EntityManager em, Integer antall) {
-		spillere = new ArrayList<Spiller>(antall);
+		stigespill.setSpillere(new ArrayList<Spiller>(antall));
 		Spiller s1 = new Spiller();
 		Spiller s2 = new Spiller();
 
 		s1.setNavn("Arne");
 		s2.setNavn("Peder");
 
-		s1.setBrikke(new Brikke(BrikkeFarge.finnBrikkeFarge(0), brett.getRuteTab().get(1)));
-		s2.setBrikke(new Brikke(BrikkeFarge.finnBrikkeFarge(1), brett.getRuteTab().get(1)));
+		s1.setBrikke(new Brikke(BrikkeFarge.finnBrikkeFarge(0), stigespill.getBrett().getRuteTab().get(1)));
+		s2.setBrikke(new Brikke(BrikkeFarge.finnBrikkeFarge(1), stigespill.getBrett().getRuteTab().get(1)));
 
 		s1.setStigespill_id(stigespill);
 		s2.setStigespill_id(stigespill);
 
-		spillere.add(s1);
-		spillere.add(s2);
+		stigespill.getSpillere().add(s1);
+		stigespill.getSpillere().add(s2);
 
 		try {
 			em.getTransaction().begin();
@@ -106,17 +93,17 @@ public class StartSpill {
 	 *            Antall spillere
 	 */
 	public static void skrivSpillere(EntityManager em, Integer antall) {
-		spillere = new ArrayList<Spiller>(antall);
+		stigespill.setSpillere(new ArrayList<Spiller>(antall));
 		for (int i = 0; i < antall; i++) {
-			spiller = new Spiller();
-			spiller.setNavn(ui.lesInnSpiller());
-			spiller.setBrikke(new Brikke(ui.lesInnBrikkeFarge(), brett.getRuteTab().get(1)));
-			spiller.setStigespill_id(stigespill);
-			spillere.add(spiller);
+			Spiller s = new Spiller();
+			s.setNavn(stigespill.getUi().lesInnSpiller());
+			s.setBrikke(new Brikke(stigespill.getUi().lesInnBrikkeFarge(), stigespill.getBrett().getRuteTab().get(0)));
+			s.setStigespill_id(stigespill);
+			stigespill.getSpillere().add(s);
 
 			try {
 				em.getTransaction().begin();
-				em.persist(spiller);
+				em.persist(s);
 				em.getTransaction().commit();
 			} catch (RollbackException e) {
 				em.getTransaction().rollback();
@@ -146,12 +133,13 @@ public class StartSpill {
 	 * @return Returnerer en liste med alle rutene
 	 */
 	@SuppressWarnings("unchecked")
-	public static List<Rute> hentRuter(EntityManager em, Brett brett_id) {
-		return (List<Rute>) em
-				.createQuery(//
-						"SELECT r FROM Rute r WHERE r.brett_id = :brett")//
-				.setParameter("brett", brett_id)//
-				.getResultList();//
+	public static void hentRuter(EntityManager em, Brett brett_id) {
+		stigespill.getBrett()
+				.setRuteTab((List<Rute>) em
+						.createQuery(//
+								"SELECT r FROM Rute r WHERE r.brett_id = :brett")//
+						.setParameter("brett", brett_id)//
+						.getResultList());//
 	}
 
 	/**
@@ -185,12 +173,12 @@ public class StartSpill {
 	 */
 	@SuppressWarnings("unchecked")
 	public static void hentLogg(EntityManager em, Stigespill stiges) {
-		logger = (List<Logg>) em.createQuery(//
+		stigespill.setLogger((List<Logg>) em.createQuery(//
 				"SELECT DISTINCT l FROM Logg l, Spiller s, Stigespill st WHERE l.spiller = s AND s.stigespill_id = :st ORDER BY l.logg_id")//
 				.setParameter("st", stiges)//
-				.getResultList();//
+				.getResultList());//
 
-		for (Logg l : logger) {
+		for (Logg l : stigespill.getLogger()) {
 			System.out.println(l.toString());
 		}
 	}
@@ -201,10 +189,10 @@ public class StartSpill {
 	 * @param em
 	 */
 	public static void skrivLogg(EntityManager em) {
-		for (int i = 0; i < logger.size(); i++) {
+		for (int i = 0; i < stigespill.getLogger().size(); i++) {
 			try {
 				em.getTransaction().begin();
-				em.persist(logger.get(i));
+				em.persist(stigespill.getLogger().get(i));
 				em.getTransaction().commit();
 			} catch (RollbackException e) {
 				em.getTransaction().rollback();
