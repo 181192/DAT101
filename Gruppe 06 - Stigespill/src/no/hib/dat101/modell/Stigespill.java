@@ -1,5 +1,6 @@
 package no.hib.dat101.modell;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -10,7 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import no.hib.dat101.modell.brikke.Brikke;
 import no.hib.dat101.modell.rute.Rute;
 import no.hib.dat101.utsyn.StigespillUI;
 
@@ -46,7 +46,10 @@ public class Stigespill {
 	 * Tom konstruktør for stigespill
 	 */
 	public Stigespill() {
-		this(null, null, null, null);
+		this(null);
+		brett = new Brett();
+		spillere = new ArrayList<Spiller>();
+		logger = new ArrayList<Logg>();
 		terning = new Terning();
 		antallTrill = 0;
 		spillFerdig = Boolean.FALSE;
@@ -56,15 +59,14 @@ public class Stigespill {
 	 * Konstruktør for stigespill
 	 * 
 	 */
-	public Stigespill(StigespillUI ui, Brett brett, List<Logg> logger, List<Spiller> spillere) {
-		this.spillere = spillere;
-		this.brett = brett;
+	public Stigespill(StigespillUI ui) {
 		this.ui = ui;
-		this.logger = logger;
+		brett = new Brett();
+		spillere = new ArrayList<Spiller>();
+		logger = new ArrayList<Logg>();
 		terning = new Terning();
 		antallTrill = 0;
 		spillFerdig = Boolean.FALSE;
-		// settOppSpill();
 	}
 
 	/**
@@ -78,19 +80,6 @@ public class Stigespill {
 			i++;
 		}
 		System.out.println("\tSpill avsluttet etter " + i + " runder");
-	}
-
-	/**
-	 * Setter opp spillet, oppretter nye spillere, brikker .. etc
-	 */
-	public void settOppSpill() {
-		spillFerdig = Boolean.FALSE;
-		for (int i = 0; i < antallSpillere(); i++) {
-			String navn = ui.lesInnSpiller();
-			Brikke brikke = new Brikke(ui.lesInnBrikkeFarge(), brett.getRuteTab().get(0));
-			Spiller spiller = new Spiller(navn, brikke);
-			spillere.add(spiller);
-		}
 	}
 
 	/**
