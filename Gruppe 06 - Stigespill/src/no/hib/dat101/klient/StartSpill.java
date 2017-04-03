@@ -31,9 +31,9 @@ public class StartSpill {
 		stigespill.setBrett(hentBrett(em, stigespill.getUi().velgBrett()));
 		hentRuter(em, stigespill.getBrett());
 		stigespill.getUi().antallRuter(stigespill.getBrett());
-		
+
 		skrivSpillereFerdig(em, 2);
-		// skrivSpillere(em, ui.lesAntallSpillere());
+		// skrivSpillere(em, stigespill.getUi().lesAntallSpillere());
 
 		stigespill.getUi().antallSpillere(stigespill.getSpillere());
 		stigespill.start();
@@ -65,13 +65,10 @@ public class StartSpill {
 
 		s1.setNavn("Arne");
 		s2.setNavn("Peder");
-
 		s1.setBrikke(new Brikke(BrikkeFarge.finnBrikkeFarge(0), stigespill.getBrett().getRuteTab().get(1)));
 		s2.setBrikke(new Brikke(BrikkeFarge.finnBrikkeFarge(1), stigespill.getBrett().getRuteTab().get(1)));
-
 		s1.setStigespill_id(stigespill);
 		s2.setStigespill_id(stigespill);
-
 		stigespill.getSpillere().add(s1);
 		stigespill.getSpillere().add(s2);
 
