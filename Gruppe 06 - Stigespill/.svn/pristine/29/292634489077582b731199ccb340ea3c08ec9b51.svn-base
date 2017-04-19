@@ -26,26 +26,26 @@ public class StartSpill {
 		Scanner tast = new Scanner(System.in);
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("eclipselink");
 		EntityManager em = entityManagerFactory.createEntityManager();
-//		stigespill = new Stigespill();
-//		stigespill.setUi(new Tekstgrensesnitt());
-//
-//		stigespill.setBrett(hentBrett(em, stigespill.getUi().velgBrett()));
-//		hentRuter(em, stigespill.getBrett());
-//		stigespill.getUi().antallRuter(stigespill.getBrett());
-//
-////		skrivSpillereFerdig(em, 2);
-//		 skrivSpillere(em, stigespill.getUi().lesAntallSpillere());
-//
-//		stigespill.getUi().antallSpillere(stigespill.getSpillere());
-//		stigespill.start();
-//		stigespill.getUi().vinner(stigespill);
-//
-//		System.out.println("\n\n\n*********************************************************"
-//				+ "\nHenter loggen til spillet fra databasen: \n");
-//
-//		skrivStigespill(em);
-//		skrivLogg(em);
-//		hentLogg(em, stigespill);
+		stigespill = new Stigespill();
+		stigespill.setUi(new Tekstgrensesnitt());
+
+		stigespill.setBrett(hentBrett(em, stigespill.getUi().velgBrett()));
+		hentRuter(em, stigespill.getBrett());
+		stigespill.getUi().antallRuter(stigespill.getBrett());
+
+//		skrivSpillereFerdig(em, 2);
+		 skrivSpillere(em, stigespill.getUi().lesAntallSpillere());
+
+		stigespill.getUi().antallSpillere(stigespill.getSpillere());
+		stigespill.start();
+		stigespill.getUi().vinner(stigespill);
+
+		System.out.println("\n\n\n*********************************************************"
+				+ "\nHenter loggen til spillet fra databasen: \n");
+
+		skrivStigespill(em);
+		skrivLogg(em);
+		hentLogg(em, stigespill);
 
 		em.close();
 		entityManagerFactory.close();
