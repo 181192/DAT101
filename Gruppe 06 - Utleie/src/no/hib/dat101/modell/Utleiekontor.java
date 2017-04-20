@@ -1,35 +1,29 @@
 package no.hib.dat101.modell;
 
-import java.util.List;
-
-import javax.persistence.*;
-
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "utleiekontor", schema = "FYLLINNN")
 public class Utleiekontor {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	
+	private Integer kontornummer;
+
 	@Column(name = "telefonnummer")
 	private Integer telefonnummer;
-	
-	@Column(name = "gatenavn")
-	private String gatenavn;
-	
-	@Column(name = "postnummer")
-	private Integer postnummer;
-	
-	@Column(name = "poststed")
-	private String poststed;
-	
+
+	@Column(name = "adresse")
+	private Adresse adresse;
+
 	@ManyToOne
-	@JoinColumn(name = "selskap", referencedColumnName = "selskap")
-	private Selskap selskap;
-	
-	@OneToMany(mappedBy = "kontor")
-    private List<Bil> biler;
-	
-	
+	@JoinColumn(name = "selskap_id", referencedColumnName = "selskap")
+	private Selskap selskap_id;
+
 }

@@ -1,6 +1,14 @@
 package no.hib.dat101.modell;
 
-import javax.persistence.*;
+import java.sql.Date;
+import java.sql.Time;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 
 @Entity
@@ -8,14 +16,14 @@ import javax.persistence.*;
 public class Utleie {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Integer utleie_id;
+	
+	private Time klokke_forventet;
+	private Date dato_forventet;
 	
 	@Column(name = "kredittkort")
 	private Integer kredittkort;
 	
-	@OneToMany
-	@JoinColumn(name = "bil", referencedColumnName = "regnr")
-	private Bil regnr;
-	
+	private Reservasjon reservasjon_id;
 	
 }
