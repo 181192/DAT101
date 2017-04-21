@@ -1,11 +1,14 @@
 package no.hib.dat101.modell;
 
+import javax.persistence.Id;
+
 /**
  * 
  * @author Kristoffer-Andre Kalliainen
  *
  */
-public class Bil {
+public class Bil implements Comparable<Bil> {
+	@Id
 	private Integer reg_nummer;
 	private String merke;
 	private String modell;
@@ -46,6 +49,32 @@ public class Bil {
 		this.er_ferdig = er_ferdig;
 		this.km_stand = km_stand;
 		this.kontornummer = kontornummer;
+	}
+
+	/**
+	 * Sammenligner bilen med denAndreBilen. Sammenligner først reg_nummer,
+	 * deretter merke, deretter modell, og tilslutt farge.
+	 * 
+	 * @param denAndreBilen
+	 *            Den andre bilen som skal sammenlignes med
+	 * @return 0 hvis de er like.
+	 */
+	@Override
+	public int compareTo(Bil denAndreBilen) {
+		Bil b2 = (Bil) denAndreBilen;
+		int resultat = -1;
+		if (this.reg_nummer == b2.reg_nummer) {
+			resultat = this.merke.compareTo(b2.merke);
+			if (resultat == 0) {
+				resultat = this.modell.compareTo(b2.modell);
+				if (resultat == 0) {
+					resultat = this.farge.compareTo(b2.farge);
+				}
+			}
+		} else if (this.reg_nummer > b2.reg_nummer) {
+			resultat = 1;
+		}
+		return resultat;
 	}
 
 	/**

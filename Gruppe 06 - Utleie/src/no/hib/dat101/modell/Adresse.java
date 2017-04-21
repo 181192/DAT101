@@ -3,12 +3,19 @@
  */
 package no.hib.dat101.modell;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  * @author Kristoffer-Andre Kalliainen
  *
  */
-public class Adresse {
+public class Adresse implements Comparable<Adresse> {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer adresse_id;
+	
 	private String gateadresse;
 	private Integer postnummer;
 	private String poststed;
@@ -31,6 +38,24 @@ public class Adresse {
 		this.gateadresse = gateadresse;
 		this.postnummer = postnummer;
 		this.poststed = poststed;
+	}
+
+	@Override
+	public int compareTo(Adresse denAndre) {
+		Adresse a2 = (Adresse) denAndre;
+		int resultat = -1;
+		if (this.adresse_id == a2.adresse_id) {
+			resultat = this.gateadresse.compareTo(a2.gateadresse);
+			if (resultat == 0) {
+				resultat = this.postnummer.compareTo(a2.postnummer);
+				if (resultat == 0) {
+					resultat = this.poststed.compareTo(poststed);
+				}
+			}
+		} else if (this.adresse_id > a2.adresse_id) {
+			resultat = 1;
+		}
+		return resultat;
 	}
 
 	/**
