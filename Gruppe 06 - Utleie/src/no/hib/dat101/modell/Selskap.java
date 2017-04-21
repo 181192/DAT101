@@ -2,12 +2,18 @@ package no.hib.dat101.modell;
 
 import java.util.List;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  * 
  * @author Kristoffer-Andre Kalliainen
  *
  */
 public class Selskap {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer selskap_id;
 	private Adresse firma_adresse;
 	private Integer telefonnummer;

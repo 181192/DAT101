@@ -17,6 +17,7 @@ public class Utleie extends Reservasjon {
 	@Column(name = "kredittkort")
 	private Integer kredittkort;
 
+	@Column(name = "reservasjon")
 	private Reservasjon reservasjon;
 
 	/**

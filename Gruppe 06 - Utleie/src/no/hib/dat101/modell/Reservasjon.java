@@ -3,12 +3,18 @@ package no.hib.dat101.modell;
 import java.sql.Date;
 import java.sql.Time;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  * 
  * @author Kristoffer-Andre Kalliainen
  *
  */
 public class Reservasjon {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer reservasjon_id;
 	private Time klokkeslett_resv;
 	private Date dato_resv;

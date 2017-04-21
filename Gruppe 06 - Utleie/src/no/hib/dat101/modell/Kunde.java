@@ -1,6 +1,9 @@
 package no.hib.dat101.modell;
 
+import javax.persistence.Id;
+
 public class Kunde {
+	@Id
 	private Integer kundenummer;
 	private String fornavn;
 	private String etternavn;

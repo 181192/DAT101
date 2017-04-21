@@ -1,11 +1,14 @@
 package no.hib.dat101.modell;
 
+import javax.persistence.Id;
+
 /**
  * 
  * @author Kristoffer-Andre Kalliainen
  *
  */
 public class Kategori {
+	@Id
 	private Character kategori_id;
 	private Integer dagspris;
 
