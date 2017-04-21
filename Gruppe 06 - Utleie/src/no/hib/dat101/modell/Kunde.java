@@ -36,6 +36,16 @@ public class Kunde {
 	}
 
 	/**
+	 * 
+	 * @return String repersentasjon av klassen Kunde
+	 */
+	@Override
+	public String toString() {
+		return "kundenummer: " + kundenummer + ", fornavn: " + fornavn + ", etternavn: " + etternavn + ", adresse: "
+				+ adresse + ", telefonnummer: " + telefonnummer + ", kredittkort: " + kredittkort;
+	}
+
+	/**
 	 * @return henter kundenummer
 	 */
 	public Integer getKundenummer() {

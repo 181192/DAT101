@@ -1,5 +1,7 @@
 package no.hib.dat101.modell;
 
+import java.util.List;
+
 /**
  * 
  * @author Kristoffer-Andre Kalliainen
@@ -9,13 +11,14 @@ public class Selskap {
 	private Integer selskap_id;
 	private Adresse firma_adresse;
 	private Integer telefonnummer;
+	private List<Utleiekontor> utleiekontorer;
 
 	/**
 	 * Konstruktør
 	 * 
 	 */
 	public Selskap() {
-		this(0, null, null);
+		this(0, null, null, null);
 	}
 
 	/**
@@ -24,12 +27,15 @@ public class Selskap {
 	 * @param selskap_id
 	 * @param firma_adresse
 	 * @param telefonnummer
+	 * @param utleiekontorer
 	 */
-	public Selskap(Integer selskap_id, Adresse firma_adresse, Integer telefonnummer) {
+	public Selskap(Integer selskap_id, Adresse firma_adresse, Integer telefonnummer,
+			List<Utleiekontor> utleiekontorer) {
 		super();
 		this.selskap_id = selskap_id;
 		this.firma_adresse = firma_adresse;
 		this.telefonnummer = telefonnummer;
+		this.utleiekontorer = utleiekontorer;
 	}
 
 	/**
@@ -75,6 +81,21 @@ public class Selskap {
 	 */
 	public void setTelefonnummer(Integer telefonnummer) {
 		this.telefonnummer = telefonnummer;
+	}
+
+	/**
+	 * @return henter utleiekontorer
+	 */
+	public List<Utleiekontor> getUtleiekontorer() {
+		return utleiekontorer;
+	}
+
+	/**
+	 * @param utleiekontorer
+	 *            setter utleiekontorer
+	 */
+	public void setUtleiekontorer(List<Utleiekontor> utleiekontorer) {
+		this.utleiekontorer = utleiekontorer;
 	}
 
 }

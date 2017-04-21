@@ -8,12 +8,12 @@ import java.sql.Time;
  * @author Kristoffer-Andre Kalliainen
  *
  */
-public class Retur {
+public class Retur extends Reservasjon {
 	private Integer retur_id;
 	private Time klokke_retur;
 	private Date dato_retur;
 	private Integer km_stand_retur;
-	private Utleiekontor utleie_id;
+	private Utleie utleie_id;
 
 	/**
 	 * Konstruktør
@@ -32,13 +32,39 @@ public class Retur {
 	 * @param km_stand_retur
 	 * @param utleie_id
 	 */
-	public Retur(Integer retur_id, Time klokke_retur, Date dato_retur, Integer km_stand_retur, Utleiekontor utleie_id) {
+	public Retur(Integer retur_id, Time klokke_retur, Date dato_retur, Integer km_stand_retur, Utleie utleie_id) {
 		super();
 		this.retur_id = retur_id;
 		this.klokke_retur = klokke_retur;
 		this.dato_retur = dato_retur;
 		this.km_stand_retur = km_stand_retur;
 		this.utleie_id = utleie_id;
+	}
+
+	/**
+	 * Oppdaterer kilometer stand på bilen når bilen blir returnert
+	 */
+	public void oppdaterKmBil() {
+		super.getBil().setKm_stand(km_stand_retur);
+	}
+
+	/**
+	 * Faktura
+	 * 
+	 * @return Representasjon av en faktura for Retur
+	 */
+	public String skrivFaktura() {
+		// TODO Hva data skal være med i en faktura? Har tilgang til Reservasjon ved å bruke superklassen
+		return null;
+	}
+
+	/**
+	 * @return String representasjon av Retur
+	 */
+	@Override
+	public String toString() {
+		return "retur_id: " + retur_id + ", klokke_retur: " + klokke_retur + ", dato_retur: " + dato_retur
+				+ ", km_stand_retur: " + km_stand_retur + ", utleie_id: " + utleie_id;
 	}
 
 	/**
@@ -104,7 +130,7 @@ public class Retur {
 	/**
 	 * @return henter utleie_id
 	 */
-	public Utleiekontor getUtleie_id() {
+	public Utleie getUtleie_id() {
 		return utleie_id;
 	}
 
@@ -112,7 +138,7 @@ public class Retur {
 	 * @param utleie_id
 	 *            setter utleie_id
 	 */
-	public void setUtleie_id(Utleiekontor utleie_id) {
+	public void setUtleie_id(Utleie utleie_id) {
 		this.utleie_id = utleie_id;
 	}
 

@@ -34,6 +34,15 @@ public class Adresse {
 	}
 
 	/**
+	 * @return String representasjon av Adresse
+	 */
+	@Override
+	public String toString() {
+		return "adresse_id: " + adresse_id + ", gateadresse: " + gateadresse + ", postnummer: " + postnummer
+				+ ", poststed: " + poststed;
+	}
+
+	/**
 	 * @return henter adresse_id
 	 */
 	public Integer getAdresse_id() {

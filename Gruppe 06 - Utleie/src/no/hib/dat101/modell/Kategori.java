@@ -27,6 +27,16 @@ public class Kategori {
 		this.kategori_id = kategori_id;
 		this.dagspris = dagspris;
 	}
+	
+	
+
+	/**
+	 * @return String representasjon av Kategori
+	 */
+	@Override
+	public String toString() {
+		return "kategori_id: " + kategori_id + ", dagspris: " + dagspris;
+	}
 
 	/**
 	 * @return henter kategori_id

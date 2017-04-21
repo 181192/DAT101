@@ -49,6 +49,16 @@ public class Bil {
 	}
 
 	/**
+	 * @return String representasjon av Bil
+	 */
+	@Override
+	public String toString() {
+		return "reg_nummer: " + reg_nummer + ", merke: " + merke + ", modell: " + modell + ", farge: " + farge
+				+ ", kategori: " + kategori + ", er_ferdig: " + er_ferdig + ", km_stand: " + km_stand
+				+ ", kontornummer: " + kontornummer;
+	}
+
+	/**
 	 * @return henter reg_nummer
 	 */
 	public Integer getReg_nummer() {
