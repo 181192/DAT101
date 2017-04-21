@@ -4,15 +4,16 @@ public class Kunde {
 	private Integer kundenummer;
 	private String fornavn;
 	private String etternavn;
-	private Adresse adresse;
+	private String adresse;
 	private Integer telefonnummer;
+	private Integer kredittkort;
 
 	/**
 	 * Konstruktør
 	 * 
 	 */
 	public Kunde() {
-		this(0, "", "", null, 0);
+		this(0, "", "", "", 0, 0);
 	}
 
 	/**
@@ -23,8 +24,10 @@ public class Kunde {
 	 * @param etternavn
 	 * @param adresse
 	 * @param telefonnummer
+	 * @param kredittkort
 	 */
-	public Kunde(Integer kundenummer, String fornavn, String etternavn, Adresse adresse, Integer telefonnummer) {
+	public Kunde(Integer kundenummer, String fornavn, String etternavn, String adresse, Integer telefonnummer,
+			Integer kredittkort) {
 		this.kundenummer = kundenummer;
 		this.fornavn = fornavn;
 		this.etternavn = etternavn;
@@ -80,7 +83,7 @@ public class Kunde {
 	/**
 	 * @return henter adresse
 	 */
-	public Adresse getAdresse() {
+	public String getAdresse() {
 		return adresse;
 	}
 
@@ -88,7 +91,7 @@ public class Kunde {
 	 * @param adresse
 	 *            setter adresse
 	 */
-	public void setAdresse(Adresse adresse) {
+	public void setAdresse(String adresse) {
 		this.adresse = adresse;
 	}
 
@@ -105,6 +108,21 @@ public class Kunde {
 	 */
 	public void setTelefonnummer(Integer telefonnummer) {
 		this.telefonnummer = telefonnummer;
+	}
+
+	/**
+	 * @return henter kredittkort
+	 */
+	public Integer getKredittkort() {
+		return kredittkort;
+	}
+
+	/**
+	 * @param kredittkort
+	 *            setter kredittkort
+	 */
+	public void setKredittkort(Integer kredittkort) {
+		this.kredittkort = kredittkort;
 	}
 
 }

@@ -6,7 +6,7 @@ package no.hib.dat101.modell;
  *
  */
 public class Kategori {
-	private Integer kategori_id;
+	private Character kategori_id;
 	private Integer dagspris;
 
 	/**
@@ -14,7 +14,7 @@ public class Kategori {
 	 * 
 	 */
 	public Kategori() {
-		this(0, 0);
+		this(null, 0);
 	}
 
 	/**
@@ -23,7 +23,7 @@ public class Kategori {
 	 * @param kategori_id
 	 * @param dagspris
 	 */
-	public Kategori(Integer kategori_id, Integer dagspris) {
+	public Kategori(Character kategori_id, Integer dagspris) {
 		this.kategori_id = kategori_id;
 		this.dagspris = dagspris;
 	}
@@ -31,7 +31,7 @@ public class Kategori {
 	/**
 	 * @return henter kategori_id
 	 */
-	public Integer getKategori_id() {
+	public Character getKategori_id() {
 		return kategori_id;
 	}
 
@@ -39,7 +39,7 @@ public class Kategori {
 	 * @param kategori_id
 	 *            setter kategori_id
 	 */
-	public void setKategori_id(Integer kategori_id) {
+	public void setKategori_id(Character kategori_id) {
 		this.kategori_id = kategori_id;
 	}
 
