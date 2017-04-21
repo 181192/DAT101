@@ -1,5 +1,6 @@
 package no.hib.dat101.modell;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.RollbackException;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "utleiekontor", schema = "FYLLINNN")
@@ -30,7 +32,9 @@ public class Utleiekontor {
 	@JoinColumn(name = "selskap_id", referencedColumnName = "selskap")
 	private Selskap selskap_id;
 
+	@Transient
 	private List<Bil> biler;
+	@Transient
 	private EntityManager em;
 
 	/**
@@ -38,8 +42,8 @@ public class Utleiekontor {
 	 * 
 	 */
 	public Utleiekontor() {
-		super();
-		// TODO Auto-generated constructor stub
+		this(0, 0, null, null);
+		this.biler = new ArrayList<Bil>();
 	}
 
 	/**
@@ -51,25 +55,47 @@ public class Utleiekontor {
 	 * @param selskap_id
 	 * @param biler
 	 */
-	public Utleiekontor(Integer kontornummer, Integer telefonnummer, Adresse adresse, Selskap selskap_id,
-			List<Bil> biler) {
-		super();
+	public Utleiekontor(Integer kontornummer, Integer telefonnummer, Adresse adresse, Selskap selskap_id) {
 		this.kontornummer = kontornummer;
 		this.telefonnummer = telefonnummer;
 		this.adresse = adresse;
 		this.selskap_id = selskap_id;
-		this.biler = biler;
+		this.biler = new ArrayList<Bil>();
 	}
 
+	/**
+	 * Legger til en nybil til utleiekontoret
+	 * 
+	 * @param nybil
+	 */
 	public void leggTilBil(Bil nybil) {
 		biler.add(nybil);
 	}
 
-	public Bil slettBil(Bil bil) {
-		// TODO Iterere gjennom alle bilene i Listen biler og slette bilen
-		return null;
+	/**
+	 * Sletter en bil fra utleiekontoret, dette kan være pga bilen er
+	 * kondemnert.
+	 * 
+	 * @param b2
+	 *            Bil som skal slettes
+	 * @return Bil som er slettet
+	 */
+	public Bil slettBil(Bil b2) {
+		Bil resultat = null;
+		for (Bil b : biler) {
+			if (b.compareTo(b2) == 0) {
+				resultat = b;
+				biler.remove(b);
+			}
+		}
+		return resultat;
 	}
 
+	/**
+	 * Henter biler som ligger i databasen som hører til dette utleiekontoret,
+	 * og setter listen av biler i Utleiekontoret til dette.
+	 * 
+	 */
 	@SuppressWarnings("unchecked")
 	public void hentBilerFraDB() {
 		this.setBiler((List<Bil>) em
@@ -79,6 +105,10 @@ public class Utleiekontor {
 				.getResultList());
 	}
 
+	/**
+	 * Oppdaterer bilene til databasen. Dette vil være når bilene har kommet fra
+	 * et utleiekontor til ett annet.
+	 */
 	public void oppdaterBilerDB() {
 		for (int i = 0; i < biler.size(); i++) {
 			try {
