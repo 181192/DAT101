@@ -6,6 +6,9 @@ package no.hib.dat101.ui;
 import java.sql.Date;
 import java.sql.Time;
 
+import no.hib.dat101.modell.Retur;
+import no.hib.dat101.modell.Utleiekontor;
+
 /**
  * @author Kristoffer-Andre Kalliainen
  *
@@ -127,7 +130,7 @@ public interface SelskapUI {
 	/**
 	 * Viser ledige biler på utleiekontoret
 	 */
-	public void visLedigeBiler();
+	public void visLedigeBiler(Utleiekontor kontor);
 
 	/**
 	 * Viser kategorier bilene er delt opp i
@@ -142,5 +145,5 @@ public interface SelskapUI {
 	/**
 	 * Skriver faktura til kunden
 	 */
-	public void skrivFaktura();
+	public void skrivFaktura(Retur retur);
 }
