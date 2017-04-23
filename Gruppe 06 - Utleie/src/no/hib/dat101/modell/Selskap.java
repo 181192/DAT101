@@ -2,21 +2,30 @@ package no.hib.dat101.modell;
 
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * 
  * @author Kristoffer-Andre Kalliainen
  *
  */
+@Entity
+@Table(name = "selskap", schema = "bilutleie")
 public class Selskap {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer selskap_id;
+	@Column(name = "firma_adresse")
 	private Adresse firma_adresse;
+	@Column(name = "telefonnummer")
 	private Integer telefonnummer;
+	@Transient
 	private List<Utleiekontor> utleiekontorer;
 
 	/**

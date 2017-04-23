@@ -3,22 +3,35 @@ package no.hib.dat101.modell;
 import java.sql.Date;
 import java.sql.Time;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  * 
  * @author Kristoffer-Andre Kalliainen
  *
  */
+@Entity
+@Table(name = "retur", schema = "bilutleie")
 public class Retur extends Reservasjon {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer retur_id;
+	@Column(name = "klokke_retur")
 	private Time klokke_retur;
+	@Column(name = "dato_retur")
 	private Date dato_retur;
+	@Column(name = "km_stand_retur")
 	private Integer km_stand_retur;
+
+	@OneToOne
+	@JoinColumn(name = "utleie_id", referencedColumnName = "utleie_id")
 	private Utleie utleie_id;
 
 	/**
@@ -60,7 +73,8 @@ public class Retur extends Reservasjon {
 	 * @return Representasjon av en faktura for Retur
 	 */
 	public String skrivFaktura() {
-		// TODO Hva data skal være med i en faktura? Har tilgang til Reservasjon ved å bruke superklassen
+		// TODO Hva data skal være med i en faktura? Har tilgang til Reservasjon
+		// ved å bruke superklassen
 		return null;
 	}
 

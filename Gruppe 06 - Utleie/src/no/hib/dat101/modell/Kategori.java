@@ -1,12 +1,16 @@
 package no.hib.dat101.modell;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * 
  * @author Kristoffer-Andre Kalliainen
  *
  */
+@Entity
+@Table(name = "kategori", schema = "bilutleie")
 public class Kategori {
 	@Id
 	private Character kategori_id;
@@ -30,8 +34,6 @@ public class Kategori {
 		this.kategori_id = kategori_id;
 		this.dagspris = dagspris;
 	}
-	
-	
 
 	/**
 	 * @return String representasjon av Kategori

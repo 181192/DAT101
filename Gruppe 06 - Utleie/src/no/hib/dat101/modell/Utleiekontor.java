@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "utleiekontor", schema = "FYLLINNN")
+@Table(name = "utleiekontor", schema = "bilutleie")
 public class Utleiekontor {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

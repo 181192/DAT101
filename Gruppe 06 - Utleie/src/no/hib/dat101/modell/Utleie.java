@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "utleie", schema = "FYLLINNN!!!")
+@Table(name = "utleie", schema = "bilutleie")
 public class Utleie extends Reservasjon {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,7 +41,7 @@ public class Utleie extends Reservasjon {
 		this.kredittkort = kredittkort;
 		this.reservasjon = reservasjon;
 	}
-	
+
 	public void flaggBil(Boolean flagg) {
 		super.getBil().setEr_ferdig(flagg);
 	}

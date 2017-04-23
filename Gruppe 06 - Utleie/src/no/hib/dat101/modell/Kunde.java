@@ -1,14 +1,27 @@
 package no.hib.dat101.modell;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "kunde", schema = "bilutleie")
 public class Kunde {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer kundenummer;
+	@Column(name = "fornavn")
 	private String fornavn;
+	@Column(name = "etternavn")
 	private String etternavn;
+	@Column(name = "adresse")
 	private String adresse;
+	@Column(name = "telefonnummer")
 	private Integer telefonnummer;
+	@Column(name = "kredittkort")
 	private Integer kredittkort;
 
 	/**

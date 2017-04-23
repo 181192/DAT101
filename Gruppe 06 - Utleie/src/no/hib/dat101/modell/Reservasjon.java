@@ -3,28 +3,49 @@ package no.hib.dat101.modell;
 import java.sql.Date;
 import java.sql.Time;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  * 
  * @author Kristoffer-Andre Kalliainen
  *
  */
+@Entity
+@Table(name = "reservasjon", schema = "bilutleie")
 public class Reservasjon {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer reservasjon_id;
+	@Column(name = "klokkeslett_resv")
 	private Time klokkeslett_resv;
+	@Column(name = "dato_resv")
 	private Date dato_resv;
-	private Kunde kundenummer;
-	private Utleiekontor utleiested;
-	private Utleiekontor retursted;
+	@Column(name = "klokke_forventet")
 	private Time klokke_forventet;
+	@Column(name = "dato_forventet")
 	private Date dato_forventet;
-	private Bil bil;
+	@Column(name = "returgebyr")
 	private Integer returgebyr;
+
+	@OneToOne
+	@JoinColumn(name = "kundenummer", referencedColumnName = "kundenummer")
+	private Kunde kundenummer;
+	@OneToOne
+	@JoinColumn(name = "utleiested", referencedColumnName = "kontornummer")
+	private Utleiekontor utleiested;
+	@OneToOne
+	@JoinColumn(name = "returnsted", referencedColumnName = "kontornummer")
+	private Utleiekontor retursted;
+	@OneToOne
+	@JoinColumn(name = "bil", referencedColumnName = "reg_nummer")
+	private Bil bil;
 
 	/**
 	 * Konstruktør
