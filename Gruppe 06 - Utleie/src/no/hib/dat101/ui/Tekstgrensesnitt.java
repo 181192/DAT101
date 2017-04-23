@@ -196,8 +196,10 @@ public class Tekstgrensesnitt implements SelskapUI {
 						"SELECT b FROM Bil b WHERE b.kontornummer = :kontor AND b.er_ledig = true") //
 				.setParameter("kontor", kontor.getKontornummer()) //
 				.getResultList();
+		int i = 0;
 		for (Bil b : biler) {
-			System.out.println(b.toString());
+			System.out.println(i + " : " + b.toString());
+			i++;
 		}
 	}
 
@@ -222,8 +224,9 @@ public class Tekstgrensesnitt implements SelskapUI {
 						"SELECT u FROM Utleiekontor u") //
 				.getResultList();
 
+		int i = 0;
 		for (Utleiekontor u : kontorer) {
-			System.out.println(u.toString());
+			System.out.println(i + " : " + u.toString());
 		}
 	}
 
@@ -237,6 +240,34 @@ public class Tekstgrensesnitt implements SelskapUI {
 	public Boolean bekreft() {
 		// TODO Switch case som du velger enten 0 eller 1 også returnerer en av
 		// de True eller false
+		String meny = "\nT - True\nF - False";
+		Character valg = 0;
+		Boolean resultat = Boolean.FALSE;
+		do {
+			System.out.println(meny);
+			valg = tast.next().toUpperCase().charAt(0);
+
+			switch (valg) {
+			case 'T':
+				resultat = Boolean.TRUE;
+			case 'F':
+				break;
+			default:
+				System.out.println("Ukjent menyvalg");
+			}
+		} while (valg == 'T' || valg == 'F');
+		return resultat;
+	}
+
+	@Override
+	public Bil velgBil() {
+		
+		return null;
+	}
+
+	@Override
+	public Utleiekontor velgUtleiekontor() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
