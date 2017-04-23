@@ -98,14 +98,14 @@ public class Reservasjon {
 	 * Lager reservasjonen
 	 */
 	public void lagReservasjon() {
-
+		// TODO
 	}
 
 	/**
 	 * Henter kundeinformasjon fra kunden
 	 */
 	public void hentKundeInformasjon() {
-
+		// TODO
 	}
 
 	/**
@@ -121,6 +121,15 @@ public class Reservasjon {
 				em.getTransaction().rollback();
 			}
 		}
+	}
+
+	/**
+	 * Setter en bil ledig etter kunden har levert den til returkontor
+	 * 
+	 * @param flagg
+	 */
+	public void flaggBil(Boolean flagg) {
+		getBil().setEr_ferdig(flagg);
 	}
 
 	/**
