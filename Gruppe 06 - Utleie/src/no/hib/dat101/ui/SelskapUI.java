@@ -6,6 +6,7 @@ package no.hib.dat101.ui;
 import java.sql.Date;
 import java.sql.Time;
 
+import no.hib.dat101.modell.Bil;
 import no.hib.dat101.modell.Retur;
 import no.hib.dat101.modell.Utleiekontor;
 
@@ -153,4 +154,20 @@ public interface SelskapUI {
 	 * @return True eller False
 	 */
 	public Boolean bekreft();
+
+	/**
+	 * Velger en bil med et tall som er indeksen i tabellen fra utleiekontoret
+	 * bilene hentes fra
+	 * 
+	 * @return Bilen som kunden velger
+	 */
+	public Bil velgBil();
+
+	/**
+	 * Velger et Utleiekontor som er indeksen i tabellen fra selskapet som
+	 * utleiekontorene hentes fra.
+	 * 
+	 * @return Utleiekontoret som er valgt
+	 */
+	public Utleiekontor velgUtleiekontor();
 }
