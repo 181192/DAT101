@@ -56,6 +56,8 @@ public class Reservasjon {
 	private EntityManager em;
 	@Transient
 	private SelskapUI ui;
+	@Transient
+	private final Integer returVerdi = 500;
 
 	/**
 	 * Konstruktør
@@ -98,20 +100,30 @@ public class Reservasjon {
 	 * Lager reservasjonen
 	 */
 	public void lagReservasjon() {
-		// TODO
+		ui.visUtleieKontorer();
+		setUtleiested(ui.velgUtleiekontor());
+		setRetursted(ui.velgUtleiekontor());
+		beregnReturGebyr();
+		ui.visLedigeBiler(utleiested);
+		setBil(ui.velgBil());
+		hentKundeInformasjon();
+		bekreftReservasjon();
 	}
 
 	/**
 	 * Henter kundeinformasjon fra kunden
 	 */
 	public void hentKundeInformasjon() {
-		// TODO
+		getKundenummer().setAdresse(ui.lesInnAdresse());
+		getKundenummer().setFornavn(ui.lesInnFornavn());
+		getKundenummer().setEtternavn(ui.lesInnEtternavn());
+		getKundenummer().setTelefonnummer(ui.lesInnTelefonnummer());
 	}
 
 	/**
 	 * Bekrefter reservasjonen og laster opp dataene til databasen.
 	 */
-	public void bekreftReservasjon() {
+	private void bekreftReservasjon() {
 		if (ui.bekreft()) {
 			try {
 				em.getTransaction().begin();
@@ -130,6 +142,12 @@ public class Reservasjon {
 	 */
 	public void flaggBil(Boolean flagg) {
 		getBil().setEr_ferdig(flagg);
+	}
+	
+	public void beregnReturGebyr() {
+		if (utleiested.compareTo(retursted) != 0) {
+			returgebyr = returVerdi;
+		}
 	}
 
 	/**
