@@ -4,11 +4,15 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.RollbackException;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import no.hib.dat101.ui.SelskapUI;
 
 /**
  * 
@@ -27,6 +31,10 @@ public class Selskap {
 	private Integer telefonnummer;
 	@Transient
 	private List<Utleiekontor> utleiekontorer;
+	@Transient
+	private EntityManager em;
+	@Transient
+	private SelskapUI ui;
 
 	/**
 	 * Konstruktør
@@ -51,6 +59,41 @@ public class Selskap {
 		this.firma_adresse = firma_adresse;
 		this.telefonnummer = telefonnummer;
 		this.utleiekontorer = utleiekontorer;
+	}
+
+	/**
+	 * Oppretter et utleiekontor
+	 * 
+	 * @return Utleiekontor
+	 */
+	public Utleiekontor opprettUtleiekontor() {
+		Utleiekontor nyttKontor = new Utleiekontor();
+		Adresse adresse = new Adresse();
+
+		nyttKontor.setSelskap_id(this);
+		nyttKontor.setTelefonnummer(ui.lesInnTelefonnummer());
+
+		adresse.setGateadresse(ui.lesInnAdresse());
+		adresse.setPostnummer(ui.lesInnPostnummer());
+		adresse.setPoststed(ui.lesInnPoststed());
+
+		nyttKontor.setAdresse(adresse);
+
+		utleiekontorer.add(nyttKontor);
+		return nyttKontor;
+	}
+
+	/**
+	 * Laster opp selskapet til databasen
+	 */
+	public void lastOppSelskapDB() {
+		try {
+			em.getTransaction().begin();
+			em.persist(this);
+			em.getTransaction().commit();
+		} catch (RollbackException e) {
+			em.getTransaction().rollback();
+		}
 	}
 
 	/**
