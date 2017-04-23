@@ -72,10 +72,20 @@ public class Retur extends Reservasjon {
 	 * 
 	 * @return Representasjon av en faktura for Retur
 	 */
-	public String skrivFaktura() {
+	public String lagFaktura() {
 		// TODO Hva data skal være med i en faktura? Har tilgang til Reservasjon
 		// ved å bruke superklassen
 		return null;
+	}
+
+	/**
+	 * Hvis utleiekontoret er forskjellig fra returkontoret, oppdatert bilen med
+	 * retur uteleiekontoret
+	 */
+	public void oppdaterUtleiekontor() {
+		if (super.getUtleiested().compareTo(super.getRetursted()) != 0) {
+			// TODO Oppdater bilen med retur utleiekontoret
+		}
 	}
 
 	/**
