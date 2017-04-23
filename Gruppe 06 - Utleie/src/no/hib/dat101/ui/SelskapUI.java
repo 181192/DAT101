@@ -3,6 +3,9 @@
  */
 package no.hib.dat101.ui;
 
+import java.sql.Date;
+import java.sql.Time;
+
 /**
  * @author Kristoffer-Andre Kalliainen
  *
@@ -20,7 +23,7 @@ public interface SelskapUI {
 	 * 
 	 * @return
 	 */
-	public String lesInnPostnummer();
+	public Integer lesInnPostnummer();
 
 	/**
 	 * Leser inn poststedet til Adressen
@@ -62,7 +65,7 @@ public interface SelskapUI {
 	 * 
 	 * @return
 	 */
-	public String lesInnKm_stand();
+	public Integer lesInnKm_stand();
 
 	/**
 	 * Leser inn fornavnet til kunden
@@ -91,28 +94,28 @@ public interface SelskapUI {
 	 * 
 	 * @return
 	 */
-	public String lesInnTelefonnummer();
+	public Integer lesInnTelefonnummer();
 
 	/**
 	 * Leser inn kredittkortet til kunden
 	 * 
 	 * @return
 	 */
-	public String lesInnKredittkort();
+	public Integer lesInnKredittkort();
 
 	/**
 	 * Leser inn klokkeslett
 	 * 
 	 * @return
 	 */
-	public String lesInnKlokkeslett();
+	public Time lesInnKlokkeslett();
 
 	/**
 	 * Leser inn dato
 	 * 
 	 * @return
 	 */
-	public String lesInnDato();
+	public Date lesInnDato();
 
 	/**
 	 * Viser ledige biler på utleiekontoret
