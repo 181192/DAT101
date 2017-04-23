@@ -145,14 +145,47 @@ public class Tekstgrensesnitt implements SelskapUI {
 
 	@Override
 	public Time lesInnKlokkeslett() {
-		System.out.print("Oppgi klokkeslett på formatet hh:mm:ss : ");
-		return Time.valueOf(tast.nextLine());
+		Time tid = null;
+		System.out.print("Oppgi klokkeslett på formatet hh:mm : ");
+		String strTime = tast.nextLine();
+		if (strTime.charAt(2) == ':') {
+			try {
+				String numString = "" + strTime.charAt(0) + strTime.charAt(1) + strTime.charAt(3) + strTime.charAt(4);
+				Integer.parseInt(numString); // Selve testen
+
+				tid = Time.valueOf(strTime + ":00");
+			} catch (NumberFormatException e) {
+				System.out.println("Feil i syntax, prøv igjen");
+				lesInnKlokkeslett();
+			}
+		} else {
+			System.out.println("Feil i syntax, prøv igjen");
+			lesInnKlokkeslett();
+		}
+		return tid;
 	}
 
 	@Override
 	public Date lesInnDato() {
+		Date dato = null;
 		System.out.print("Oppgi dato på formatet yyyy-MM-dd : ");
-		return Date.valueOf(tast.nextLine());
+		String strDato = tast.nextLine();
+		if (strDato.charAt(4) == '-' && strDato.charAt(7) == ':') {
+			try {
+				String dateString = strDato.substring(0, 4) + strDato.substring(5, 7) + strDato.substring(8);
+				Integer.parseInt(dateString);
+
+				dato = Date.valueOf(strDato);
+			} catch (NumberFormatException e) {
+				System.out.println("Feil i syntax, prøv igjen");
+				lesInnDato();
+			}
+		} else {
+			System.out.println("Feil i syntax, prøv igjen");
+			lesInnDato();
+		}
+
+		return dato;
 	}
 
 	@Override
