@@ -5,12 +5,14 @@ package no.hib.dat101.ui;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.persistence.EntityManager;
 
 import no.hib.dat101.modell.Bil;
+import no.hib.dat101.modell.Kategori;
+import no.hib.dat101.modell.Retur;
 import no.hib.dat101.modell.Utleiekontor;
 
 /**
@@ -70,6 +72,12 @@ public class Tekstgrensesnitt implements SelskapUI {
 	}
 
 	@Override
+	public Character lesInnKategori() {
+		System.out.print("Oppgi kategori: ");
+		return tast.next().toUpperCase().charAt(0);
+	}
+
+	@Override
 	public String lesInnFornavn() {
 		System.out.print("Oppgi fornavn: ");
 		return tast.nextLine();
@@ -111,12 +119,12 @@ public class Tekstgrensesnitt implements SelskapUI {
 		return Date.valueOf(tast.nextLine());
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
+	@SuppressWarnings("unchecked")
 	public void visLedigeBiler(Utleiekontor kontor) {
-		ArrayList<Bil> biler = (ArrayList<Bil>) em
+		List<Bil> biler = (List<Bil>) em
 				.createQuery(//
-						"SELECT b FROM Bil b WHERE b.kontornummer = :kontor") //
+						"SELECT b FROM Bil b WHERE b.kontornummer = :kontor AND b.er_ledig = true") //
 				.setParameter("kontor", kontor.getKontornummer()) //
 				.getResultList();
 		for (Bil b : biler) {
@@ -125,19 +133,33 @@ public class Tekstgrensesnitt implements SelskapUI {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void visKategorier() {
-		// TODO Auto-generated method stub
+		List<Kategori> kategorier = (List<Kategori>) em
+				.createQuery(//
+						"SELECT k FROM Kategori k") //
+				.getResultList();
 
+		for (Kategori k : kategorier) {
+			System.out.println(k.toString());
+		}
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void visUtleieKontorer() {
-		// TODO Auto-generated method stub
+		List<Utleiekontor> kontorer = (List<Utleiekontor>) em
+				.createQuery(//
+						"SELECT u FROM Utleiekontor u") //
+				.getResultList();
 
+		for (Utleiekontor u : kontorer) {
+			System.out.println(u.toString());
+		}
 	}
 
 	@Override
-	public void skrivFaktura() {
+	public void skrivFaktura(Retur retur) {
 		// TODO Auto-generated method stub
 
 	}
