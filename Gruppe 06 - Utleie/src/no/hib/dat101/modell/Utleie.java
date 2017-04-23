@@ -42,10 +42,6 @@ public class Utleie extends Reservasjon {
 		this.reservasjon = reservasjon;
 	}
 
-	public void flaggBil(Boolean flagg) {
-		super.getBil().setEr_ferdig(flagg);
-	}
-
 	/**
 	 * @return String represenasjon av Utleie
 	 */
