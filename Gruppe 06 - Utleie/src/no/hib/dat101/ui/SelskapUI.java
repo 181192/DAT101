@@ -146,4 +146,11 @@ public interface SelskapUI {
 	 * Skriver faktura til kunden
 	 */
 	public void skrivFaktura(Retur retur);
+
+	/**
+	 * Bekrefter med enten True eller False med 0 eller 1 som input
+	 * 
+	 * @return True eller False
+	 */
+	public Boolean bekreft();
 }
