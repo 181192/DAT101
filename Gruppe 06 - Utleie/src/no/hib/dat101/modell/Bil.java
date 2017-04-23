@@ -43,7 +43,7 @@ public class Bil implements Comparable<Bil> {
 	 *
 	 */
 	public Bil() {
-		this("", "", "", "", null, null, 0, null);
+		this("", "", "", "", null, Boolean.TRUE, 0, null);
 	}
 
 	/**
