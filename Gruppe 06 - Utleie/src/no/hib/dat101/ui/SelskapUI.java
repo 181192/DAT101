@@ -7,6 +7,130 @@ package no.hib.dat101.ui;
  * @author Kristoffer-Andre Kalliainen
  *
  */
-public class SelskapUI {
+public interface SelskapUI {
+	/**
+	 * Leser inn gateadressen til Adressen
+	 * 
+	 * @return
+	 */
+	public String lesInnGateadresse();
 
+	/**
+	 * Leser inn postnummeret til Adressen
+	 * 
+	 * @return
+	 */
+	public String lesInnPostnummer();
+
+	/**
+	 * Leser inn poststedet til Adressen
+	 * 
+	 * @return
+	 */
+	public String lesInnPoststed();
+
+	/**
+	 * Leser inn registreringsnummeret til bilen
+	 * 
+	 * @return
+	 */
+	public String lesInnReg_nummer();
+
+	/**
+	 * Leser inn merke til bilen
+	 * 
+	 * @return
+	 */
+	public String lesInnMerke();
+
+	/**
+	 * Leser inn modellen til bilen
+	 * 
+	 * @return
+	 */
+	public String lesInnModell();
+
+	/**
+	 * Leser inn fargen til bilen
+	 * 
+	 * @return
+	 */
+	public String lesInnFarge();
+
+	/**
+	 * Leser inn km-standen til bilen
+	 * 
+	 * @return
+	 */
+	public String lesInnKm_stand();
+
+	/**
+	 * Leser inn fornavnet til kunden
+	 * 
+	 * @return
+	 */
+	public String lesInnFornavn();
+
+	/**
+	 * Leser inn etternavnet til kunden
+	 * 
+	 * @return
+	 */
+	public String lesInnEtternavn();
+
+	/**
+	 * Leser inn adressen til kunden, oppgi både gateadresse, postnummer, og
+	 * poststed. Skill med komma mellom hver type.
+	 * 
+	 * @return
+	 */
+	public String lesInnAdresse();
+
+	/**
+	 * Leser inn telefonnummeret til kunden
+	 * 
+	 * @return
+	 */
+	public String lesInnTelefonnummer();
+
+	/**
+	 * Leser inn kredittkortet til kunden
+	 * 
+	 * @return
+	 */
+	public String lesInnKredittkort();
+
+	/**
+	 * Leser inn klokkeslett
+	 * 
+	 * @return
+	 */
+	public String lesInnKlokkeslett();
+
+	/**
+	 * Leser inn dato
+	 * 
+	 * @return
+	 */
+	public String lesInnDato();
+
+	/**
+	 * Viser ledige biler på utleiekontoret
+	 */
+	public void visLedigeBiler();
+
+	/**
+	 * Viser kategorier bilene er delt opp i
+	 */
+	public void visKategorier();
+
+	/**
+	 * Viser utleiekontorene
+	 */
+	public void visUtleieKontorer();
+
+	/**
+	 * Skriver faktura til kunden
+	 */
+	public void skrivFaktura();
 }
