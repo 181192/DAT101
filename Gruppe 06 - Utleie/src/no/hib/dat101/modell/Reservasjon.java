@@ -5,12 +5,17 @@ import java.sql.Time;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.RollbackException;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import no.hib.dat101.ui.SelskapUI;
 
 /**
  * 
@@ -47,6 +52,11 @@ public class Reservasjon {
 	@JoinColumn(name = "bil", referencedColumnName = "reg_nummer")
 	private Bil bil;
 
+	@Transient
+	private EntityManager em;
+	@Transient
+	private SelskapUI ui;
+
 	/**
 	 * Konstruktør
 	 * 
@@ -82,6 +92,35 @@ public class Reservasjon {
 		this.dato_forventet = dato_forventet;
 		this.bil = bil;
 		this.returgebyr = returgebyr;
+	}
+
+	/**
+	 * Lager reservasjonen
+	 */
+	public void lagReservasjon() {
+
+	}
+
+	/**
+	 * Henter kundeinformasjon fra kunden
+	 */
+	public void hentKundeInformasjon() {
+
+	}
+
+	/**
+	 * Bekrefter reservasjonen og laster opp dataene til databasen.
+	 */
+	public void bekreftReservasjon() {
+		if (ui.bekreft()) {
+			try {
+				em.getTransaction().begin();
+				em.persist(this);
+				em.getTransaction().commit();
+			} catch (RollbackException e) {
+				em.getTransaction().rollback();
+			}
+		}
 	}
 
 	/**
