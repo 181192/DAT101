@@ -17,7 +17,7 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name = "utleiekontor", schema = "bilutleie")
-public class Utleiekontor {
+public class Utleiekontor implements Comparable<Utleiekontor> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer kontornummer;
@@ -53,7 +53,6 @@ public class Utleiekontor {
 	 * @param telefonnummer
 	 * @param adresse
 	 * @param selskap_id
-	 * @param biler
 	 */
 	public Utleiekontor(Integer kontornummer, Integer telefonnummer, Adresse adresse, Selskap selskap_id) {
 		this.kontornummer = kontornummer;
@@ -119,6 +118,21 @@ public class Utleiekontor {
 				em.getTransaction().rollback();
 			}
 		}
+	}
+
+	@Override
+	public int compareTo(Utleiekontor detAndreKontoret) {
+		Utleiekontor u2 = (Utleiekontor) detAndreKontoret;
+		int resultat = -1;
+		if (this.adresse.compareTo(u2.adresse) == 0) {
+			resultat = this.telefonnummer.compareTo(u2.telefonnummer);
+			if (resultat == 0) {
+				resultat = this.selskap_id.compareTo(u2.selskap_id);
+			}
+		} else if (this.adresse.compareTo(u2.adresse) > 1) {
+			resultat = 1;
+		}
+		return resultat;
 	}
 
 	/**
@@ -203,6 +217,6 @@ public class Utleiekontor {
 	 */
 	public void setBiler(List<Bil> biler) {
 		this.biler = biler;
-	}
 
+	}
 }
