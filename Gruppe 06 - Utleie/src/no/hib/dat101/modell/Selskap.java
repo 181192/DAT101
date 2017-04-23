@@ -21,7 +21,7 @@ import no.hib.dat101.ui.SelskapUI;
  */
 @Entity
 @Table(name = "selskap", schema = "bilutleie")
-public class Selskap {
+public class Selskap implements Comparable<Selskap> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer selskap_id;
@@ -84,6 +84,14 @@ public class Selskap {
 	}
 
 	/**
+	 * Sletter ett utleiekontor
+	 */
+	public Utleiekontor slettUtleiekontor(Utleiekontor utk) {
+		// TODO
+		return null;
+	}
+
+	/**
 	 * Laster opp selskapet til databasen
 	 */
 	public void lastOppSelskapDB() {
@@ -94,6 +102,18 @@ public class Selskap {
 		} catch (RollbackException e) {
 			em.getTransaction().rollback();
 		}
+	}
+
+	@Override
+	public int compareTo(Selskap detAndreSelskapet) {
+		Selskap s2 = (Selskap) detAndreSelskapet;
+		int resultat = -1;
+		if (this.telefonnummer.compareTo(s2.telefonnummer) == 0) {
+			resultat = this.firma_adresse.compareTo(s2.firma_adresse);
+		} else if (this.telefonnummer.compareTo(s2.telefonnummer) > 1) {
+			resultat = 1;
+		}
+		return resultat;
 	}
 
 	/**
