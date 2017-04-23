@@ -32,49 +32,63 @@ public class Tekstgrensesnitt implements SelskapUI {
 	@Override
 	public Integer lesInnPostnummer() {
 		System.out.print("Oppgi postnummer: ");
-		return tast.nextInt();
+		Integer postnummer = null;
+		try {
+			postnummer = Integer.parseInt(tast.nextLine());
+		} catch (NumberFormatException e) {
+			System.out.println("Oppgi tall som postnummer!");
+			lesInnPostnummer();
+		}
+		return postnummer;
 	}
 
 	@Override
 	public String lesInnPoststed() {
 		System.out.print("Oppgi poststed: ");
-		return tast.next();
+		return tast.nextLine();
 	}
 
 	@Override
 	public String lesInnReg_nummer() {
 		System.out.print("Oppgi registrerings nummer: ");
-		return tast.next();
+		return tast.nextLine();
 	}
 
 	@Override
 	public String lesInnMerke() {
 		System.out.print("Oppgi merke: ");
-		return tast.next();
+		return tast.nextLine();
 	}
 
 	@Override
 	public String lesInnModell() {
 		System.out.print("Oppgi modell: ");
-		return tast.next();
+		return tast.nextLine();
 	}
 
 	@Override
 	public String lesInnFarge() {
 		System.out.print("Oppgi farge: ");
-		return tast.next();
+		return tast.nextLine();
 	}
 
 	@Override
 	public Integer lesInnKm_stand() {
 		System.out.print("Oppgi km stand: ");
-		return tast.nextInt();
+		Integer kmstand = null;
+		try {
+			kmstand = Integer.parseInt(tast.nextLine());
+		} catch (NumberFormatException e) {
+			System.out.println("Oppgi tall som kilometerstand!");
+			lesInnKm_stand();
+		}
+		return kmstand;
 	}
 
 	@Override
 	public Character lesInnKategori() {
 		System.out.print("Oppgi kategori: ");
-		return tast.next().toUpperCase().charAt(0);
+		return tast.nextLine().toUpperCase().charAt(0);
 	}
 
 	@Override
@@ -98,13 +112,35 @@ public class Tekstgrensesnitt implements SelskapUI {
 	@Override
 	public Integer lesInnTelefonnummer() {
 		System.out.print("Oppgi telefonnummer: ");
-		return tast.nextInt();
+		Integer telefonnummer = null;
+		try {
+			telefonnummer = Integer.parseInt(tast.nextLine());
+			if (telefonnummer.toString().length() != 8) {
+				System.out.println("Telefonnummer må være 8 siffer langt!");
+				lesInnTelefonnummer();
+			}
+		} catch (NumberFormatException e) {
+			System.out.println("Oppgi tall som kilometerstand!");
+			lesInnKm_stand();
+		}
+		return telefonnummer;
 	}
 
 	@Override
 	public Integer lesInnKredittkort() {
 		System.out.print("Oppgi kredittkort: ");
-		return tast.nextInt();
+		Integer kredittkort = null;
+		try {
+			kredittkort = Integer.parseInt(tast.nextLine());
+			if (kredittkort.toString().length() != 16) {
+				System.out.println("Kredittkort må bestå av 16 siffer!");
+				lesInnKredittkort();
+			}
+		} catch (NumberFormatException e) {
+			System.out.println("Oppgi siffer som kredittkort!");
+			lesInnKredittkort();
+		}
+		return kredittkort;
 	}
 
 	@Override
@@ -162,6 +198,13 @@ public class Tekstgrensesnitt implements SelskapUI {
 	public void skrivFaktura(Retur retur) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public Boolean bekreft() {
+		// TODO Switch case som du velger enten 0 eller 1 også returnerer en av
+		// de True eller false
+		return null;
 	}
 
 }
