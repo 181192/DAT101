@@ -61,6 +61,13 @@ public interface SelskapUI {
 	public String lesInnFarge();
 
 	/**
+	 * Leser inn kategorien til bilen
+	 * 
+	 * @return
+	 */
+	public Character lesInnKategori();
+
+	/**
 	 * Leser inn km-standen til bilen
 	 * 
 	 * @return
