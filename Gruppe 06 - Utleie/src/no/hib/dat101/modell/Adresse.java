@@ -3,21 +3,28 @@
  */
 package no.hib.dat101.modell;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * @author Kristoffer-Andre Kalliainen
  *
  */
+@Entity
+@Table(name = "adresse", schema = "bilutleie")
 public class Adresse implements Comparable<Adresse> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer adresse_id;
-	
+	@Column(name = "gateadresse")
 	private String gateadresse;
+	@Column(name = "postnummer")
 	private Integer postnummer;
+	@Column(name = "poststed")
 	private String poststed;
 
 	/**

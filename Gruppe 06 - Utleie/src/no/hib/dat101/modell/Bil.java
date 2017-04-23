@@ -1,21 +1,40 @@
 package no.hib.dat101.modell;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  * 
  * @author Kristoffer-Andre Kalliainen
  *
  */
+@Entity
+@Table(name = "bil", schema = "bilutleie")
 public class Bil implements Comparable<Bil> {
 	@Id
-	private Integer reg_nummer;
+	private String reg_nummer;
+	@Column(name = "merke")
 	private String merke;
+	@Column(name = "modell")
 	private String modell;
+	@Column(name = "farge")
 	private String farge;
-	private Kategori kategori;
+	@Column(name = "er_ferdig")
 	private Boolean er_ferdig;
+	@Column(name = "km_stand")
 	private Integer km_stand;
+
+	@OneToOne
+	@JoinColumn(name = "kategori", referencedColumnName = "kategori_id")
+	private Kategori kategori;
+
+	@ManyToOne
+	@JoinColumn(name = "kontornummer", referencedColumnName = "kontornummer")
 	private Utleiekontor kontornummer;
 
 	/**
@@ -24,7 +43,7 @@ public class Bil implements Comparable<Bil> {
 	 *
 	 */
 	public Bil() {
-		this(0, "", "", "", null, null, 0, null);
+		this("", "", "", "", null, null, 0, null);
 	}
 
 	/**
@@ -39,7 +58,7 @@ public class Bil implements Comparable<Bil> {
 	 * @param km_stand
 	 * @param kontornummer
 	 */
-	public Bil(Integer reg_nummer, String merke, String modell, String farge, Kategori kategori, Boolean er_ferdig,
+	public Bil(String reg_nummer, String merke, String modell, String farge, Kategori kategori, Boolean er_ferdig,
 			Integer km_stand, Utleiekontor kontornummer) {
 		this.reg_nummer = reg_nummer;
 		this.merke = merke;
@@ -63,7 +82,7 @@ public class Bil implements Comparable<Bil> {
 	public int compareTo(Bil denAndreBilen) {
 		Bil b2 = (Bil) denAndreBilen;
 		int resultat = -1;
-		if (this.reg_nummer == b2.reg_nummer) {
+		if (this.reg_nummer.compareTo(b2.reg_nummer) == 0) {
 			resultat = this.merke.compareTo(b2.merke);
 			if (resultat == 0) {
 				resultat = this.modell.compareTo(b2.modell);
@@ -71,7 +90,7 @@ public class Bil implements Comparable<Bil> {
 					resultat = this.farge.compareTo(b2.farge);
 				}
 			}
-		} else if (this.reg_nummer > b2.reg_nummer) {
+		} else if (this.reg_nummer.compareTo(b2.reg_nummer) > 1) {
 			resultat = 1;
 		}
 		return resultat;
@@ -90,7 +109,7 @@ public class Bil implements Comparable<Bil> {
 	/**
 	 * @return henter reg_nummer
 	 */
-	public Integer getReg_nummer() {
+	public String getReg_nummer() {
 		return reg_nummer;
 	}
 
@@ -98,7 +117,7 @@ public class Bil implements Comparable<Bil> {
 	 * @param reg_nummer
 	 *            setter reg_nummer
 	 */
-	public void setReg_nummer(Integer reg_nummer) {
+	public void setReg_nummer(String reg_nummer) {
 		this.reg_nummer = reg_nummer;
 	}
 
