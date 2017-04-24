@@ -56,8 +56,6 @@ public class Reservasjon {
 	private EntityManager em;
 	@Transient
 	private SelskapUI ui;
-	@Transient
-	private final Integer returVerdi = 500;
 
 	/**
 	 * Konstruktør
@@ -103,7 +101,6 @@ public class Reservasjon {
 		ui.visUtleieKontorer();
 		setUtleiested(ui.velgUtleiekontor());
 		setRetursted(ui.velgUtleiekontor());
-		beregnReturGebyr();
 		ui.visLedigeBiler(utleiested);
 		setBil(ui.velgBil());
 		hentKundeInformasjon();
@@ -142,12 +139,6 @@ public class Reservasjon {
 	 */
 	public void flaggBil(Boolean flagg) {
 		getBil().setEr_ferdig(flagg);
-	}
-	
-	public void beregnReturGebyr() {
-		if (utleiested.compareTo(retursted) != 0) {
-			returgebyr = returVerdi;
-		}
 	}
 
 	/**
