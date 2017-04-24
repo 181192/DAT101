@@ -17,6 +17,7 @@ public class KlientReservasjon {
 	private static Reservasjon rs;
 	private static Utleie u;
 	private static Retur r;
+	private static int valg;
 
 	public static void main(String[] args) {
 		Scanner tast = new Scanner(System.in);
@@ -25,28 +26,31 @@ public class KlientReservasjon {
 		ui = new Tekstgrensesnitt();
 		rs = new Reservasjon();
 
-		String meny = "";
-		int valg = 0;
+		String meny = "\n1 - Opprett reservasjon\n2 - Lever inn bil\n3 - Avslutt\nValg : ";
 		do {
-			System.out.println(meny);
+			System.out.print(meny);
 			valg = tast.nextInt();
 
 			switch (valg) {
-			case '1':
+			case 1:
 				// Opprett reservasjon
-				r.lagReservasjon();
-				if (r.bekreftReservasjon()) {
+				rs.lagReservasjon();
+				if (rs.bekreftReservasjon()) {
 					u = new Utleie();
 					u.setReservasjon(rs);
 					u.setKredittkort(ui.lesInnKredittkort());
 					u.getBil().setEr_ledig(Boolean.FALSE);
 				}
-			case '2':
+			case 2:
 				// Returner bil
-				r = new Retur();
-				r.info();
+				if (rs.bekreftReservasjon()) {
+					r = new Retur();
+					r.info();
+				} else {
+					System.out.println("Du må opprette en reservasjon for å kunne levere en bil!");
+				}
 				break;
-			case '3':
+			case 3:
 				// Avslutt
 				break;
 			default:

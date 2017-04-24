@@ -8,6 +8,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 
 import no.hib.dat101.modell.Bil;
+import no.hib.dat101.modell.Selskap;
 import no.hib.dat101.modell.Utleiekontor;
 
 /**
@@ -131,17 +132,17 @@ public interface SelskapUI {
 	/**
 	 * Viser ledige biler på utleiekontoret
 	 */
-	public void visLedigeBiler(Utleiekontor kontor);
+	public void visLedigeBilerDB(Utleiekontor kontor);
 
 	/**
 	 * Viser kategorier bilene er delt opp i
 	 */
-	public void visKategorier();
+	public void visKategorierDB();
 
 	/**
 	 * Viser utleiekontorene
 	 */
-	public void visUtleieKontorer();
+	public void visUtleieKontorerDB();
 
 	/**
 	 * Skriver faktura til kunden
@@ -161,7 +162,7 @@ public interface SelskapUI {
 	 * 
 	 * @return Bilen som kunden velger
 	 */
-	public Bil velgBil();
+	public Bil velgBil(Utleiekontor u);
 
 	/**
 	 * Velger et Utleiekontor som er indeksen i tabellen fra selskapet som
@@ -169,5 +170,5 @@ public interface SelskapUI {
 	 * 
 	 * @return Utleiekontoret som er valgt
 	 */
-	public Utleiekontor velgUtleiekontor();
+	public Utleiekontor velgUtleiekontor(Selskap s);
 }

@@ -98,11 +98,9 @@ public class Reservasjon {
 	 * Lager reservasjonen
 	 */
 	public void lagReservasjon() {
-		ui.visUtleieKontorer();
-		setUtleiested(ui.velgUtleiekontor());
-		setRetursted(ui.velgUtleiekontor());
-		ui.visLedigeBiler(utleiested);
-		setBil(ui.velgBil());
+		setUtleiested(ui.velgUtleiekontor(getUtleiested().getSelskap_id()));
+		setRetursted(ui.velgUtleiekontor(getRetursted().getSelskap_id()));
+		setBil(ui.velgBil(getUtleiested()));
 		hentKundeInformasjon();
 	}
 

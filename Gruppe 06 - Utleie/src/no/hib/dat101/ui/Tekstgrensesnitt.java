@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 
 import no.hib.dat101.modell.Bil;
 import no.hib.dat101.modell.Kategori;
+import no.hib.dat101.modell.Selskap;
 import no.hib.dat101.modell.Utleiekontor;
 
 /**
@@ -190,7 +191,7 @@ public class Tekstgrensesnitt implements SelskapUI {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public void visLedigeBiler(Utleiekontor kontor) {
+	public void visLedigeBilerDB(Utleiekontor kontor) {
 		List<Bil> biler = (List<Bil>) em
 				.createQuery(//
 						"SELECT b FROM Bil b WHERE b.kontornummer = :kontor AND b.er_ledig = true") //
@@ -205,7 +206,7 @@ public class Tekstgrensesnitt implements SelskapUI {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public void visKategorier() {
+	public void visKategorierDB() {
 		List<Kategori> kategorier = (List<Kategori>) em
 				.createQuery(//
 						"SELECT k FROM Kategori k") //
@@ -218,7 +219,7 @@ public class Tekstgrensesnitt implements SelskapUI {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public void visUtleieKontorer() {
+	public void visUtleieKontorerDB() {
 		List<Utleiekontor> kontorer = (List<Utleiekontor>) em
 				.createQuery(//
 						"SELECT u FROM Utleiekontor u") //
@@ -239,8 +240,6 @@ public class Tekstgrensesnitt implements SelskapUI {
 
 	@Override
 	public Boolean bekreft() {
-		// TODO Switch case som du velger enten 0 eller 1 også returnerer en av
-		// de True eller false
 		String meny = "\nVennligst bekreft reservasjonen: \nY - Bekreft\nN - Avbryt";
 		Character valg = 0;
 		Boolean resultat = Boolean.FALSE;
@@ -261,15 +260,59 @@ public class Tekstgrensesnitt implements SelskapUI {
 	}
 
 	@Override
-	public Bil velgBil() {
-
-		return null;
+	public Bil velgBil(Utleiekontor u) {
+		ArrayList<Bil> bil = new ArrayList<Bil>();
+		Bil resultat = null;
+		int i = 0;
+		System.out.println("Velg bil fra listen: (Skriv inn tall)");
+		for (Bil liste : u.getBiler()) {
+			bil.add(liste);
+			System.out.println(i + " : " + liste.toString());
+			i++;
+		}
+		boolean sjekk = false;
+		do {
+			try {
+				Integer valg = Integer.parseInt(tast.nextLine());
+				if (valg < bil.size()) {
+					sjekk = true;
+					resultat = bil.get(valg);
+				} else {
+					System.out.println("Velg en gyldig index");
+				}
+			} catch (NumberFormatException e) {
+				System.out.println("Feil i sytax, prøv igjen");
+			}
+		} while (!sjekk);
+		return resultat;
 	}
 
 	@Override
-	public Utleiekontor velgUtleiekontor() {
-		// TODO Auto-generated method stub
-		return null;
+	public Utleiekontor velgUtleiekontor(Selskap s) {
+		ArrayList<Utleiekontor> kontor = new ArrayList<Utleiekontor>();
+		Utleiekontor resultat = null;
+		int i = 0;
+		System.out.println("Velg utleiekontor fra listen: (Skriv inn tall)");
+		for (Utleiekontor liste : s.getUtleiekontorer()) {
+			kontor.add(liste);
+			System.out.println(i + " : " + liste.toString());
+			i++;
+		}
+		boolean sjekk = false;
+		do {
+			try {
+				Integer valg = Integer.parseInt(tast.nextLine());
+				if (valg < kontor.size()) {
+					sjekk = true;
+					resultat = kontor.get(valg);
+				} else {
+					System.out.println("Velg en gyldig index");
+				}
+			} catch (NumberFormatException e) {
+				System.out.println("Feil i sytax, prøv igjen");
+			}
+		} while (!sjekk);
+		return resultat;
 	}
 
 }
