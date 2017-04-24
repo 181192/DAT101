@@ -8,6 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.RollbackException;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -25,7 +27,9 @@ public class Selskap implements Comparable<Selskap> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer selskap_id;
-	@Column(name = "firma_adresse")
+
+	@OneToOne
+	@JoinColumn(name = "firma_adresse", referencedColumnName = "adresse_id")
 	private Adresse firma_adresse;
 	@Column(name = "telefonnummer")
 	private Integer telefonnummer;
@@ -87,8 +91,17 @@ public class Selskap implements Comparable<Selskap> {
 	 * Sletter ett utleiekontor
 	 */
 	public Utleiekontor slettUtleiekontor(Utleiekontor utk) {
-		// TODO
-		return null;
+		int i = 0;
+		Utleiekontor resultat = null;
+		for (Utleiekontor k : utleiekontorer) {
+			i++;
+			if (k.compareTo(utk) == 0) {
+				resultat = utleiekontorer.get(i);
+				utleiekontorer.remove(i);
+			}
+		}
+		// oppdatere databasen.
+		return resultat;
 	}
 
 	/**

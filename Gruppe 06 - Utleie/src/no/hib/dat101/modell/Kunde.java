@@ -21,15 +21,13 @@ public class Kunde {
 	private String adresse;
 	@Column(name = "telefonnummer")
 	private Integer telefonnummer;
-	@Column(name = "kredittkort")
-	private Integer kredittkort;
 
 	/**
 	 * Konstruktør
 	 * 
 	 */
 	public Kunde() {
-		this(0, "", "", "", 0, 0);
+		this(0, "", "", "", 0);
 	}
 
 	/**
@@ -40,10 +38,8 @@ public class Kunde {
 	 * @param etternavn
 	 * @param adresse
 	 * @param telefonnummer
-	 * @param kredittkort
 	 */
-	public Kunde(Integer kundenummer, String fornavn, String etternavn, String adresse, Integer telefonnummer,
-			Integer kredittkort) {
+	public Kunde(Integer kundenummer, String fornavn, String etternavn, String adresse, Integer telefonnummer) {
 		this.kundenummer = kundenummer;
 		this.fornavn = fornavn;
 		this.etternavn = etternavn;
@@ -58,7 +54,7 @@ public class Kunde {
 	@Override
 	public String toString() {
 		return "kundenummer: " + kundenummer + ", fornavn: " + fornavn + ", etternavn: " + etternavn + ", adresse: "
-				+ adresse + ", telefonnummer: " + telefonnummer + ", kredittkort: " + kredittkort;
+				+ adresse + ", telefonnummer: " + telefonnummer;
 	}
 
 	/**
@@ -134,21 +130,6 @@ public class Kunde {
 	 */
 	public void setTelefonnummer(Integer telefonnummer) {
 		this.telefonnummer = telefonnummer;
-	}
-
-	/**
-	 * @return henter kredittkort
-	 */
-	public Integer getKredittkort() {
-		return kredittkort;
-	}
-
-	/**
-	 * @param kredittkort
-	 *            setter kredittkort
-	 */
-	public void setKredittkort(Integer kredittkort) {
-		this.kredittkort = kredittkort;
 	}
 
 }
