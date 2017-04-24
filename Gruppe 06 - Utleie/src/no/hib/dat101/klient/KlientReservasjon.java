@@ -24,7 +24,6 @@ public class KlientReservasjon {
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("eclipselink");
 		EntityManager em = entityManagerFactory.createEntityManager();
 		ui = new Tekstgrensesnitt();
-		rs = new Reservasjon();
 
 		String meny = "\n1 - Opprett reservasjon\n2 - Lever inn bil\n3 - Avslutt\nValg : ";
 		do {
@@ -34,21 +33,19 @@ public class KlientReservasjon {
 			switch (valg) {
 			case 1:
 				// Opprett reservasjon
+				rs = new Reservasjon();
 				rs.lagReservasjon();
 				if (rs.bekreftReservasjon()) {
 					u = new Utleie();
 					u.setReservasjon(rs);
 					u.setKredittkort(ui.lesInnKredittkort());
 					u.getBil().setEr_ledig(Boolean.FALSE);
+					
+					r = new Retur();
+					r.info();
 				}
 			case 2:
 				// Returner bil
-				if (rs.bekreftReservasjon()) {
-					r = new Retur();
-					r.info();
-				} else {
-					System.out.println("Du må opprette en reservasjon for å kunne levere en bil!");
-				}
 				break;
 			case 3:
 				// Avslutt
