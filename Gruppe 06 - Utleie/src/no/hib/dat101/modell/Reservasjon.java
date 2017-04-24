@@ -3,6 +3,7 @@ package no.hib.dat101.modell;
 import java.sql.Date;
 import java.sql.Time;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -39,16 +40,16 @@ public class Reservasjon {
 	@Column(name = "returgebyr")
 	private Integer returgebyr;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "kundenummer", referencedColumnName = "kundenummer")
 	private Kunde kundenummer;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "utleiested", referencedColumnName = "kontornummer")
 	private Utleiekontor utleiested;
-	@OneToOne
-	@JoinColumn(name = "returnsted", referencedColumnName = "kontornummer")
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "retursted", referencedColumnName = "kontornummer")
 	private Utleiekontor retursted;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "bil", referencedColumnName = "reg_nummer")
 	private Bil bil;
 
@@ -97,9 +98,10 @@ public class Reservasjon {
 	/**
 	 * Lager reservasjonen
 	 */
-	public void lagReservasjon() {
-		setUtleiested(ui.velgUtleiekontor(getUtleiested().getSelskap_id()));
-		setRetursted(ui.velgUtleiekontor(getRetursted().getSelskap_id()));
+	public void lagReservasjon(Selskap s) {
+		setUtleiested(ui.velgUtleiekontor(s));
+		setRetursted(ui.velgUtleiekontor(s));
+		getUtleiested().hentBilerFraDB();
 		setBil(ui.velgBil(getUtleiested()));
 		hentKundeInformasjon();
 	}
@@ -289,6 +291,36 @@ public class Reservasjon {
 	 */
 	public void setReturgebyr(Integer returgebyr) {
 		this.returgebyr = returgebyr;
+	}
+
+	/**
+	 * @return henter em
+	 */
+	public EntityManager getEm() {
+		return em;
+	}
+
+	/**
+	 * @param em
+	 *            setter em
+	 */
+	public void setEm(EntityManager em) {
+		this.em = em;
+	}
+
+	/**
+	 * @return henter ui
+	 */
+	public SelskapUI getUi() {
+		return ui;
+	}
+
+	/**
+	 * @param ui
+	 *            setter ui
+	 */
+	public void setUi(SelskapUI ui) {
+		this.ui = ui;
 	}
 
 }

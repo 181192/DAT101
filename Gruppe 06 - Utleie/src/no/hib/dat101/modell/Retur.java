@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,7 +35,7 @@ public class Retur extends Reservasjon {
 	@Column(name = "km_stand_retur")
 	private Integer km_stand_retur;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "utleie_id", referencedColumnName = "utleie_id")
 	private Utleie utleie_id;
 

@@ -1,7 +1,9 @@
 package no.hib.dat101.modell;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -9,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.RollbackException;
 import javax.persistence.Table;
@@ -28,13 +31,15 @@ public class Selskap implements Comparable<Selskap> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer selskap_id;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "firma_adresse", referencedColumnName = "adresse_id")
 	private Adresse firma_adresse;
 	@Column(name = "telefonnummer")
 	private Integer telefonnummer;
-	@Transient
+
+	@OneToMany(mappedBy = "selskap_id", cascade = CascadeType.ALL)
 	private List<Utleiekontor> utleiekontorer;
+
 	@Transient
 	private EntityManager em;
 	@Transient
@@ -45,7 +50,8 @@ public class Selskap implements Comparable<Selskap> {
 	 * 
 	 */
 	public Selskap() {
-		this(0, null, null, null);
+		this(0, null, null);
+		utleiekontorer = new ArrayList<>();
 	}
 
 	/**
@@ -56,13 +62,12 @@ public class Selskap implements Comparable<Selskap> {
 	 * @param telefonnummer
 	 * @param utleiekontorer
 	 */
-	public Selskap(Integer selskap_id, Adresse firma_adresse, Integer telefonnummer,
-			List<Utleiekontor> utleiekontorer) {
+	public Selskap(Integer selskap_id, Adresse firma_adresse, Integer telefonnummer) {
 		super();
 		this.selskap_id = selskap_id;
 		this.firma_adresse = firma_adresse;
 		this.telefonnummer = telefonnummer;
-		this.utleiekontorer = utleiekontorer;
+		utleiekontorer = new ArrayList<>();
 	}
 
 	/**
@@ -102,6 +107,15 @@ public class Selskap implements Comparable<Selskap> {
 		}
 		// oppdatere databasen.
 		return resultat;
+	}
+
+	@SuppressWarnings("unchecked")
+	public void hentKontorerFraDB() {
+		this.setUtleiekontorer((List<Utleiekontor>) em
+				.createQuery(//
+						"SELECT u FROM Utleiekontor u WHERE u.selskap_id = :selskap") //
+				.setParameter("selskap", this) //
+				.getResultList());
 	}
 
 	/**
@@ -187,6 +201,36 @@ public class Selskap implements Comparable<Selskap> {
 	 */
 	public void setUtleiekontorer(List<Utleiekontor> utleiekontorer) {
 		this.utleiekontorer = utleiekontorer;
+	}
+
+	/**
+	 * @return henter em
+	 */
+	public EntityManager getEm() {
+		return em;
+	}
+
+	/**
+	 * @param em
+	 *            setter em
+	 */
+	public void setEm(EntityManager em) {
+		this.em = em;
+	}
+
+	/**
+	 * @return henter ui
+	 */
+	public SelskapUI getUi() {
+		return ui;
+	}
+
+	/**
+	 * @param ui
+	 *            setter ui
+	 */
+	public void setUi(SelskapUI ui) {
+		this.ui = ui;
 	}
 
 }

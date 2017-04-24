@@ -1,5 +1,6 @@
 package no.hib.dat101.modell;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +20,7 @@ public class Utleie extends Reservasjon {
 	@Column(name = "kredittkort")
 	private Integer kredittkort;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "reservasjon", referencedColumnName = "reservasjon_id")
 	private Reservasjon reservasjon;
 

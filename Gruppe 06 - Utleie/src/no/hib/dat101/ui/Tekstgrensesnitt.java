@@ -21,7 +21,7 @@ import no.hib.dat101.modell.Utleiekontor;
  *
  */
 public class Tekstgrensesnitt implements SelskapUI {
-	private Scanner tast;
+	private Scanner tast = new Scanner(System.in);
 	private EntityManager em;
 
 	@Override
@@ -241,22 +241,21 @@ public class Tekstgrensesnitt implements SelskapUI {
 	@Override
 	public Boolean bekreft() {
 		String meny = "\nVennligst bekreft reservasjonen: \nY - Bekreft\nN - Avbryt";
-		Character valg = 0;
-		Boolean resultat = Boolean.FALSE;
+		Character valg;
 		do {
 			System.out.println(meny);
 			valg = tast.next().toUpperCase().charAt(0);
 
 			switch (valg) {
 			case 'Y':
-				resultat = Boolean.TRUE;
+				return Boolean.TRUE;
 			case 'N':
-				break;
+				return Boolean.FALSE;
 			default:
 				System.out.println("Ukjent menyvalg");
 			}
 		} while (valg != 'Y' || valg != 'N');
-		return resultat;
+		return Boolean.FALSE;
 	}
 
 	@Override

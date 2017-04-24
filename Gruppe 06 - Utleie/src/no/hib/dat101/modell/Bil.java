@@ -1,5 +1,6 @@
 package no.hib.dat101.modell;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -29,11 +30,11 @@ public class Bil implements Comparable<Bil> {
 	@Column(name = "km_stand")
 	private Integer km_stand;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "kategori", referencedColumnName = "kategori_id")
 	private Kategori kategori;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "kontornummer", referencedColumnName = "kontornummer")
 	private Utleiekontor kontornummer;
 
@@ -101,9 +102,7 @@ public class Bil implements Comparable<Bil> {
 	 */
 	@Override
 	public String toString() {
-		return "reg_nummer: " + reg_nummer + ", merke: " + merke + ", modell: " + modell + ", farge: " + farge
-				+ ", kategori: " + kategori + ", er_ledig: " + er_ledig + ", km_stand: " + km_stand + ", kontornummer: "
-				+ kontornummer;
+		return "reg_nummer: " + reg_nummer;
 	}
 
 	/**

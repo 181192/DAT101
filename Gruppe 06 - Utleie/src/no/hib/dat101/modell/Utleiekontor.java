@@ -3,6 +3,7 @@ package no.hib.dat101.modell;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.RollbackException;
 import javax.persistence.Table;
@@ -26,16 +28,17 @@ public class Utleiekontor implements Comparable<Utleiekontor> {
 	@Column(name = "telefonnummer")
 	private Integer telefonnummer;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "adresse", referencedColumnName = "adresse_id")
 	private Adresse adresse;
 
-	@ManyToOne
-	@JoinColumn(name = "selskap_id", referencedColumnName = "selskap")
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "selskap_id", referencedColumnName = "selskap_id")
 	private Selskap selskap_id;
 
-	@Transient
+	@OneToMany(mappedBy = "kontornummer", cascade = CascadeType.ALL)
 	private List<Bil> biler;
+
 	@Transient
 	private EntityManager em;
 
@@ -99,10 +102,10 @@ public class Utleiekontor implements Comparable<Utleiekontor> {
 	 */
 	@SuppressWarnings("unchecked")
 	public void hentBilerFraDB() {
-		this.setBiler((List<Bil>) em
+		setBiler((List<Bil>) em
 				.createQuery(//
 						"SELECT b FROM Bil b WHERE b.kontornummer = :kontor") //
-				.setParameter("kontor", kontornummer) //
+				.setParameter("kontor", this) //
 				.getResultList());
 	}
 
@@ -221,4 +224,20 @@ public class Utleiekontor implements Comparable<Utleiekontor> {
 		this.biler = biler;
 
 	}
+
+	/**
+	 * @return henter em
+	 */
+	public EntityManager getEm() {
+		return em;
+	}
+
+	/**
+	 * @param em
+	 *            setter em
+	 */
+	public void setEm(EntityManager em) {
+		this.em = em;
+	}
+
 }
