@@ -24,8 +24,8 @@ public class Bil implements Comparable<Bil> {
 	private String modell;
 	@Column(name = "farge")
 	private String farge;
-	@Column(name = "er_ferdig")
-	private Boolean er_ferdig;
+	@Column(name = "er_ledig")
+	private Boolean er_ledig;
 	@Column(name = "km_stand")
 	private Integer km_stand;
 
@@ -58,14 +58,14 @@ public class Bil implements Comparable<Bil> {
 	 * @param km_stand
 	 * @param kontornummer
 	 */
-	public Bil(String reg_nummer, String merke, String modell, String farge, Kategori kategori, Boolean er_ferdig,
+	public Bil(String reg_nummer, String merke, String modell, String farge, Kategori kategori, Boolean er_ledig,
 			Integer km_stand, Utleiekontor kontornummer) {
 		this.reg_nummer = reg_nummer;
 		this.merke = merke;
 		this.modell = modell;
 		this.farge = farge;
 		this.kategori = kategori;
-		this.er_ferdig = er_ferdig;
+		this.er_ledig = er_ledig;
 		this.km_stand = km_stand;
 		this.kontornummer = kontornummer;
 	}
@@ -102,8 +102,8 @@ public class Bil implements Comparable<Bil> {
 	@Override
 	public String toString() {
 		return "reg_nummer: " + reg_nummer + ", merke: " + merke + ", modell: " + modell + ", farge: " + farge
-				+ ", kategori: " + kategori + ", er_ferdig: " + er_ferdig + ", km_stand: " + km_stand
-				+ ", kontornummer: " + kontornummer;
+				+ ", kategori: " + kategori + ", er_ledig: " + er_ledig + ", km_stand: " + km_stand + ", kontornummer: "
+				+ kontornummer;
 	}
 
 	/**
@@ -182,18 +182,18 @@ public class Bil implements Comparable<Bil> {
 	}
 
 	/**
-	 * @return henter er_ferdig
+	 * @return henter er_ledig
 	 */
-	public Boolean getEr_ferdig() {
-		return er_ferdig;
+	public Boolean getEr_ledig() {
+		return er_ledig;
 	}
 
 	/**
-	 * @param er_ferdig
-	 *            setter er_ferdig
+	 * @param er_ledig
+	 *            setter er_ledig
 	 */
-	public void setEr_ferdig(Boolean er_ferdig) {
-		this.er_ferdig = er_ferdig;
+	public void setEr_ledig(Boolean er_ledig) {
+		this.er_ledig = er_ledig;
 	}
 
 	/**

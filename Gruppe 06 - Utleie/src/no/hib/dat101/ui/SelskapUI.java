@@ -5,9 +5,9 @@ package no.hib.dat101.ui;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 
 import no.hib.dat101.modell.Bil;
-import no.hib.dat101.modell.Retur;
 import no.hib.dat101.modell.Utleiekontor;
 
 /**
@@ -146,7 +146,7 @@ public interface SelskapUI {
 	/**
 	 * Skriver faktura til kunden
 	 */
-	public void skrivFaktura(Retur retur);
+	public void skrivFaktura(ArrayList<String> faktura);
 
 	/**
 	 * Bekrefter med enten True eller False med 0 eller 1 som input

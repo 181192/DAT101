@@ -12,9 +12,9 @@
 		<properties>
 			<property name="javax.persistence.jdbc.logging.level" value="INFO" />
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/postgres" />
-			<property name="javax.persistence.jdbc.user" value="postgres" />
-			<property name="javax.persistence.jdbc.password" value="postgres" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://data1.hib.no:5433/v17_dat101_g06" />
+			<property name="javax.persistence.jdbc.user" value="v17_dat101_g06" />
+			<property name="javax.persistence.jdbc.password" value="pass" />
 		</properties>
 	</persistence-unit>
 </persistence>

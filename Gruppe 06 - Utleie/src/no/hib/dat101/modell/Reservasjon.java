@@ -104,7 +104,6 @@ public class Reservasjon {
 		ui.visLedigeBiler(utleiested);
 		setBil(ui.velgBil());
 		hentKundeInformasjon();
-		bekreftReservasjon();
 	}
 
 	/**
@@ -120,7 +119,8 @@ public class Reservasjon {
 	/**
 	 * Bekrefter reservasjonen og laster opp dataene til databasen.
 	 */
-	private void bekreftReservasjon() {
+	public Boolean bekreftReservasjon() {
+		Boolean tilstand = Boolean.FALSE;
 		if (ui.bekreft()) {
 			try {
 				em.getTransaction().begin();
@@ -129,7 +129,9 @@ public class Reservasjon {
 			} catch (RollbackException e) {
 				em.getTransaction().rollback();
 			}
+			tilstand = Boolean.TRUE;
 		}
+		return tilstand;
 	}
 
 	/**
@@ -138,7 +140,7 @@ public class Reservasjon {
 	 * @param flagg
 	 */
 	public void flaggBil(Boolean flagg) {
-		getBil().setEr_ferdig(flagg);
+		getBil().setEr_ledig(flagg);
 	}
 
 	/**

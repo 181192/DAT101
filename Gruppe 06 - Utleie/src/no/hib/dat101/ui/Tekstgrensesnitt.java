@@ -5,6 +5,7 @@ package no.hib.dat101.ui;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,7 +13,6 @@ import javax.persistence.EntityManager;
 
 import no.hib.dat101.modell.Bil;
 import no.hib.dat101.modell.Kategori;
-import no.hib.dat101.modell.Retur;
 import no.hib.dat101.modell.Utleiekontor;
 
 /**
@@ -231,16 +231,17 @@ public class Tekstgrensesnitt implements SelskapUI {
 	}
 
 	@Override
-	public void skrivFaktura(Retur retur) {
-		// TODO Auto-generated method stub
-
+	public void skrivFaktura(ArrayList<String> faktura) {
+		for (String s : faktura) {
+			System.out.println(s);
+		}
 	}
 
 	@Override
 	public Boolean bekreft() {
 		// TODO Switch case som du velger enten 0 eller 1 også returnerer en av
 		// de True eller false
-		String meny = "\nT - True\nF - False";
+		String meny = "\nVennligst bekreft reservasjonen: \nY - Bekreft\nN - Avbryt";
 		Character valg = 0;
 		Boolean resultat = Boolean.FALSE;
 		do {
@@ -248,20 +249,20 @@ public class Tekstgrensesnitt implements SelskapUI {
 			valg = tast.next().toUpperCase().charAt(0);
 
 			switch (valg) {
-			case 'T':
+			case 'Y':
 				resultat = Boolean.TRUE;
-			case 'F':
+			case 'N':
 				break;
 			default:
 				System.out.println("Ukjent menyvalg");
 			}
-		} while (valg == 'T' || valg == 'F');
+		} while (valg != 'Y' || valg != 'N');
 		return resultat;
 	}
 
 	@Override
 	public Bil velgBil() {
-		
+
 		return null;
 	}
 

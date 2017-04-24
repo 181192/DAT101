@@ -2,6 +2,7 @@ package no.hib.dat101.modell;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import no.hib.dat101.ui.SelskapUI;
 
 /**
  * 
@@ -33,6 +37,9 @@ public class Retur extends Reservasjon {
 	@OneToOne
 	@JoinColumn(name = "utleie_id", referencedColumnName = "utleie_id")
 	private Utleie utleie_id;
+
+	@Transient
+	private SelskapUI ui;
 
 	/**
 	 * Konstruktør
@@ -60,10 +67,19 @@ public class Retur extends Reservasjon {
 		this.utleie_id = utleie_id;
 	}
 
+	public void info() {
+		setKlokke_retur(ui.lesInnKlokkeslett());
+		setDato_retur(ui.lesInnDato());
+		oppdaterKmBil();
+		oppdaterUtleiekontor();
+		ui.skrivFaktura(lagFaktura());
+	}
+
 	/**
 	 * Oppdaterer kilometer stand på bilen når bilen blir returnert
 	 */
-	public void oppdaterKmBil() {
+	private void oppdaterKmBil() {
+		km_stand_retur = ui.lesInnKm_stand();
 		super.getBil().setKm_stand(km_stand_retur);
 	}
 
@@ -72,19 +88,27 @@ public class Retur extends Reservasjon {
 	 * 
 	 * @return Representasjon av en faktura for Retur
 	 */
-	public String lagFaktura() {
-		// TODO Hva data skal være med i en faktura? Har tilgang til Reservasjon
-		// ved å bruke superklassen
-		return null;
+	private ArrayList<String> lagFaktura() {
+		ArrayList<String> faktura = new ArrayList<String>();
+		faktura.add("Reservasjon: " + super.getReservasjon_id().toString());
+		faktura.add("Kundenummer: " + super.getKundenummer().getKundenummer().toString());
+		faktura.add("Dato for utlån: " + super.getDato_resv().toString());
+		faktura.add("Utlånskontor: " + super.getUtleiested().getAdresse().getGateadresse());
+		faktura.add("Dato for retur: " + this.getDato_retur().toString());
+		faktura.add("Innleveringssted: " + super.getRetursted().getAdresse().getGateadresse());
+		faktura.add("Pris: "
+				+ (super.getBil().getKategori().getDagspris() * (this.getDato_retur().getTime() / (1000 * 60 * 60 * 24)
+						- this.getDato_resv().getTime() / (1000 * 60 * 60 * 24))));
+		return faktura;
 	}
 
 	/**
 	 * Hvis utleiekontoret er forskjellig fra returkontoret, oppdatert bilen med
 	 * retur uteleiekontoret
 	 */
-	public void oppdaterUtleiekontor() {
+	private void oppdaterUtleiekontor() {
 		if (super.getUtleiested().compareTo(super.getRetursted()) != 0) {
-			// TODO Oppdater bilen med retur utleiekontoret
+			super.getBil().setKontornummer(super.getRetursted());
 		}
 	}
 
