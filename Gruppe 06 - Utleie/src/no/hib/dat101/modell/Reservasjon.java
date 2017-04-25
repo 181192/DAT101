@@ -100,15 +100,15 @@ public class Reservasjon {
 	 * Lager reservasjonen
 	 */
 	public void lagReservasjon(Selskap s) {
-		// setUtleiested(ui.velgUtleiekontor(s));
-		// setRetursted(ui.velgUtleiekontor(s));
-		// setKlokkeslett_resv(ui.lesInnKlokkeslett());
-		// setDato_resv(ui.lesInnDato());
-		// setKlokke_forventet(ui.lesInnKlokkeslett());
-		// setDato_forventet(ui.lesInnDato());
-		// getUtleiested().hentBilerFraDB();
-		// setBil(ui.velgBil(getUtleiested()));
-		// setKundenummer(hentKundeInformasjon());
+		setUtleiested(ui.velgUtleiekontor(s));
+		setRetursted(ui.velgUtleiekontor(s));
+		setKlokkeslett_resv(ui.lesInnKlokkeslett());
+		setDato_resv(ui.lesInnDato());
+		setKlokke_forventet(ui.lesInnKlokkeslett());
+		setDato_forventet(ui.lesInnDato());
+		getUtleiested().hentBilerFraDB();
+		setBil(ui.velgBil(getUtleiested()));
+		setKundenummer(hentKundeInformasjon());
 	}
 
 	/**
@@ -120,6 +120,15 @@ public class Reservasjon {
 		nyKunde.setFornavn(ui.lesInnFornavn());
 		nyKunde.setEtternavn(ui.lesInnEtternavn());
 		nyKunde.setTelefonnummer(ui.lesInnTelefonnummer());
+		return nyKunde;
+	}
+
+	public Kunde hentKundeInformasjonFerdig() {
+		Kunde nyKunde = new Kunde();
+		nyKunde.setAdresse("breistolsveien 12");
+		nyKunde.setFornavn("Peder");
+		nyKunde.setEtternavn("Wiig");
+		nyKunde.setTelefonnummer(40615713);
 		return nyKunde;
 	}
 
@@ -139,6 +148,16 @@ public class Reservasjon {
 			tilstand = Boolean.TRUE;
 		}
 		return tilstand;
+	}
+
+	public void lastOppReservasjonDB(EntityManager em) {
+		try {
+			em.getTransaction().begin();
+			em.persist(this);
+			em.getTransaction().commit();
+		} catch (RollbackException e) {
+			em.getTransaction().rollback();
+		}
 	}
 
 	/**

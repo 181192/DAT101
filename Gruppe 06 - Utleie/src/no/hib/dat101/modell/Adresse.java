@@ -5,9 +5,11 @@ package no.hib.dat101.modell;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.RollbackException;
 import javax.persistence.Table;
 
 /**
@@ -45,6 +47,16 @@ public class Adresse implements Comparable<Adresse> {
 		this.gateadresse = gateadresse;
 		this.postnummer = postnummer;
 		this.poststed = poststed;
+	}
+
+	public void lastOppAdresseDB(EntityManager em) {
+		try {
+			em.getTransaction().begin();
+			em.persist(this);
+			em.getTransaction().commit();
+		} catch (RollbackException e) {
+			em.getTransaction().rollback();
+		}
 	}
 
 	@Override

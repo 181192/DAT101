@@ -2,23 +2,26 @@ package no.hib.dat101.modell;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.RollbackException;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "utleie", schema = "bilutleie")
-public class Utleie extends Reservasjon {
+public class Utleie {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer utleie_id;
 
 	@Column(name = "kredittkort")
-	private Integer kredittkort;
+	private Long kredittkort;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "reservasjon", referencedColumnName = "reservasjon_id")
@@ -29,7 +32,7 @@ public class Utleie extends Reservasjon {
 	 * 
 	 */
 	public Utleie() {
-		this(0, 0, null);
+		this(0, null, null);
 	}
 
 	/**
@@ -39,11 +42,21 @@ public class Utleie extends Reservasjon {
 	 * @param kredittkort
 	 * @param reservasjon_id
 	 */
-	public Utleie(Integer utleie_id, Integer kredittkort, Reservasjon reservasjon) {
+	public Utleie(Integer utleie_id, Long kredittkort, Reservasjon reservasjon) {
 		super();
 		this.utleie_id = utleie_id;
 		this.kredittkort = kredittkort;
 		this.reservasjon = reservasjon;
+	}
+
+	public void lastOppUtleieDB(EntityManager em) {
+		try {
+			em.getTransaction().begin();
+			em.persist(this);
+			em.getTransaction().commit();
+		} catch (RollbackException e) {
+			em.getTransaction().rollback();
+		}
 	}
 
 	/**
@@ -72,7 +85,7 @@ public class Utleie extends Reservasjon {
 	/**
 	 * @return henter kredittkort
 	 */
-	public Integer getKredittkort() {
+	public Long getKredittkort() {
 		return kredittkort;
 	}
 
@@ -80,7 +93,7 @@ public class Utleie extends Reservasjon {
 	 * @param kredittkort
 	 *            setter kredittkort
 	 */
-	public void setKredittkort(Integer kredittkort) {
+	public void setKredittkort(Long kredittkort) {
 		this.kredittkort = kredittkort;
 	}
 

@@ -37,6 +37,9 @@ public class Selskap implements Comparable<Selskap> {
 	@Column(name = "telefonnummer")
 	private Integer telefonnummer;
 
+	@Column(name = "firma_navn")
+	private String firma_navn;
+
 	@OneToMany(mappedBy = "selskap_id", cascade = CascadeType.ALL)
 	private List<Utleiekontor> utleiekontorer;
 
@@ -50,7 +53,7 @@ public class Selskap implements Comparable<Selskap> {
 	 * 
 	 */
 	public Selskap() {
-		this(0, null, null);
+		this(0, null, null, "");
 		utleiekontorer = new ArrayList<>();
 	}
 
@@ -62,11 +65,11 @@ public class Selskap implements Comparable<Selskap> {
 	 * @param telefonnummer
 	 * @param utleiekontorer
 	 */
-	public Selskap(Integer selskap_id, Adresse firma_adresse, Integer telefonnummer) {
-		super();
+	public Selskap(Integer selskap_id, Adresse firma_adresse, Integer telefonnummer, String firma_navn) {
 		this.selskap_id = selskap_id;
 		this.firma_adresse = firma_adresse;
 		this.telefonnummer = telefonnummer;
+		this.firma_navn = firma_navn;
 		utleiekontorer = new ArrayList<>();
 	}
 
@@ -233,4 +236,17 @@ public class Selskap implements Comparable<Selskap> {
 		this.ui = ui;
 	}
 
+	/**
+	 * @return henter firma_navn
+	 */
+	public String getFirma_navn() {
+		return firma_navn;
+	}
+
+	/**
+	 * @param firma_navn  setter firma_navn
+	 */
+	public void setFirma_navn(String firma_navn) {
+		this.firma_navn = firma_navn;
+	}
 }

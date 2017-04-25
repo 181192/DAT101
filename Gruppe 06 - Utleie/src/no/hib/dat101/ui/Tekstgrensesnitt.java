@@ -121,18 +121,18 @@ public class Tekstgrensesnitt implements SelskapUI {
 				lesInnTelefonnummer();
 			}
 		} catch (NumberFormatException e) {
-			System.out.println("Oppgi tall som kilometerstand!");
-			lesInnKm_stand();
+			System.out.println("Telefonnummer må være 8 siffer langt!");
+			lesInnTelefonnummer();
 		}
 		return telefonnummer;
 	}
 
 	@Override
-	public Integer lesInnKredittkort() {
+	public Long lesInnKredittkort() {
 		System.out.print("Oppgi kredittkort: ");
-		Integer kredittkort = null;
+		Long kredittkort = null;
 		try {
-			kredittkort = Integer.parseInt(tast.nextLine());
+			kredittkort = Long.parseLong(tast.nextLine());
 			if (kredittkort.toString().length() != 16) {
 				System.out.println("Kredittkort må bestå av 16 siffer!");
 				lesInnKredittkort();
@@ -244,7 +244,7 @@ public class Tekstgrensesnitt implements SelskapUI {
 		Character valg;
 		do {
 			System.out.println(meny);
-			valg = tast.next().toUpperCase().charAt(0);
+			valg = tast.nextLine().toUpperCase().charAt(0);
 
 			switch (valg) {
 			case 'Y':

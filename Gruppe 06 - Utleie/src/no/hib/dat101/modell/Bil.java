@@ -3,10 +3,12 @@ package no.hib.dat101.modell;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.RollbackException;
 import javax.persistence.Table;
 
 /**
@@ -69,6 +71,16 @@ public class Bil implements Comparable<Bil> {
 		this.er_ledig = er_ledig;
 		this.km_stand = km_stand;
 		this.kontornummer = kontornummer;
+	}
+	
+	public void lastOppBilDB(EntityManager em) {
+		try {
+			em.getTransaction().begin();
+			em.persist(this);
+			em.getTransaction().commit();
+		} catch (RollbackException e) {
+			em.getTransaction().rollback();
+		}
 	}
 
 	/**

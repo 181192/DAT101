@@ -113,7 +113,7 @@ public interface SelskapUI {
 	 * 
 	 * @return
 	 */
-	public Integer lesInnKredittkort();
+	public Long lesInnKredittkort();
 
 	/**
 	 * Leser inn klokkeslett

@@ -1,5 +1,7 @@
 package no.hib.dat101.klient;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.Scanner;
 
 import javax.persistence.EntityManager;
@@ -47,13 +49,16 @@ public class KlientReservasjon {
 				rs = new Reservasjon();
 				rs.setUi(ui);
 				rs.lagReservasjon(selskap);
+				rs.getKundenummer().lastOppKundeDB(em);
+
 				if (rs.bekreftReservasjon(em)) {
 					u = new Utleie();
 					u.setReservasjon(rs);
 					u.setKredittkort(ui.lesInnKredittkort());
-					u.getBil().setEr_ledig(Boolean.FALSE);
+					u.getReservasjon().getBil().setEr_ledig(Boolean.FALSE);
 
 					r = new Retur();
+					r.setUtleie_id(u);
 					r.info();
 				}
 			case 2:
@@ -61,6 +66,34 @@ public class KlientReservasjon {
 				break;
 			case 3:
 				// Avslutt
+				break;
+			case 4:
+				rs = new Reservasjon();
+				rs.setUi(ui);
+				rs.setUtleiested(selskap.getUtleiekontorer().get(0));
+				rs.setRetursted(selskap.getUtleiekontorer().get(1));
+				rs.setKlokkeslett_resv(Time.valueOf("10:20:00"));
+				rs.setDato_resv(Date.valueOf("1993-10-10"));
+				rs.setKlokke_forventet(Time.valueOf("10:40:00"));
+				rs.setDato_forventet(Date.valueOf("1993-12-12"));
+				rs.getUtleiested().hentBilerFraDB();
+				rs.setBil(selskap.getUtleiekontorer().get(0).getBiler().get(0));
+				rs.setKundenummer(rs.hentKundeInformasjonFerdig());
+				if (rs.bekreftReservasjon(em)) {
+
+					u = new Utleie();
+					u.setReservasjon(rs);
+					u.setKredittkort(Long.valueOf("3124124124124"));
+					u.getReservasjon().getBil().setEr_ledig(Boolean.FALSE);
+					u.lastOppUtleieDB(em);
+					
+					r = new Retur();
+					r.setUtleie_id(u);
+					r.infoFerdig();
+					r.getUtleie_id().getReservasjon().getBil().setEr_ledig(Boolean.TRUE);
+					r.lastOppReturDB(em);
+					rs.lastOppReservasjonDB(em);
+				}
 				break;
 			default:
 				System.out.println("Ukjent menyvalg");

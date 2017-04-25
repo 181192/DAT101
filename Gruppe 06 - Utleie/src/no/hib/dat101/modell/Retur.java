@@ -6,12 +6,15 @@ import java.util.ArrayList;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.RollbackException;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -24,7 +27,7 @@ import no.hib.dat101.ui.SelskapUI;
  */
 @Entity
 @Table(name = "retur", schema = "bilutleie")
-public class Retur extends Reservasjon {
+public class Retur {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer retur_id;
@@ -38,9 +41,6 @@ public class Retur extends Reservasjon {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "utleie_id", referencedColumnName = "utleie_id")
 	private Utleie utleie_id;
-
-	@Transient
-	private SelskapUI ui;
 
 	/**
 	 * Konstruktør
@@ -69,19 +69,38 @@ public class Retur extends Reservasjon {
 	}
 
 	public void info() {
-		setKlokke_retur(ui.lesInnKlokkeslett());
-		setDato_retur(ui.lesInnDato());
+		setKlokke_retur(utleie_id.getReservasjon().getUi().lesInnKlokkeslett());
+		setDato_retur(utleie_id.getReservasjon().getUi().lesInnDato());
 		oppdaterKmBil();
 		oppdaterUtleiekontor();
-		ui.skrivFaktura(lagFaktura());
+		utleie_id.getReservasjon().getUi().skrivFaktura(lagFaktura());
+	}
+	
+	public void infoFerdig() {
+		setKlokke_retur(Time.valueOf("13:00"));
+		setDato_retur(Date.valueOf("2017-04-24"));
+		km_stand_retur = 45000;
+		utleie_id.getReservasjon().getBil().setKm_stand(km_stand_retur);
+		oppdaterUtleiekontor();
+		utleie_id.getReservasjon().getUi().skrivFaktura(lagFaktura());
+	}
+
+	public void lastOppReturDB(EntityManager em) {
+		try {
+			em.getTransaction().begin();
+			em.persist(this);
+			em.getTransaction().commit();
+		} catch (RollbackException e) {
+			em.getTransaction().rollback();
+		}
 	}
 
 	/**
 	 * Oppdaterer kilometer stand på bilen når bilen blir returnert
 	 */
 	private void oppdaterKmBil() {
-		km_stand_retur = ui.lesInnKm_stand();
-		super.getBil().setKm_stand(km_stand_retur);
+		km_stand_retur = utleie_id.getReservasjon().getUi().lesInnKm_stand();
+		utleie_id.getReservasjon().getBil().setKm_stand(km_stand_retur);
 	}
 
 	/**
@@ -91,15 +110,15 @@ public class Retur extends Reservasjon {
 	 */
 	private ArrayList<String> lagFaktura() {
 		ArrayList<String> faktura = new ArrayList<String>();
-		faktura.add("Reservasjon: " + super.getReservasjon_id().toString());
-		faktura.add("Kundenummer: " + super.getKundenummer().getKundenummer().toString());
-		faktura.add("Dato for utlån: " + super.getDato_resv().toString());
-		faktura.add("Utlånskontor: " + super.getUtleiested().getAdresse().getGateadresse());
+		faktura.add("Reservasjon: " + utleie_id.getReservasjon().getReservasjon_id().toString());
+		faktura.add("Kundenummer: " + utleie_id.getReservasjon().getKundenummer().getKundenummer().toString());
+		faktura.add("Dato for utlån: " + utleie_id.getReservasjon().getDato_resv().toString());
+		faktura.add("Utlånskontor: " + utleie_id.getReservasjon().getUtleiested().getAdresse().getGateadresse());
 		faktura.add("Dato for retur: " + this.getDato_retur().toString());
-		faktura.add("Innleveringssted: " + super.getRetursted().getAdresse().getGateadresse());
-		faktura.add("Pris: "
-				+ (super.getBil().getKategori().getDagspris() * (this.getDato_retur().getTime() / (1000 * 60 * 60 * 24)
-						- this.getDato_resv().getTime() / (1000 * 60 * 60 * 24))));
+		faktura.add("Innleveringssted: " + utleie_id.getReservasjon().getRetursted().getAdresse().getGateadresse());
+		faktura.add("Pris: " + (utleie_id.getReservasjon().getBil().getKategori().getDagspris()
+				* (this.getDato_retur().getTime() / (1000 * 60 * 60 * 24)
+						- utleie_id.getReservasjon().getDato_resv().getTime() / (1000 * 60 * 60 * 24))));
 		return faktura;
 	}
 
@@ -108,8 +127,8 @@ public class Retur extends Reservasjon {
 	 * retur uteleiekontoret
 	 */
 	private void oppdaterUtleiekontor() {
-		if (super.getUtleiested().compareTo(super.getRetursted()) != 0) {
-			super.getBil().setKontornummer(super.getRetursted());
+		if (utleie_id.getReservasjon().getUtleiested().compareTo(utleie_id.getReservasjon().getRetursted()) != 0) {
+			utleie_id.getReservasjon().getBil().setKontornummer(utleie_id.getReservasjon().getRetursted());
 		}
 	}
 

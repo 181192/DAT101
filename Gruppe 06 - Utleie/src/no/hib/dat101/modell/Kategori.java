@@ -1,7 +1,9 @@
 package no.hib.dat101.modell;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.Id;
+import javax.persistence.RollbackException;
 import javax.persistence.Table;
 
 /**
@@ -33,6 +35,16 @@ public class Kategori {
 	public Kategori(Character kategori_id, Integer dagspris) {
 		this.kategori_id = kategori_id;
 		this.dagspris = dagspris;
+	}
+
+	public void lastOppKategoriDB(EntityManager em) {
+		try {
+			em.getTransaction().begin();
+			em.persist(this);
+			em.getTransaction().commit();
+		} catch (RollbackException e) {
+			em.getTransaction().rollback();
+		}
 	}
 
 	/**
