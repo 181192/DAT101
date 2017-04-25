@@ -77,7 +77,7 @@ public class Retur {
 	}
 	
 	public void infoFerdig() {
-		setKlokke_retur(Time.valueOf("13:00"));
+		setKlokke_retur(Time.valueOf("13:00:00"));
 		setDato_retur(Date.valueOf("2017-04-24"));
 		km_stand_retur = 45000;
 		utleie_id.getReservasjon().getBil().setKm_stand(km_stand_retur);

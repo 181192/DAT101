@@ -25,6 +25,12 @@ public class Tekstgrensesnitt implements SelskapUI {
 	private EntityManager em;
 
 	@Override
+	public String lesInnFirmanavn() {
+		System.out.println("Oppgi firmanavn: ");
+		return tast.nextLine();
+	}
+
+	@Override
 	public String lesInnGateadresse() {
 		System.out.print("Oppgi gateadresse: ");
 		return tast.nextLine();

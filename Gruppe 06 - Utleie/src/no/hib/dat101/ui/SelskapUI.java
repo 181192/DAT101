@@ -16,6 +16,14 @@ import no.hib.dat101.modell.Utleiekontor;
  *
  */
 public interface SelskapUI {
+
+	/**
+	 * Leser inn firmanavnet til Selskapet
+	 * 
+	 * @return
+	 */
+	public String lesInnFirmanavn();
+
 	/**
 	 * Leser inn gateadressen til Adressen
 	 * 
