@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import no.hib.dat101.modell.Kunde;
 import no.hib.dat101.modell.Reservasjon;
 import no.hib.dat101.modell.Retur;
 import no.hib.dat101.modell.Selskap;
@@ -21,7 +20,6 @@ public class KlientReservasjon {
 	private static Reservasjon rs;
 	private static Utleie u;
 	private static Retur r;
-	private static Kunde k;
 	private static int valg;
 
 	public static void main(String[] args) {
@@ -47,11 +45,9 @@ public class KlientReservasjon {
 			case 1:
 				// Opprett reservasjon
 				rs = new Reservasjon();
-				rs.setEm(em);
-				rs.setKundenummer(new Kunde());
 				rs.setUi(ui);
 				rs.lagReservasjon(selskap);
-				if (rs.bekreftReservasjon()) {
+				if (rs.bekreftReservasjon(em)) {
 					u = new Utleie();
 					u.setReservasjon(rs);
 					u.setKredittkort(ui.lesInnKredittkort());

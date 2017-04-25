@@ -81,7 +81,7 @@ public class Bil implements Comparable<Bil> {
 	 */
 	@Override
 	public int compareTo(Bil denAndreBilen) {
-		Bil b2 = (Bil) denAndreBilen;
+		Bil b2 = denAndreBilen;
 		int resultat = -1;
 		if (this.reg_nummer.compareTo(b2.reg_nummer) == 0) {
 			resultat = this.merke.compareTo(b2.merke);
@@ -102,7 +102,9 @@ public class Bil implements Comparable<Bil> {
 	 */
 	@Override
 	public String toString() {
-		return "reg_nummer: " + reg_nummer;
+		return "reg_nummer: " + reg_nummer + ", merke: " + merke + ", modell: " + modell + ", farge: " + farge
+				+ ", er_ledig: " + er_ledig + ", km_stand: " + km_stand + ", kategori: " + kategori + ", kontornummer: "
+				+ kontornummer;
 	}
 
 	/**

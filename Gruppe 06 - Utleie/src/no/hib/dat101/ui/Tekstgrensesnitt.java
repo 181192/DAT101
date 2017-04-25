@@ -106,7 +106,7 @@ public class Tekstgrensesnitt implements SelskapUI {
 
 	@Override
 	public String lesInnAdresse() {
-		System.out.println("Oppgi adresse: ");
+		System.out.print("Oppgi adresse: ");
 		return tast.nextLine();
 	}
 
@@ -171,7 +171,7 @@ public class Tekstgrensesnitt implements SelskapUI {
 		Date dato = null;
 		System.out.print("Oppgi dato på formatet yyyy-MM-dd : ");
 		String strDato = tast.nextLine();
-		if (strDato.charAt(4) == '-' && strDato.charAt(7) == ':') {
+		if (strDato.charAt(4) == '-' && strDato.charAt(7) == '-') {
 			try {
 				String dateString = strDato.substring(0, 4) + strDato.substring(5, 7) + strDato.substring(8);
 				Integer.parseInt(dateString);
@@ -192,7 +192,7 @@ public class Tekstgrensesnitt implements SelskapUI {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void visLedigeBilerDB(Utleiekontor kontor) {
-		List<Bil> biler = (List<Bil>) em
+		List<Bil> biler = em
 				.createQuery(//
 						"SELECT b FROM Bil b WHERE b.kontornummer = :kontor AND b.er_ledig = true") //
 				.setParameter("kontor", kontor.getKontornummer()) //
@@ -207,7 +207,7 @@ public class Tekstgrensesnitt implements SelskapUI {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void visKategorierDB() {
-		List<Kategori> kategorier = (List<Kategori>) em
+		List<Kategori> kategorier = em
 				.createQuery(//
 						"SELECT k FROM Kategori k") //
 				.getResultList();
@@ -220,7 +220,7 @@ public class Tekstgrensesnitt implements SelskapUI {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void visUtleieKontorerDB() {
-		List<Utleiekontor> kontorer = (List<Utleiekontor>) em
+		List<Utleiekontor> kontorer = em
 				.createQuery(//
 						"SELECT u FROM Utleiekontor u") //
 				.getResultList();
@@ -265,10 +265,14 @@ public class Tekstgrensesnitt implements SelskapUI {
 		int i = 0;
 		System.out.println("Velg bil fra listen: (Skriv inn tall)");
 		for (Bil liste : u.getBiler()) {
-			bil.add(liste);
-			System.out.println(i + " : " + liste.toString());
-			i++;
+			if (liste.getEr_ledig()) {
+				bil.add(liste);
+				System.out.println(i + " : " + liste.getMerke() + ", " + liste.getModell() + ", " + liste.getFarge()
+						+ ", " + liste.getKategori().getKategori_id() + ": " + liste.getKategori().getDagspris());
+				i++;
+			}
 		}
+		System.out.print("Valg: ");
 		boolean sjekk = false;
 		do {
 			try {
@@ -294,9 +298,12 @@ public class Tekstgrensesnitt implements SelskapUI {
 		System.out.println("Velg utleiekontor fra listen: (Skriv inn tall)");
 		for (Utleiekontor liste : s.getUtleiekontorer()) {
 			kontor.add(liste);
-			System.out.println(i + " : " + liste.toString());
+			System.out
+					.println(i + " : " + liste.getAdresse().getGateadresse() + ", " + liste.getAdresse().getPostnummer()
+							+ ", " + liste.getAdresse().getPoststed() + ", " + liste.getTelefonnummer());
 			i++;
 		}
+		System.out.print("Valg: ");
 		boolean sjekk = false;
 		do {
 			try {

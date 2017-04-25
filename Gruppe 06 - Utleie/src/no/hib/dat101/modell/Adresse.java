@@ -49,7 +49,7 @@ public class Adresse implements Comparable<Adresse> {
 
 	@Override
 	public int compareTo(Adresse denAndre) {
-		Adresse a2 = (Adresse) denAndre;
+		Adresse a2 = denAndre;
 		int resultat = -1;
 		if (this.adresse_id == a2.adresse_id) {
 			resultat = this.gateadresse.compareTo(a2.gateadresse);

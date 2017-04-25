@@ -102,7 +102,7 @@ public class Utleiekontor implements Comparable<Utleiekontor> {
 	 */
 	@SuppressWarnings("unchecked")
 	public void hentBilerFraDB() {
-		setBiler((List<Bil>) em
+		setBiler(em
 				.createQuery(//
 						"SELECT b FROM Bil b WHERE b.kontornummer = :kontor") //
 				.setParameter("kontor", this) //
@@ -127,7 +127,7 @@ public class Utleiekontor implements Comparable<Utleiekontor> {
 
 	@Override
 	public int compareTo(Utleiekontor detAndreKontoret) {
-		Utleiekontor u2 = (Utleiekontor) detAndreKontoret;
+		Utleiekontor u2 = detAndreKontoret;
 		int resultat = -1;
 		if (this.adresse.compareTo(u2.adresse) == 0) {
 			resultat = this.telefonnummer.compareTo(u2.telefonnummer);

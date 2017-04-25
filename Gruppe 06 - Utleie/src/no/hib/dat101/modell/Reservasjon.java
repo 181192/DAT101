@@ -43,18 +43,19 @@ public class Reservasjon {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "kundenummer", referencedColumnName = "kundenummer")
 	private Kunde kundenummer;
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "utleiested", referencedColumnName = "kontornummer")
 	private Utleiekontor utleiested;
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "retursted", referencedColumnName = "kontornummer")
 	private Utleiekontor retursted;
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "bil", referencedColumnName = "reg_nummer")
 	private Bil bil;
 
-	@Transient
-	private EntityManager em;
 	@Transient
 	private SelskapUI ui;
 
@@ -99,27 +100,33 @@ public class Reservasjon {
 	 * Lager reservasjonen
 	 */
 	public void lagReservasjon(Selskap s) {
-		setUtleiested(ui.velgUtleiekontor(s));
-		setRetursted(ui.velgUtleiekontor(s));
-		getUtleiested().hentBilerFraDB();
-		setBil(ui.velgBil(getUtleiested()));
-		hentKundeInformasjon();
+		// setUtleiested(ui.velgUtleiekontor(s));
+		// setRetursted(ui.velgUtleiekontor(s));
+		// setKlokkeslett_resv(ui.lesInnKlokkeslett());
+		// setDato_resv(ui.lesInnDato());
+		// setKlokke_forventet(ui.lesInnKlokkeslett());
+		// setDato_forventet(ui.lesInnDato());
+		// getUtleiested().hentBilerFraDB();
+		// setBil(ui.velgBil(getUtleiested()));
+		// setKundenummer(hentKundeInformasjon());
 	}
 
 	/**
 	 * Henter kundeinformasjon fra kunden
 	 */
-	public void hentKundeInformasjon() {
-		getKundenummer().setAdresse(ui.lesInnAdresse());
-		getKundenummer().setFornavn(ui.lesInnFornavn());
-		getKundenummer().setEtternavn(ui.lesInnEtternavn());
-		getKundenummer().setTelefonnummer(ui.lesInnTelefonnummer());
+	public Kunde hentKundeInformasjon() {
+		Kunde nyKunde = new Kunde();
+		nyKunde.setAdresse(ui.lesInnAdresse());
+		nyKunde.setFornavn(ui.lesInnFornavn());
+		nyKunde.setEtternavn(ui.lesInnEtternavn());
+		nyKunde.setTelefonnummer(ui.lesInnTelefonnummer());
+		return nyKunde;
 	}
 
 	/**
 	 * Bekrefter reservasjonen og laster opp dataene til databasen.
 	 */
-	public Boolean bekreftReservasjon() {
+	public Boolean bekreftReservasjon(EntityManager em) {
 		Boolean tilstand = Boolean.FALSE;
 		if (ui.bekreft()) {
 			try {
@@ -291,21 +298,6 @@ public class Reservasjon {
 	 */
 	public void setReturgebyr(Integer returgebyr) {
 		this.returgebyr = returgebyr;
-	}
-
-	/**
-	 * @return henter em
-	 */
-	public EntityManager getEm() {
-		return em;
-	}
-
-	/**
-	 * @param em
-	 *            setter em
-	 */
-	public void setEm(EntityManager em) {
-		this.em = em;
 	}
 
 	/**

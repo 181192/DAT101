@@ -111,7 +111,7 @@ public class Selskap implements Comparable<Selskap> {
 
 	@SuppressWarnings("unchecked")
 	public void hentKontorerFraDB() {
-		this.setUtleiekontorer((List<Utleiekontor>) em
+		this.setUtleiekontorer(em
 				.createQuery(//
 						"SELECT u FROM Utleiekontor u WHERE u.selskap_id = :selskap") //
 				.setParameter("selskap", this) //
@@ -133,7 +133,7 @@ public class Selskap implements Comparable<Selskap> {
 
 	@Override
 	public int compareTo(Selskap detAndreSelskapet) {
-		Selskap s2 = (Selskap) detAndreSelskapet;
+		Selskap s2 = detAndreSelskapet;
 		int resultat = -1;
 		if (this.telefonnummer.compareTo(s2.telefonnummer) == 0) {
 			resultat = this.firma_adresse.compareTo(s2.firma_adresse);
