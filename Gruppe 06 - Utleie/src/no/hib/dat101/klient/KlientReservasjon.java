@@ -64,7 +64,8 @@ public class KlientReservasjon {
 			case 2:
 				// Returner bil
 				u = hentUtleie(em, ui.lesInnUtleie_id());
-				rs = hentReservasjon(em, u.getReservasjon().getReservasjon_id());
+				rs = hentReservasjon(em, u.getReservasjon().getReservasjon_id().intValue());
+				rs.setUi(ui);
 				u.setReservasjon(rs);
 				r = new Retur();
 				r.setUtleie_id(u);
