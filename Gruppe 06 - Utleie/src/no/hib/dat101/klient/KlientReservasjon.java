@@ -57,13 +57,18 @@ public class KlientReservasjon {
 					u.setKredittkort(ui.lesInnKredittkort());
 					u.getReservasjon().getBil().setEr_ledig(Boolean.FALSE);
 					ui.skrivUtleieKvittering(u);
+					u.lastOppUtleieDB(em);
 				}
+				rs.lastOppReservasjonDB(em);
 				break;
 			case 2:
 				// Returner bil
 				u = hentUtleie(em, ui.lesInnUtleie_id());
+				rs = hentReservasjon(em, u.getReservasjon().getReservasjon_id());
+				u.setReservasjon(rs);
 				r = new Retur();
 				r.setUtleie_id(u);
+				r.lastOppReturDB(em);
 				r.info();
 				break;
 			case 3:
@@ -109,6 +114,10 @@ public class KlientReservasjon {
 
 	public static Selskap hentSelskap(EntityManager em, Integer selskap_id) {
 		return em.find(Selskap.class, selskap_id);
+	}
+
+	public static Reservasjon hentReservasjon(EntityManager em, Integer reservasjon_id) {
+		return em.find(Reservasjon.class, reservasjon_id);
 	}
 
 	public static Utleie hentUtleie(EntityManager em, Integer utleie_id) {
