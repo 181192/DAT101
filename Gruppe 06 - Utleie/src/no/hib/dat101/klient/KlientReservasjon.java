@@ -69,6 +69,7 @@ public class KlientReservasjon {
 				u.setReservasjon(rs);
 				r = new Retur();
 				r.setUtleie_id(u);
+				r.getUtleie_id().getReservasjon().getBil().setEr_ledig(Boolean.TRUE);
 				r.lastOppReturDB(em);
 				r.info();
 				break;
