@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import no.hib.dat101.modell.Bil;
 import no.hib.dat101.modell.Kategori;
 import no.hib.dat101.modell.Selskap;
+import no.hib.dat101.modell.Utleie;
 import no.hib.dat101.modell.Utleiekontor;
 
 /**
@@ -325,6 +326,24 @@ public class Tekstgrensesnitt implements SelskapUI {
 			}
 		} while (!sjekk);
 		return resultat;
+	}
+
+	@Override
+	public Integer lesInnUtleie_id() {
+		System.out.print("Oppgi utleie_id: ");
+		Integer utleie_id = null;
+		try {
+			utleie_id = Integer.parseInt(tast.nextLine());
+		} catch (NumberFormatException e) {
+			System.out.println("Oppgi tall som utleie_id!");
+			lesInnUtleie_id();
+		}
+		return utleie_id;
+	}
+
+	@Override
+	public void skrivUtleieKvittering(Utleie u) {
+		System.out.println("Din utleie id er : " + u.getUtleie_id().intValue());
 	}
 
 }

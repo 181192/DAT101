@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import no.hib.dat101.modell.Bil;
 import no.hib.dat101.modell.Selskap;
+import no.hib.dat101.modell.Utleie;
 import no.hib.dat101.modell.Utleiekontor;
 
 /**
@@ -179,4 +180,16 @@ public interface SelskapUI {
 	 * @return Utleiekontoret som er valgt
 	 */
 	public Utleiekontor velgUtleiekontor(Selskap s);
+
+	/**
+	 * Oppgir utleie_id som skal bli hentet fra databasen
+	 * 
+	 * @return Returnerer utleie_id som skal søkes med
+	 */
+	public Integer lesInnUtleie_id();
+	
+	/**
+	 * Skriver ut kvitering på utleie
+	 */
+	public void skrivUtleieKvittering(Utleie u);
 }

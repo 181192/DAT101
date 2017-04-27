@@ -56,13 +56,15 @@ public class KlientReservasjon {
 					u.setReservasjon(rs);
 					u.setKredittkort(ui.lesInnKredittkort());
 					u.getReservasjon().getBil().setEr_ledig(Boolean.FALSE);
-
-					r = new Retur();
-					r.setUtleie_id(u);
-					r.info();
+					ui.skrivUtleieKvittering(u);
 				}
+				break;
 			case 2:
 				// Returner bil
+				u = hentUtleie(em, ui.lesInnUtleie_id());
+				r = new Retur();
+				r.setUtleie_id(u);
+				r.info();
 				break;
 			case 3:
 				// Avslutt
@@ -86,7 +88,7 @@ public class KlientReservasjon {
 					u.setKredittkort(Long.valueOf("3124124124124"));
 					u.getReservasjon().getBil().setEr_ledig(Boolean.FALSE);
 					u.lastOppUtleieDB(em);
-					
+
 					r = new Retur();
 					r.setUtleie_id(u);
 					r.infoFerdig();
@@ -107,5 +109,9 @@ public class KlientReservasjon {
 
 	public static Selskap hentSelskap(EntityManager em, Integer selskap_id) {
 		return em.find(Selskap.class, selskap_id);
+	}
+
+	public static Utleie hentUtleie(EntityManager em, Integer utleie_id) {
+		return em.find(Utleie.class, utleie_id);
 	}
 }
