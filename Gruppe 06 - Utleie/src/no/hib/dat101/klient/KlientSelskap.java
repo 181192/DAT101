@@ -15,7 +15,7 @@ import no.hib.dat101.modell.Utleiekontor;
 import no.hib.dat101.ui.Tekstgrensesnitt;
 
 public class KlientSelskap {
-	
+
 	private static Tekstgrensesnitt tgr;
 	private static Adresse adr;
 	private static int valg;
@@ -24,26 +24,22 @@ public class KlientSelskap {
 	private static Utleiekontor utleie;
 	private static Kategori k;
 	private static List<Utleiekontor> kontorer;
-	
-	
+
 	public static void main(String[] args) {
 		Scanner tast = new Scanner(System.in);
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("eclipselink");
 		EntityManager em = entityManagerFactory.createEntityManager();
-		
+
 		tgr = new Tekstgrensesnitt();
-		
-	
-		
-		
+
 		String meny = "1: Opprett nytt selskap\n2: Opprett Utleiekontor\n3: Legg til biler\n4: Avslutt";
-		
+
 		do {
 			System.out.print(meny);
 			valg = tast.nextInt();
 
 			switch (valg) {
-			case 1: //Opprett selskap
+			case 1: // Opprett selskap
 				s = new Selskap();
 				adr = new Adresse();
 				s.setFirma_navn(tgr.lesInnFirmanavn());
@@ -52,23 +48,24 @@ public class KlientSelskap {
 				adr.setPoststed(tgr.lesInnPoststed());
 				s.setFirma_adresse(adr);
 				s.setTelefonnummer(tgr.lesInnTelefonnummer());
-				
-			
+
 				break;
-				
-			case 2: //Opprett utleiekontor
+
+			case 2: // Opprett utleiekontor
+
+				utleie = new Utleiekontor();
+
 				utleie = s.opprettUtleiekontor();
 				kontorer.add(utleie);
-				
-				
+
 				break;
-				
-			case 3: //Legg til biler
-				
-				
-				
+
+			case 3: // Legg til biler
+
+				b = new Bil();
+
 				k = new Kategori();
-				
+
 				b.setMerke(tgr.lesInnMerke());
 				b.setModell(tgr.lesInnModell());
 				b.setFarge(tgr.lesInnFarge());
@@ -76,33 +73,24 @@ public class KlientSelskap {
 				b.setReg_nummer(tgr.lesInnReg_nummer());
 				k.setKategori_id(tgr.lesInnKategori());
 				b.setKategori(k);
-				
-				for(int i = 0; i < kontorer.size(); i++){
-					System.out.println(kontorer.iterator().next().getKontornummer());
+
+				for (int i = 0; i < kontorer.size(); i++) {
+					System.out.println(kontorer.get(i).getKontornummer());
 				}
-				
+
 				System.out.println("Velg kontornummer for å knytte bil til kontor: ");
-				
-				b.setKontornummer(utleie);
-				
-				
-				utleie.leggTilBil(b);
-				
+				kontorer.get(tast.nextInt()).leggTilBil(b);
 				break;
-		
-		
-		
-				}
-			
-			
-		
-			} while (valg != 4);
-		
+
+			}
+
+		} while (valg != 4);
+
 		s.lastOppSelskapDB();
 
 		em.close();
 		entityManagerFactory.close();
 		tast.close();
-			
+
 	}
 }
