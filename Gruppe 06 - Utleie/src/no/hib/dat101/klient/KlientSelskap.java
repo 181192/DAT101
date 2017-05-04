@@ -41,6 +41,7 @@ public class KlientSelskap {
 			switch (valg) {
 			case 1: // Opprett selskap
 				s = new Selskap();
+				s.setUi(tgr);
 				adr = new Adresse();
 				s.setFirma_navn(tgr.lesInnFirmanavn());
 				adr.setGateadresse(tgr.lesInnGateadresse());
@@ -54,7 +55,6 @@ public class KlientSelskap {
 			case 2: // Opprett utleiekontor
 
 				utleie = new Utleiekontor();
-
 				utleie = s.opprettUtleiekontor();
 				kontorer.add(utleie);
 
@@ -65,7 +65,6 @@ public class KlientSelskap {
 				b = new Bil();
 
 				k = new Kategori();
-
 				b.setMerke(tgr.lesInnMerke());
 				b.setModell(tgr.lesInnModell());
 				b.setFarge(tgr.lesInnFarge());
